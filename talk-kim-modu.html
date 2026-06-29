@@ -1,0 +1,175 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>1+1이 0.8이 되는 회사 — 100명을 키우며 배운 &#x27;평범한 창업가&#x27;의 HR — 김승일 | 필터 없는 멤버십</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  @font-face{font-family:'RIDIBatang';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
+  :root{
+    --bg:#eeeeee; --bg-2:#E3E3E3; --paper:#F6F6F6;
+    --line:#D8D2C4; --line-2:#C2BBA9;
+    --ink:#16140F; --ink-2:#3A372F; --muted:#6B675C; --muted-2:#9A9587;
+    --accent:#1F4FD9;
+    --maxw:1500px; --readw:720px; --pad-x: clamp(20px, 5vw, 56px);
+    --serif:'RIDIBatang','Noto Serif KR',serif;
+    --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;font-size:16px;letter-spacing:-0.005em;}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+  .read{max-width:var(--readw);margin:0 auto;}
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(242,238,229,0.88);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line);}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;height:64px;gap:24px;}
+  .brand{font-weight:700;letter-spacing:-0.02em;font-size:15px;display:flex;align-items:center;gap:10px;}
+  .brand .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .topbar .cta{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);font-weight:500;border:1px solid var(--ink);padding:9px 14px;border-radius:999px;background:transparent;}
+  .topbar .cta:hover{background:var(--ink);color:var(--bg)}
+  .topbar .cta .arr{font-family:var(--mono);font-weight:400}
+  .crumb{padding:clamp(28px,4vw,48px) 0 0;}
+  .crumb a{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);font-weight:500;}
+  .crumb a:hover{color:var(--ink)}
+  .crumb .arr{font-family:var(--mono)}
+  .art-head{padding:clamp(28px,4vw,48px) 0 clamp(28px,3.5vw,40px);}
+  .art-title{margin:0;font-size:clamp(34px,5.2vw,64px);line-height:1.08;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;}
+  .speaker{display:flex;align-items:center;gap:16px;margin-top:28px;}
+  .speaker .av{width:60px;height:60px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid var(--line-2);}
+  .speaker .av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .speaker .sn{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .speaker .sr{font-size:14px;color:var(--muted);margin-top:3px;}
+  .body{padding-bottom:clamp(48px,7vw,96px);}
+  .lead{position:relative;font-size:clamp(17px,1.35vw,20px);line-height:1.72;letter-spacing:-0.01em;color:var(--ink-2);font-weight:400;margin:clamp(28px,4vw,44px) 0 clamp(40px,5vw,64px);padding:clamp(22px,2.5vw,30px) clamp(24px,2.6vw,34px);background:var(--bg-2);border-radius:14px;word-break:keep-all;}
+  .sec{margin:clamp(40px,5vw,64px) 0;}
+  .sec h2{font-size:clamp(24px,2.4vw,34px);line-height:1.2;letter-spacing:-0.025em;font-weight:700;margin:0 0 20px;word-break:keep-all;}
+  .body p{font-size:17px;line-height:1.85;color:var(--ink-2);margin:0 0 1.3em;word-break:keep-all;}
+  .pquote{position:relative;margin:clamp(32px,4vw,48px) 0;padding:2px 0 2px clamp(20px,2vw,28px);}
+  .pquote::before{content:"\201C";position:absolute;top:-2px;left:-2px;font-family:var(--serif);font-size:clamp(34px,3.4vw,44px);line-height:1;color:var(--line-2);}
+  .pquote p{font-family:var(--serif);font-size:clamp(18px,1.5vw,21px);line-height:1.7;letter-spacing:-0.01em;font-weight:400;color:var(--ink);margin:0;word-break:keep-all;}
+  .art-nav{border-top:1px solid var(--line);}
+  .art-nav .row{display:flex;justify-content:space-between;gap:20px;padding:clamp(36px,5vw,64px) 0 clamp(56px,8vw,96px);flex-wrap:wrap;}
+  .navcard{flex:1;min-width:240px;display:flex;flex-direction:column;gap:6px;padding:22px 24px;background:var(--paper);border:1px solid var(--line);border-radius:14px;transition:border-color .15s ease;}
+  .navcard:hover{border-color:var(--ink)}
+  .navcard .dir{font-family:var(--mono);font-size:11px;letter-spacing:0.14em;text-transform:uppercase;color:var(--muted);}
+  .navcard.next{text-align:right;align-items:flex-end;}
+  .navcard .nt{font-size:17px;font-weight:600;letter-spacing:-0.015em;}
+  .navcard .ns{font-size:13px;color:var(--muted);}
+</style>
+</head>
+<body>
+<header class="topbar">
+  <div class="wrap topbar-inner">
+    <a class="brand" href="index.html"><span class="dot"></span><span>필터 없는 멤버십</span></a>
+    <a class="cta" href="index.html#apply">3기 지원하기 <span class="arr">&rarr;</span></a>
+  </div>
+</header>
+<main class="wrap">
+  <nav class="crumb read">
+    <a href="talks.html"><span class="arr">&larr;</span> 발표 모아보기</a>
+  </nav>
+  <header class="art-head read">
+    <h1 class="art-title">1+1이 0.8이 되는 회사 — 100명을 키우며 배운 &#x27;평범한 창업가&#x27;의 HR</h1>
+    <div class="speaker">
+      <div class="av"><img src="assets/faces/m020.png" alt="김승일" /></div>
+      <div>
+        <div class="sn">김승일</div>
+        <div class="sr">모두연구소 대표 · AI 교육 스타트업, 70억 투자·100명 조직을 거치며 사람과 조직을 다시 배운 11년 차 창업가</div>
+      </div>
+    </div>
+  </header>
+  <article class="body read">
+    <p class="lead">김승일 대표는 &quot;함께 지식 나누고 성장하자&quot;는 슬로건으로 11년 전 모두연구소를 창업했다. 1인 기업에서 100명까지 키우는 동안 그는 &#x27;사람을 뽑으면 퍼포먼스가 올라간다&#x27;는 순진한 믿음이 어떻게 카오스로 변하는지를 몸으로 겪었다. CHRO를 대표보다 높은 연봉으로 모셔오고, 저성과 인력을 한 팀으로 분리하고, 숫자로만 소통하기 시작한 그가 &#x27;평범한 창업가&#x27;를 위한 HR과 조직, 그리고 자기 자신을 다스리는 법을 풀어놓았다.</p>
+    <section class="sec">
+      <h2>저는 2010년에 태어났습니다</h2>
+      <p>안녕하세요, 모두연구소라는 교육 스타트업을 하는 김승일입니다. 기존 교육에 문제가 있다고 생각해서 창업했어요. 경쟁식이 아니라 서로 도와가면서 배우게, 주입식이 아니라 토론하면서 만들어가는 액티브 러닝 위주의 교육을 지향합니다. 슬로건이 &#x27;함께 지식 나누고 성장하자&#x27;예요.</p>
+      <p>세상 바꾸는 거, 1년이면 될 줄 알았는데 10년이 걸렸어요. 저는 진짜 제대로 된 교육을 하고 싶었어요. 교육을 단순히 돈으로 버는 스타트업이 아니라, 교육 자체를 바꿔서 사회를 바꾸자는 철학이 있어요. 그래서 기업 교육 마케팅·홍보를 한 적이 없어요. 다 인바운드로 들어옵니다. 알음알음 돌고 돌아 모두연구소에 오는 케이스가 많아요.</p>
+      <p>제 인생 얘기를 잠깐 드리면, 저는 2010년에 태어났다고 쳐요. 그해 대기업을 퇴사했거든요. 그전에 살았던 20~30년은 잘못 살았구나 싶었어요. 가장 일반적인 사람이었거든요. 공부하고, 대기업 가고, 평온하게 살았죠. 퇴사하고 나서 온실이 없어지니까 혼자 주도적으로 뭔가 하면서 진정한 배움이 일어나기 시작했어요. 그 뒤 5~6년은 발명가였어요. 새 기술이 나오면 빨리 공부해서 선행 특허를 개발하는 일. 그러다 2015년에 창업했고, 창업이 제 인생에서 제일 잘한 거라고 생각해요.</p>
+    </section>
+    <section class="sec">
+      <h2>우리는 다 평범한데, 일론 머스크를 꿈꿉니다</h2>
+      <p>최근에 책을 하나 써야겠다는 생각을 했어요. 대표님들을 만나보면 구조조정하는 분들이 굉장히 많았어요. 그런데 구조조정을 대표가 직접 할 정도면, 그 대표님은 이미 골병이 들어 있어요. 다 병원 다니고 우울증에 빠져 있는 것 같아요.</p>
+      <figure class="pquote emph"><p>우리는 사실 다 평범한 사람인데 다 일론 머스크를 꿈꾸고 스티브 잡스를 꿈꾸잖아요. 너무 비범한 사람들을 롤 모델로 하다 보면 다 부러지는 거 아닌가. 그래서 평범한 창업가들을 위한 책을 써보려고 해요.</p></figure>
+      <p>저는 사업을 3단계로 봐요. 첫째 제품을 잘 만들어야 하고, 둘째 잘 홍보해야 하고, 셋째 수익이 들어오면 확장의 기반이 되는 거죠. 이 세 개의 선순환이 제가 생각하는 사업의 프레임워크예요.</p>
+      <p>그 위에서 창업가를 나눠봤어요. &#x27;새싹 창업가&#x27;는 제품도 홍보도 둘 다 잘 못하고 자기만의 방법을 못 찾은 사람. &#x27;나무 창업가&#x27;는 제품이든 홍보든 자기 방법을 아는 사람이에요. 저는 나무 창업가라고 스스로 판단해요. 뭘 줘도 하면 되지 않나 싶고, 자신 있어요. 그런데 회사를 크게 키우는 비범한 창업가, 저는 그걸 &#x27;숲 창업가&#x27;라고 불러요. 제품과 홍보에 강점이 있는 대표가 아니라, 타인의 능력을 기반으로 회사를 성장시키는 데 완전히 포커싱하는 사람이에요. 회사를 크게 키우려면 결국 타인의 능력 기반으로 가야 한다는 걸, 늦게 깨달았어요.</p>
+    </section>
+    <section class="sec">
+      <h2>한 명에 한 명을 더하면, 2가 아니라 0.8</h2>
+      <p>2022년 1월에 70억 원 투자를 받았어요. 50억을 돌아다녔는데 더 주셔서 70억이 됐고요. 7년 차에 처음 받은 거라 돈 쓰는 방법을 몰랐어요. 10억, 20억, 50억 이렇게 단계적으로 왔으면 배워나갔을 텐데요. 그때까지는 내가 잘해서 투자받았다는 기분이 말짱했던 때였고, 그 이후로 쭉 떨어졌습니다.</p>
+      <figure class="pquote emph"><p>제가 깨달은 건, 한 명인데 또 한 명을 뽑으면 퍼포먼스가 2가 아니라 0.8이 될 수도 있다는 거예요. 사람과 사람의 생각이 너무 다르기 때문에 의사소통에 리소스가 엄청 들고, 누군가 발목을 잡으면 더 뒤로 갈 수도 있고요.</p></figure>
+      <p>1인 기업으로 3년을 했어요. 투자 돌아다닐 때 30명, 투자받을 때 50명, 거기서 100명까지 늘렸거든요. 30명을 넘어가면서 한계를 느꼈고, 50명까지는 어떻게든 됐는데, 100명쯤 되니까 거의 카오스 상태였어요. 설득하면서 가기엔 사람이 너무 많고, 다 다른 생각을 하고 있었어요.</p>
+      <p>투자가 최고의 결정이었느냐, 저는 잘 모르겠어요. 저는 최악과 최고가 따로 없다고 생각하는 사람이에요. 주역에 길흉화복이라는 게 있는데, 그 길흉이 플러스 마이너스가 아니라는 게 제 기본 생각이거든요. 투자받기 전 7년간 저희는 항상 영업이익을 내오던 조직이었어요. 그런데 투자받고 나서는 한 번도 영업이익을 내본 적이 없어요. 누구나 70억 투자를 최고의 결정이라고 하겠지만, 그렇게 보면 또 최악의 결정이 될 수도 있는 거죠.</p>
+    </section>
+    <section class="sec">
+      <h2>4인 가족의 좋은 아빠가, 100인 가족의 좋은 아빠는 아니다</h2>
+      <p>제가 가장 크게 놓쳤던 게 이거예요.</p>
+      <figure class="pquote emph"><p>4인 가족의 아빠로서는 되게 좋은 아빠일 수 있는데, 100인 가족의 아빠가 되면 완전히 하는 일이 달라진다는 걸 몰랐어요. 4인 가족일 때는 애들 졸업식에도 가고 놀아도 주는데, 100인이면 졸업식을 100번 가야 되잖아요. 그게 안 되는 거잖아요.</p></figure>
+      <p>저는 실무형 리더거든요. 팀장이 나가면 아무것도 모르는 팀이라도 맡아서 퍼포먼스 올리는 건 자신 있어요. 4~5명, 10명짜리 팀 해결하는 건 돼요. 그런데 50~100명 조직을 해결하는 건 완전히 다르더라고요.</p>
+      <p>실제로 작년이 그랬어요. 1월, 2월, 3월에 갑자기 재작년 대비 월 영업 손실이 1.5배에서 2배가 나오기 시작했어요. 하나하나 뜯어보면 다 쓸 만해요. 그런데 이거 큰일 났다 싶어서 돈을 더 벌든 비용을 줄이든 하자고 했는데, 그룹장들이 버는 쪽으로 해보자고 해서 제가 데리고 있는 조직만 조금 줄이고 나머지는 그대로 갔어요. 매출은 조금씩 올랐지만 비용은 계속 커졌고, 작년에 역대 최고의 영업 손실을 경험했습니다. 결국 12월에 구조조정을 하게 됐어요. 4인 가족 아빠의 방식으로 100인 조직을 끌고 가려다 맞은 청구서였죠.</p>
+    </section>
+    <section class="sec">
+      <h2>우리 회사에서 연봉이 제일 높은 사람은 CHRO입니다</h2>
+      <p>그래서 제 HR 전략은 명확해졌어요. 투자를 다시 받으면 제일 처음 할 게 HR 조직 강화예요.</p>
+      <p>저는 CHRO를 모셔왔는데, 우리 회사에서 연봉이 제일 높아요. 저보다 훨씬 높고요. 회사에서 HR 팀장 연봉이 제일 높은 회사는 별로 없을 거예요. 우리 회사 규모에 맞지 않는 HR 팀장을 데려온 건데, 저는 절대 후회가 없어요. 이분이 올 때 회사 분위기 바꾸는 데 3년 걸린다고 했는데, 1년 반쯤 지나면서 조금씩 바뀌는 게 느껴져요.</p>
+      <p>대표적으로 어떤 액션이 가장 큰 영향을 미쳤느냐고 물으시면, 일단 사람을 모셔오는 것부터가 달라요. 서치펌 돌리는 게 아니라 진짜 모셔와요. 기본적으로 임직원을 섬겨요. 낮은 곳으로 다가가면서요. 웬만하면 다 해주려고 하고, 그 와중에 쓴소리할 때는 또 엄청 세게 해요.</p>
+      <figure class="pquote emph"><p>회사 규모에 맞지 않는 사람을 데려왔다는 말, 저는 그게 칭찬이라고 생각해요. 조직을 바꾸는 사람은 늘 지금 조직보다 한 사이즈 큰 사람이거든요.</p></figure>
+    </section>
+    <section class="sec">
+      <h2>저습장작을 한 팀으로 몰았습니다</h2>
+      <p>두 번째 전략은 &#x27;저습장작&#x27; 분리예요. 젖은 장작이 섞여 있으면, HR이 아무리 잘해서 완전 뜨거운 사람을 데려와도 그 불이 꺼져요.</p>
+      <p>저는 저습장작들을 한 팀으로 몰았어요. 조직을 변경해서 그냥 한 팀으로. 그 팀은 매출을 포기했어요. 대신 다른 팀이라도 살리려고요. 역시나 그 팀은 당연히 죽는데, 재밌는 게 저습장작들을 모아놓으니까 자기들끼리 &quot;쟤 일 못하네&quot; 어쩌네 하다가 다 나가요. 해고를 시킨 게 아니에요. 자발적으로 나가면 더 안 뽑기는 해도요. 그리고 드라마틱하게도, 그 팀이 정리되고 나니까 이번 달부터 수익이 나는 팀이 되기 시작해요.</p>
+      <p>이게 제 솔직한 변화예요. 예전엔 임직원을 다 성인이라고 생각했어요. 성인이면 자기가 알아서 뛰어야 된다고요. 어떻게든 키워주려고 했어요. 그런데 친구처럼 너무 가까워지면 사적인 관계가 되고, 일이 안 되는 것 같아요. 권고사직할 때 두 달 치를 주는 이유도 비슷해요. 나가고 나서 딴 짓 걸면 시간을 뺏겨요. 시간 뺏기느니 돈으로 해결하는 거죠.</p>
+    </section>
+    <section class="sec">
+      <h2>측정되지 않으면 관리할 수 없다 — 숫자로만 소통하기</h2>
+      <p>세 번째는 지표 관리예요. 저는 원래 지표 보는 것보다 빨리 해서 결과 내는 걸 선호했어요. 그런데 역시나, 측정되지 않으면 관리할 수 없다는 게 맞는 것 같아요.</p>
+      <p>작년 하반기 8월에 &#x27;이렇게 경영하면 안 되겠구나&#x27; 싶어서 지표 관리를 굉장히 타이트하게 시작했어요. 개인적으로 OKR을 잡아서 11월에는 무조건 영업이익을 플러스로 만들겠다고 했고, 다행히 11월은 찍었어요.</p>
+      <p>요즘은 바이브 코딩으로 지표 대시보드를 만들기 시작했어요.</p>
+      <figure class="pquote emph"><p>확실히 전체 뷰가 보이고, 숫자로 소통하니까 직원들이 아무 말도 안 하더라고요. &quot;제품은 이렇게 하는 게 더 좋은 거 아니야&quot; 이런 거보다, 숫자만 얘기하고 제품은 알아서 하라는 방식으로 개편하고 있어요.</p></figure>
+      <p>말로 설득하면 다 다른 생각을 하는데, 숫자는 다른 생각을 할 여지가 없어요. 100명짜리 조직에서 한 명 한 명을 설득하는 건 불가능에 가깝지만, 대시보드 하나는 100명이 똑같이 봅니다.</p>
+    </section>
+    <section class="sec">
+      <h2>화를 안 내는 게 제 단점입니다</h2>
+      <p>질문을 하나 받았어요. &quot;대표님이 화를 안 내시면, 사람들이 지금 잘못하고 있는데 그냥 넘어간다고 생각하지 않나요?&quot;</p>
+      <p>그게 정확히 제 단점이에요. 화를 잘 안 내니까 말이 예쁘거든요. 어떤 말이 사람들을 화나게 만드는 말인지 잘 몰라요. 직원들 입장에서는 제가 화난 줄도 모르고, 그게 정확한 피드백이라고 느끼지도 않고요. 소통하는 게 쉽지 않다는 걸 계속 느껴서, 리더십 코칭을 신청했어요. 아산나눔재단에서요.</p>
+      <p>지금도 고민이에요. 예전에는 임직원을 다 성인으로 봤는데, 양치기 소년이 돼야 하나 싶기도 해요. 지표 올리면 리워드, 떨어지면 패널티. 근데 솔직히 그게 재미없어요. 그런 식으로 사람을 컨트롤하고 싶지가 않거든요. 이 딜레마를 아직 못 풀었어요.</p>
+    </section>
+    <section class="sec">
+      <h2>몸이 무너지니 알겠더라고요</h2>
+      <p>네 번째는 건강 관리예요. 2024년 9월에 한 번 쓰러졌어요. 기립성 저혈압으로 블랙아웃이 됐거든요. 그 이후로 거의 데일리로 운동하고, 주말에는 한 달에 두세 번 산 타러 가고 캠핑 갑니다.</p>
+      <figure class="pquote emph"><p>몸이 건강하니까 정신이 많이 건강해지더라고요. 구조조정을 대표가 직접 할 정도면 이미 골병이 들어 있다고 했잖아요. 그게 남 얘기가 아니었어요.</p></figure>
+      <p>원래 제 취미가 캠핑과 등산이에요. 백패킹 많이 다니고 눈밭에서도 자고요. 건강이 HR 전략의 네 번째 항목이라는 게 이상하게 들릴 수 있는데, 대표가 무너지면 조직이 무너지니까요. 대표의 몸과 정신이야말로 회사의 가장 비싼 자산이에요.</p>
+    </section>
+    <section class="sec">
+      <h2>결국 버려야 할 건 제 에고였어요</h2>
+      <p>요즘 &quot;50세에 읽는 주역&quot;이라는 책을 샀는데 재밌더라고요. GPT로 주역을 강화학습에 대입해서 해석해봤는데, 리워드 펑션 쪽이 아니라 길흉 쪽으로 보면 맞아떨어지는 게 굉장히 많았어요.</p>
+      <p>올해 제가 이루고 싶은 건, 제 스스로 에고를 버리는 사람이 되는 거예요. 요즘엔 미래형 표현을 쓰거나 제 주장을 강하게 하는 걸 자제하게 되더라고요.</p>
+      <figure class="pquote emph"><p>&quot;내가 캔(can)이라는 단어를 쓴다&quot;고 하면 그게 에고인 것 같은 거예요. 지금 현재에 충실하게 뭔가 하면 되는 거지, 자꾸 미래를 가정하고 규정짓는 건 다 에고인 것 같아요.</p></figure>
+      <p>에크하르트 톨레의 &quot;삶으로 다시 떠오르기&quot;를 보고 뷰가 좀 바뀌었어요. 자꾸 일어나지도 않을 일을 걱정하면 현재에 충실하지 못하고, 일도 잘 안 돼요. 그래서 &#x27;내가 에고에 빠졌다&#x27;는 걸 센싱하는 것부터가 출발점이라고 생각하면서 연습하고 있어요.</p>
+      <p>돌이켜보면 제 HR의 실패는 전부 에고에서 시작됐어요. 사람을 뽑으면 무조건 퍼포먼스가 오를 거라는 믿음, 4인 가족 아빠처럼 100명을 다 챙길 수 있다는 자신감, 내가 빨리 해서 결과 내면 된다는 고집. 그걸 하나씩 내려놓으면서 CHRO를 모셔오고, 저습장작을 분리하고, 숫자에 맡기는 법을 배웠어요. 평범한 창업가가 회사를 키운다는 건, 결국 자기 자신을 한 단계씩 내려놓는 일이더라고요.</p>
+    </section>
+
+  </article>
+</main>
+<nav class="art-nav">
+  <div class="wrap read">
+    <div class="row">
+      <a class="navcard prev" href="talks.html">
+        <span class="dir">&larr; 목록</span>
+        <span class="nt">발표 모아보기</span>
+        <span class="ns">멤버들이 나눈 발표</span>
+      </a>
+      <a class="navcard next" href="index.html#apply">
+        <span class="dir">지원 &rarr;</span>
+        <span class="nt">필터 없는 멤버십 3기</span>
+        <span class="ns">함께하시겠습니까?</span>
+      </a>
+    </div>
+  </div>
+</nav>
+</body>
+</html>

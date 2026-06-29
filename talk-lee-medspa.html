@@ -1,0 +1,139 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>4번의 엑싯을 만든 제품 개발법 : PM은 미니 CEO, MVP엔 '비전'이 담겨야 — 이화랑 | 필터 없는 멤버십</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  @font-face{font-family:'RIDIBatang';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
+  :root{--bg:#eeeeee; --bg-2:#E3E3E3; --paper:#F6F6F6; --line:#D8D2C4; --line-2:#C2BBA9; --ink:#16140F; --ink-2:#3A372F; --muted:#6B675C; --muted-2:#9A9587; --accent:#1F4FD9; --maxw:1500px; --readw:720px; --pad-x: clamp(20px, 5vw, 56px); --serif:'RIDIBatang','Noto Serif KR',serif; --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; --mono:ui-monospace, SFMono-Regular, Menlo, monospace;}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;font-size:16px;letter-spacing:-0.005em;}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+  .read{max-width:var(--readw);margin:0 auto;}
+  .art-title{margin:0;font-size:clamp(30px,4.6vw,54px);line-height:1.16;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;}
+  .art-hero{position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);min-height:clamp(360px,46vh,520px);display:flex;align-items:flex-end;overflow:hidden;background-color:#16140F;background-size:cover;background-position:center 28%;background-repeat:no-repeat;}
+  .art-hero-scrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,10,7,0.92) 8%,rgba(12,10,7,0.6) 44%,rgba(12,10,7,0.28) 80%);}
+  .art-hero-inner{position:relative;width:100%;padding-top:clamp(72px,11vw,140px);padding-bottom:clamp(36px,5vw,60px);}
+  .art-hero .art-title{color:#F7F4EC;}
+  .speaker{display:flex;align-items:center;gap:16px;margin-top:clamp(20px,2.5vw,28px);}
+  .speaker .av{width:60px;height:60px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid rgba(255,255,255,0.35);}
+  .speaker .av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .speaker .sn{font-size:18px;font-weight:700;letter-spacing:-0.02em;color:#F7F4EC;}
+  .speaker .sr{font-size:14px;color:#CFC9BB;margin-top:3px;}
+  .body{padding-top:clamp(28px,4vw,52px);padding-bottom:clamp(16px,2.5vw,28px);}
+  .body .lead{position:relative;font-size:clamp(17px,1.35vw,20px);line-height:1.72;letter-spacing:-0.01em;color:var(--ink-2);font-weight:400;margin:0 0 clamp(38px,5.5vw,64px);padding:clamp(22px,2.5vw,30px) clamp(24px,2.6vw,34px);background:var(--bg-2);border-radius:14px;word-break:keep-all;}
+  .sec{margin:clamp(40px,5vw,64px) 0;}
+  .body .sec:last-child{margin-bottom:0;}
+  .sec h2{font-size:clamp(24px,2.4vw,34px);line-height:1.2;letter-spacing:-0.025em;font-weight:700;margin:0 0 20px;word-break:keep-all;}
+  .body p{font-size:17px;line-height:1.85;color:var(--ink-2);margin:0 0 1.3em;word-break:keep-all;}
+  .pquote{position:relative;margin:clamp(32px,4vw,48px) 0;padding:2px 0 2px clamp(20px,2vw,28px);}
+  .pquote::before{content:"\201C";position:absolute;top:-2px;left:-2px;font-family:var(--serif);font-size:clamp(34px,3.4vw,44px);line-height:1;color:var(--line-2);}
+  .pquote p{font-family:var(--serif);font-size:17px;line-height:1.7;letter-spacing:-0.01em;font-style:normal;font-weight:700;color:var(--ink);margin:0;word-break:keep-all;}
+  .fig{margin:clamp(28px,4vw,44px) 0;}
+  .fig img{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--line-2);background:var(--bg-2);}
+  .fig figcaption{margin-top:10px;font-size:13px;color:var(--muted);text-align:center;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:500;font-size:15px;padding:14px 22px;border:1px solid transparent;cursor:pointer;letter-spacing:-0.005em;line-height:1;border-radius:999px;transition:background .15s ease, color .15s ease, border-color .15s ease;}
+  .btn .arr{font-family:var(--mono);font-weight:400}
+  .btn-lg{font-size:16px;padding:18px 28px}
+  .final{width:100vw;margin-left:50%;transform:translateX(-50%);text-align:left;background:var(--ink);color:var(--bg);padding:clamp(40px,6vw,80px) 0 clamp(64px,8vw,120px);margin-top:clamp(48px,7vw,88px);}
+  .final h2{margin:0;font-family:var(--serif);font-size:clamp(34px,6.5vw,88px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;max-width:22ch;}
+  .final h2 em{font-style:normal;color:inherit}
+  .final .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);letter-spacing:-0.01em;}
+  .final .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
+  .final .btn-primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
+  .final .btn-outline{background:transparent;color:var(--bg);border-color:var(--bg)}
+  .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
+  .final .fcontact{margin-top:40px;color:#9A9587;font-size:13px;font-family:var(--mono);letter-spacing:0.04em;border-top:1px solid #33312A;padding-top:24px;max-width:680px;}
+  .final .fcontact span{color:#5A5751;padding:0 8px}
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
+  .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
+  @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="art-hero" style="background-image:url('assets/lhr-hero.jpg')">
+    <div class="art-hero-scrim"></div>
+    <div class="wrap art-hero-inner">
+      <div class="read">
+        <h1 class="art-title">4번의 엑싯을 만든 제품 개발법<br/>: PM은 미니 CEO, MVP엔 '비전'이 담겨야</h1>
+        <div class="speaker">
+          <div class="av"><img src="assets/faces/m076.png" alt="이화랑" /></div>
+          <div>
+            <div class="sn">이화랑 미소 메드스파 대표</div>
+            <div class="sr">미국·캐나다 메드스파 프랜차이즈, 두 차례 사업 매각</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <article class="body read">
+    <p class="lead">이화랑 대표는 SI 업체를 운영할 때 SK와 많은 일을 했다. 그렇게 만든 프로젝트 중 4개를 엑싯했으며, 자신이 이끌던 SI 회사와 플랫폼 회사도 매각했다. 대표인 동시에 PM이자 PO의 포지션에 있는 그로부터, 성공적인 IT 제품을 내놓는 개발론을 들어보았다.</p>
+    
+    <section class="sec">
+      <h2>남의 제품을 4번 엑싯시키며 배운 것들</h2>
+      <p>저는 SI 회사를 운영할 때, 다양한 기업과 TF를 만들어 스타트업처럼 일하며 제품을 개발했습니다. 그렇게 일하면서 엑싯한 프로젝트만 4개로, PE, 다른 대기업, 스타트업 등으로 사업을 매각했죠. 매각과 인수인계도 함께 경험했기에, 간접적으로 4개의 엑싯을 경험했습니다.</p>
+      <figure class="fig"><img src="assets/lhr-02.jpg" alt="이화랑 발표 자료" /></figure>
+      <p>이들 제품이 우리 회사의 소유물은 아니었지만, 그래도 높은 수준의 완성도를 가지고 있었기에 매각까지 이어졌다고 생각합니다. 그래서 오늘은 '어떻게 하면 좋은 제품을 만들 수 있는가'에 관해 이야기하겠습니다.</p>
+    </section>
+    <section class="sec">
+      <h2>프로덕트, 그리고 미니 CEO로서의 PM</h2>
+      <p>제 생각에 '프로덕트'는 단순한 제품, 눈에 보이는 어떤 결과물을 의미하는 것만은 아니에요. 기술, 사용자 경험, 비즈니스 전략, 고객 획득 방안까지 모두 고려한 것을 '프로덕트'라고 정의해야지만, 제대로 된 제품이 나옵니다.</p>
+      <p>여기에서 'PM'은 정말로 중요합니다. PM은 비단 프로덕트와 개발팀을 연결하는 역할이 아니에요. 저는 PM은 모든 걸 할 줄 알아야 하고, 모든 팀을 유기적으로 연결해서 제품을 만드는 사람이라 정의합니다. 그렇기에 도메인 지식은 물론, 비즈니스와, 세일즈·마케팅도 함께 알아야 합니다.</p>
+      <figure class="pquote emph"><p>PM은 프로덕트 비전을 달성하기 위한 총괄이자 '미니 CEO'입니다.</p></figure>
+      <figure class="fig"><img src="assets/lhr-05.jpg" alt="이화랑 발표 자료" /></figure>
+    </section>
+    <section class="sec">
+      <h2>MVP엔 '비전 달성'이 있어야 한다</h2>
+      <p>많은 분들이 'MVP'를 최소한의 기능을 갖고 있는 시제품 정도로만 생각하시더라고요. 그런데 앞단에 '비전 달성'이라는 목적이 빠져있는 걸 많이 봤어요. 이게 빠져서는 MVP는 제 역할을 하지 못해요.</p>
+      <figure class="pquote emph"><p>설사 피그마로 간단한 웹페이지 하나를 만든다 해도, '비전 달성'까지 고려해야 합니다.</p></figure>
+      <p>예로 저희가 온라인으로 차량을 구입하는 서비스를 해본 적이 있었어요. 이때는 테슬라가 유행하기 전이었어요. 자동차를 직접 보지도 않고 결제한다는 걸 받아들이기 힘든 시점이죠. 이 문제를 어떻게 해결할 수 있을지 전략을 짜기 시작했어요.</p>
+      <p>이를 위해 저희는 '비전 달성'을 위한 발견과 실행의 이터레이션을 빠르게 돌립니다. '발견' 단계를 짧게 하기 위해 '가짜 개발'이란 걸 하는데요. 그냥 간단한 웹 페이지를 한 2시간 만에 만들어요. 거기다가 분석기를 답니다. 정교한 분석을 위해 3일 정도가 걸려요.</p>
+      <figure class="fig"><img src="assets/lhr-10.jpg" alt="이화랑 발표 자료" /></figure>
+      <p>그리고 메타 광고를 한 30만 원만 돌려도 어느 정도 데이터는 뽑힙니다. 사람들이 실제 자동차를 온라인으로 구매할 수 있을지, 그 과정에 어떤 어려움이 있는지 AB 테스트를 진행해보는 거죠.</p>
+    </section>
+    <section class="sec">
+      <h2>우리는 생각보다 잘 모른다, 디테일은 실험을 통해서만 알 수 있다</h2>
+      <p>저희는 이미 알고 있는 '정답의 영역'과 우리가 잘 모르는 '미지의 영역'을 나눠보는데요. 실제 테스트를 거치면 거의 99%가 우리가 몰랐던 '미지의 영역'에 있음을 알게 돼요. 디테일하게 살필수록 그렇습니다.</p>
+      <p>예로 온라인으로 차량을 살 수 있는가 아닌가는 크게 중요하지 않아요. 하지만 렌탈은 신용 등급에 따른 캐피탈 서비스잖아요. 렌탈 비용을 1등급 기준으로 홍보하는 게 좋을지, 9등급 기준으로 홍보하는 게 좋을지도 테스트했죠.</p>
+      <p>직관적으로는 '당연히 싸게 내놓는 게 좋으니 1등급 기준으로 하자'는 의견이 많았는데요. 막상 해보니 클릭은 1등급 기준에서 더 많이 일어났지만, 가장 중요한 구매 전환은 9등급 기준에서 더 많이 일어났어요. 이런 디테일은 실험을 통해서만 알 수 있지요.</p>
+      <figure class="fig"><img src="assets/lhr-15.jpg" alt="이화랑 발표 자료" /></figure>
+      <p>또, 일반적인 개발팀에서 말하는 '스프린트'는 PO가 백로그를 만들고 개발 태스크를 정한 다음에, 2주 단위의 이터레이션을 실행하고 스프린트 로그로 옮기는 걸 말하잖아요?</p>
+      <p>저희는 모든 백로그를 '비전 달성을 위한 가설'로 봅니다. 아까 '1등급과 9등급 중 9등급이 더 클릭이 많을 거야'라는 가설도 하나의 백로그죠. 피그마 프로토타입을 만들든, 인터뷰를 하든, 리서치를 위해 전화를 돌리든 하여, 가설을 검증하며 하나하나 해결하는 거고요.</p>
+    </section>
+    <section class="sec">
+      <h2>'개발 완료'의 관점 차이</h2>
+      <p>특히 하나의 회사가 일하는 게 아니라, 저희처럼 다른 기업과 함께 일하거나 할 때는 더욱 조심해야 합니다. '개발 완료'에 대한 관점이 사람들마다 다 다르거든요. CEO 입장에서는 비전, 발견, 가설 검증, 개발, 이 모든 걸 완벽하게 달성해야 '완전한 제품'이 나온다고 생각해요. 하지만 개발자는 '개발 완료'를 기획서대로 개발하고 QA까지 마친 후 배포하는 걸 의미하죠.</p>
+      <p>특히 발주를 내린 회사는 SI 회사가 개발을 마쳤다 하면 다 끝났다 생각합니다. 그래서 우리는 이렇게 설득하는 과정을 거칩니다.</p>
+      <figure class="pquote emph"><p>우리가 개발 완료했다는 건 30%가 끝난 겁니다. 지금은 30%지만, 앞으로 J커브를 그리면서 완성이 될 거다.</p></figure>
+      <p>다시 경험을 정리해 볼게요. 제품 개발에는 '발견 단계'와 '실행 단계'가 있는데요. 먼저 '발견 단계'는 최대한 문제될 만한 걸 먼저 찾겠다는 의미예요. 이를 위해 '프로덕트 백로그', 즉 가설 검증할 로그들을 찾아 스프린트를 돌립니다. 이걸 빠르게 여러 번 돌려서, 실행 단계 전에 웬만한 가설 검증은 다 해놓는 거죠.</p>
+      <p>그 다음 '실행 단계'에서 개발을 진행합니다. 개발이 완료되면 '비전 달성'이 되었는지 체크하고 리뷰 및 피드백합니다. 이걸 계속해서 돌리면서 개발을 완성하는 게, 제가 제품을 만드는 원칙입니다.</p>
+    </section>
+
+  </article>
+</main>
+<section class="final" id="contact">
+  <div class="wrap read">
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="fsub">정원 50명 · 7월 30일 마감</div>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+      <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="fsub" style="margin-top:14px;font-size:13px;color:#9A9587">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</div>
+    <div class="fcontact">문의: 010-2494-1884 (카톡 가능) <span>·</span> hop2go@gmail.com</div>
+  </div>
+</section>
+<div class="sticky-cta">
+  <a href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+</div>
+</body>
+</html>

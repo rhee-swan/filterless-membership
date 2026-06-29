@@ -1,0 +1,211 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>발표 모아보기 | 필터 없는 멤버십</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap" />
+<style>
+  @font-face{
+    font-family:'RIDIBatang';
+    src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');
+    font-weight:100 900;font-style:normal;font-display:swap;
+  }
+
+  :root{
+    --bg:#eeeeee; --bg-2:#E3E3E3; --paper:#F6F6F6;
+    --line:#D8D2C4; --line-2:#C2BBA9;
+    --ink:#16140F; --ink-2:#3A372F; --muted:#6B675C; --muted-2:#9A9587;
+    --accent:#1F4FD9;
+    --maxw:1080px; --pad-x: clamp(20px, 5vw, 56px);
+    --serif:'RIDIBatang','Noto Serif KR',serif;
+    --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;font-size:16px;letter-spacing:-0.005em;}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+
+  /* ---- Topbar ---- */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(242,238,229,0.88);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line);}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;height:64px;gap:24px;}
+  .brand{font-weight:700;letter-spacing:-0.02em;font-size:15px;display:flex;align-items:center;gap:10px;}
+  .brand .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .topbar .cta{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);font-weight:500;border:1px solid var(--ink);padding:9px 14px;border-radius:999px;background:transparent;}
+  .topbar .cta:hover{background:var(--ink);color:var(--bg)}
+  .topbar .cta .arr{font-family:var(--mono);font-weight:400}
+
+  /* ---- Breadcrumb + Head ---- */
+  .crumb{padding:clamp(28px,4vw,48px) 0 0;}
+  .crumb a{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);font-weight:500;}
+  .crumb a:hover{color:var(--ink)}
+  .crumb .arr{font-family:var(--mono)}
+  .page-head{padding:clamp(28px,4vw,52px) 0 clamp(28px,3.5vw,44px);max-width:760px;}
+  .eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:20px;}
+  .page-head h1{margin:0;font-family:var(--serif);font-size:clamp(34px,5vw,64px);line-height:1.1;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;}
+  .page-head .sub{margin-top:clamp(18px,2.2vw,26px);font-size:clamp(15px,1.2vw,18px);color:var(--ink-2);line-height:1.7;max-width:52ch;word-break:keep-all;}
+
+  /* ---- Blog list ---- */
+  .feed{padding-bottom:clamp(64px,9vw,112px);border-top:1px solid var(--line);}
+  .post{display:grid;grid-template-columns:240px 1fr;gap:clamp(20px,3vw,40px);align-items:center;
+    padding:clamp(24px,3.2vw,40px) 0;border-bottom:1px solid var(--line);transition:opacity .15s ease;}
+  a.post:hover{opacity:1}
+  a.post:hover .post-title{color:var(--accent)}
+  .post-thumb{aspect-ratio:4/3;background:var(--bg-2);border:1px solid var(--line-2);border-radius:10px;overflow:hidden;position:relative;}
+  .post-thumb img{width:100%;height:100%;object-fit:cover;display:block;}
+  .post-thumb.empty::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 12px,rgba(22,20,15,0.04) 12px 24px);}
+  .post-thumb.empty::after{content:"준비 중";position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:11px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;}
+  .post-body{min-width:0;}
+  .post-kicker{font-family:var(--mono);font-size:12px;letter-spacing:0.1em;text-transform:uppercase;color:var(--muted-2);margin-bottom:12px;}
+  .post-title{font-family:var(--serif);font-size:clamp(22px,2.4vw,30px);line-height:1.32;letter-spacing:-0.02em;font-weight:700;word-break:keep-all;transition:color .15s ease;}
+  .post-slug{margin-top:12px;font-size:clamp(14px,1.1vw,16px);color:var(--ink-2);line-height:1.65;}
+  .post-author{margin-top:16px;font-size:15px;color:var(--muted);font-weight:500;}
+  .post.is-soon{cursor:default;}
+  .post.is-soon .post-title{color:var(--muted);}
+
+  @media (max-width:680px){
+    .post{grid-template-columns:1fr;gap:16px;align-items:start;}
+    .post-thumb{max-width:none;}
+  }
+
+  /* ---- Closing CTA (다른 페이지와 동일 / 쫑파티 라벨 여백 조정 반영) ---- */
+  .final{width:100vw;margin-left:50%;transform:translateX(-50%);text-align:left;background:var(--ink);color:var(--bg);padding:clamp(24px,3.5vw,40px) 0 clamp(64px,8vw,120px);}
+  .final .fv-label{color:#C2BBA9;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:clamp(32px,4.5vw,52px);}
+  .final .fv-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;}
+  .final .fv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .final .fcta{margin-top:clamp(40px,6vw,72px);}
+  .final h2{margin:0;font-family:var(--serif);font-size:clamp(34px,6.5vw,88px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;max-width:22ch;}
+  .final h2 em{font-style:normal;color:inherit}
+  .final .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);letter-spacing:-0.01em;}
+  .final .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
+  .btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;font-weight:600;border:1px solid transparent;padding:15px 26px;font-size:15px;transition:background .15s ease,color .15s ease,border-color .15s ease;}
+  .btn .arr{font-family:var(--mono);font-weight:400}
+  .final .btn-primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
+  .final .btn-outline{background:transparent;color:var(--bg);border-color:var(--bg)}
+  .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
+  .final .fcontact{margin-top:40px;color:#9A9587;font-size:13px;font-family:var(--mono);letter-spacing:0.04em;border-top:1px solid #33312A;padding-top:24px;max-width:680px;}
+  .final .fcontact span{color:#5A5751;padding:0 8px}
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
+  .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
+  @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
+</style>
+</head>
+<body>
+
+<!-- ⚠️ 임시 페이지 — '더 많은 발표 보러 가기' 연결용 블로그형 목록. 신청 링크 __APPLY_URL__ 는 실제 Typeform 주소로 교체. -->
+
+<main class="wrap">
+    <div class="page-head">
+    <h1>멤버들이 나눈 발표</h1>
+    <p class="sub">필터 없는 멤버십의 모임에서 멤버들이 직접 꺼내놓은 이야기를 기록합니다. 각자의 경험과 판단을 가감 없이 공유한 자리입니다.</p>
+  </div>
+
+  <div class="feed">
+
+    <a class="post" href="talk-shin-thehue.html">
+      <div class="post-thumb"><img src="assets/talks/shin.jpg" alt="신현욱" style="object-position:center 28%" /></div>
+      <div class="post-body">
+        <div class="post-title">매출은 최대로, 비용은 최소로</div>
+        <p class="post-slug">연매출 1,800억, 영업이익 200억이지만 더휴식 사무실에는 여전히 엘리베이터가 없다. 대표의 의무는 오직 매출과 비용을 관리해 이익을 내는 것이다.</p>
+        <div class="post-author">더휴식 신현욱 대표 · 창업 6년 만에 연매출 1,800억</div>
+      </div>
+    </a>
+
+    <a class="post" href="talk-kim-4people.html">
+      <div class="post-thumb"><img src="assets/talks/kimyr.jpg" alt="김용래" style="object-position:center 26%" /></div>
+      <div class="post-body">
+        <div class="post-title">동기부여를 넘어, 직원의 비전을 함께 설계하기</div>
+        <p class="post-slug">아무런 꿈 없이 면접을 보러 온 이들에게 꿈을 그리게 하고, 개인과 조직의 비전을 일치시키며 연매출 500억을 달성했다.</p>
+        <div class="post-author">포피플 김용래 대표 · 휴대폰 대리점 50개 운영, 연매출 500억</div>
+      </div>
+    </a>
+
+    <a class="post" href="talk-seo-koncon.html">
+      <div class="post-thumb"><img src="assets/talks/seo.jpg" alt="서소영" style="object-position:center 22%" /></div>
+      <div class="post-body">
+        <div class="post-title">22살 창업, 어리다는 약점을 강점과 기회로 바꾸기</div>
+        <p class="post-slug">어디서나 무시당했지만 기존의 방법론에 얽매이지 않고, 오히려 어리다는 것을 기회로 활용하며 20대에 연매출 100억을 향해 간다.</p>
+        <div class="post-author">콘콘 서소영 대표 · 22살에 창업해 5년 만에 연매출 100억</div>
+      </div>
+    </a>
+
+    <a class="post" href="talk-kim-zet5.html">
+      <div class="post-thumb"><img src="assets/talks/kimks.jpg" alt="김강수" style="object-position:center 24%" /></div>
+      <div class="post-body">
+        <div class="post-title">AX 시대를 INTJ가 즐기는 법</div>
+        <p class="post-slug">조직의 비용은 일하는 시간보다 커뮤니케이션 시간이 훨씬 길다. 효율 집착 INTJ가 AI를 활용해 구성원 간 오해와 소통 비용을 줄인 이야기.</p>
+        <div class="post-author">제트5 김강수 대표 · 두 번의 창업, 두 번의 엑싯</div>
+      </div>
+    </a>
+
+    <div class="post is-soon">
+      <div class="post-thumb empty"></div>
+      <div class="post-body">
+        <div class="post-title">여러 차례 엑싯한 제품 개발론</div>
+        <p class="post-slug">여러 번의 엑싯을 거치며 다듬어 온, 팔리는 제품을 만드는 원칙에 대하여.</p>
+        <div class="post-author">부스트리 이화랑 대표 · 준비 중</div>
+      </div>
+    </div>
+
+    <div class="post is-soon">
+      <div class="post-thumb empty"></div>
+      <div class="post-body">
+        <div class="post-title">두 번 상장시킨 회장의 사람 쓰는 법</div>
+        <p class="post-slug">코스닥에 두 번 회사를 올린 회장이 말하는, 조직을 키우는 채용과 HR의 원칙.</p>
+        <div class="post-author">엑셈 조종암 회장 · 준비 중</div>
+      </div>
+    </div>
+
+    <div class="post is-soon">
+      <div class="post-thumb empty"></div>
+      <div class="post-body">
+        <div class="post-title">버티컬 플랫폼이 시장에 진입하는 법</div>
+        <p class="post-slug">기업가치 6,000억으로 성장하기까지, 버티컬 플랫폼이 시장을 여는 과정의 판단들.</p>
+        <div class="post-author">강남언니 홍승일 대표 · 준비 중</div>
+      </div>
+    </div>
+
+    <div class="post is-soon">
+      <div class="post-thumb empty"></div>
+      <div class="post-body">
+        <div class="post-title">미투데이부터 밴드까지, 서비스를 키운 경험</div>
+        <p class="post-slug">네이버 밴드를 총괄하며 배운, 사람을 모으는 서비스를 만들고 키우는 일에 대하여.</p>
+        <div class="post-author">벗뷰리풀 박수만 대표 · 준비 중</div>
+      </div>
+    </div>
+
+  </div>
+</main>
+
+<!-- ========= Closing CTA ========= -->
+<section class="final" id="contact">
+  <div class="wrap"><div class="fv-label">필터 없는 멤버십 쫑파티 현장</div></div>
+  <div class="fv-frame">
+    <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="필터 없는 멤버십 쫑파티 현장" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="wrap fcta">
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="fsub">정원 50명 · 7월 30일 마감</div>
+    <div class="actions">
+      <a class="btn btn-primary" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+      <a class="btn btn-outline" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="fcontact">필터 없는 멤버십 · 이승환<span>·</span>010-2494-1884<span>·</span>hop2go@gmail.com</div>
+  </div>
+</section>
+
+<div class="sticky-cta">
+  <a href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+</div>
+
+</body>
+</html>

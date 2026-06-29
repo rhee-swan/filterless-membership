@@ -1,0 +1,997 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>필터 없는 멤버십 3기</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="preconnect" href="https://fonts.googleapis.com" />
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap" />
+<style>
+  @font-face{
+    font-family:'RIDIBatang';
+    src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');
+    font-weight:100 900;font-style:normal;font-display:swap;
+  }
+
+  :root{
+    --bg:#eeeeee;
+    --bg-2:#E3E3E3;
+    --paper:#F7F4EC;
+    --line:#D8D2C4;
+    --line-2:#C2BBA9;
+    --ink:#16140F;
+    --ink-2:#3A372F;
+    --muted:#6B675C;
+    --muted-2:#9A9587;
+    --accent:#1F4FD9;
+    --accent-2:#0E2E8C;
+    --maxw:1440px;
+    --pad-x: clamp(20px, 5vw, 56px);
+    /* ---- 8pt 간격 스케일 (모든 여백은 여기서만 고른다) ---- */
+    --s1:8px; --s2:16px; --s3:24px; --s4:32px; --s5:48px; --s6:64px; --s7:96px;
+    /* 세로 리듬 토큰 (반응형이지만 스케일에 정박) */
+    --section-y: clamp(48px, 8vw, 96px);   /* 독립 섹션 위아래 패딩 */
+    --flow-y: clamp(20px, 3vw, 32px);      /* 점선으로 연결된 섹션 위아래 패딩 */
+    --vrule-h: clamp(40px, 6vw, 64px);     /* 세로 점선 높이 */
+    --sec-head-mb: clamp(24px, 3vw, 40px); /* 섹션 제목 아래 여백 */
+    --serif:'RIDIBatang','Noto Serif KR',serif;
+    --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  body{
+    font-family:var(--sans);
+    -webkit-font-smoothing:antialiased;
+    text-rendering:optimizeLegibility;
+    line-height:1.55;
+    font-size:16px;
+    letter-spacing:-0.005em;
+  }
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+  .section{padding:var(--section-y) 0}
+  .section--flow{padding-top:var(--flow-y);padding-bottom:var(--flow-y)}
+  .section--dark{background:#EEEEEE;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+  .vrule{width:1px;height:var(--vrule-h);margin:0 auto;
+    background:repeating-linear-gradient(to bottom, var(--line-2) 0 5px, transparent 5px 11px);}
+
+  /* ---------- Topbar ---------- */
+  .topbar{
+    position:sticky;top:0;z-index:50;
+    background:rgba(242,238,229,0.88);
+    backdrop-filter:saturate(140%) blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .topbar-inner{
+    display:flex;justify-content:space-between;align-items:center;
+    height:64px;gap:24px;
+  }
+  .brand{
+    font-weight:700;letter-spacing:-0.02em;font-size:15px;
+    display:flex;align-items:center;gap:10px;
+  }
+  .brand .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .topbar .cta{
+    display:inline-flex;align-items:center;gap:8px;
+    font-size:13px;color:var(--ink);font-weight:500;
+    border:1px solid var(--ink);padding:9px 14px;border-radius:999px;
+    background:transparent;
+  }
+  .topbar .cta:hover{background:var(--ink);color:var(--bg)}
+
+  /* ---------- Hero ---------- */
+  .hero{
+    padding-top:clamp(56px,8vw,120px);
+    padding-bottom:clamp(64px,9vw,120px);
+    position:relative;overflow:hidden;
+  }
+  .hero .eyebrow{
+    font-family:var(--mono);
+    font-size:12px;letter-spacing:0.18em;text-transform:uppercase;
+    color:var(--muted);margin-bottom:36px;
+    display:inline-flex;align-items:center;gap:10px;
+  }
+  .hero .eyebrow::before{
+    content:"";width:24px;height:1px;background:var(--accent);
+  }
+  .hero h1{
+    margin:0;
+    font-family:var(--serif);
+    font-size:clamp(26px,6.6vw,104px);
+    line-height:1.02;
+    letter-spacing:-0.03em;
+    font-weight:500;
+    word-break:keep-all;
+    max-width:22ch;
+  }
+  .hero h1 .em{font-style:normal;color:inherit;font-weight:500}
+  .hero h1 span.line{display:block;white-space:nowrap}
+  .hero-grid{
+    margin-top:clamp(40px,5vw,72px);
+    display:grid;grid-template-columns:1.4fr 1fr;
+    gap:clamp(40px,6vw,96px);
+    align-items:end;
+  }
+  .hero-sub{
+    font-size:clamp(16px,1.3vw,20px);
+    color:var(--ink-2);line-height:1.7;
+    max-width:52ch;
+  }
+  .hero-sub p{margin:0}
+  .hero-actions{
+    margin-top:clamp(28px,4vw,40px);
+    display:flex;flex-wrap:wrap;gap:10px;
+  }
+  .squiggle{
+    align-self:end;justify-self:end;
+    width:min(360px, 40vw);height:auto;color:var(--accent);
+    opacity:0.95;
+  }
+  @media (max-width:780px){
+    .hero-grid{grid-template-columns:1fr;gap:40px}
+    .squiggle{width:200px;justify-self:start}
+  }
+
+  /* Hero meta */
+  .hero-meta{
+    margin-top:var(--s2);
+    display:flex;flex-direction:column;
+    border-top:1px solid var(--line);
+    max-width:100%;
+  }
+  .hero-meta > div{
+    display:grid;grid-template-columns:120px 1fr;
+    align-items:baseline;gap:14px;
+    padding:18px 0;border-bottom:1px solid var(--line);
+  }
+  .hero-meta .k{
+    font-family:var(--sans);font-size:16px;
+    letter-spacing:0.01em;color:var(--muted);font-weight:500;
+  }
+  .hero-meta .v{font-size:clamp(20px,1.7vw,25px);font-weight:500;letter-spacing:-0.01em;color:var(--ink)}
+  @media (max-width:560px){
+    .hero-meta > div{grid-template-columns:104px 1fr;gap:12px}
+    .hero-meta .v{font-size:16px}
+  }
+
+  /* ---------- Buttons ---------- */
+  .btn{
+    display:inline-flex;align-items:center;justify-content:center;gap:10px;
+    font-family:inherit;font-weight:500;font-size:15px;
+    padding:14px 22px;border:1px solid transparent;cursor:pointer;
+    letter-spacing:-0.005em;line-height:1;border-radius:999px;
+    transition:background .15s ease, color .15s ease, border-color .15s ease;
+  }
+  .btn .arr{font-family:var(--mono);font-weight:400}
+  .btn-primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
+  .btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
+  .btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}
+  .btn-outline:hover{background:var(--ink);color:var(--bg)}
+  .btn-lg{font-size:16px;padding:18px 28px}
+
+  /* ---------- Section heads ---------- */
+  .sec-head{
+    margin-bottom:var(--sec-head-mb);
+  }
+  .sec-eyebrow{
+    font-family:var(--mono);
+    font-size:14px;letter-spacing:0.08em;text-transform:uppercase;
+    color:var(--accent);font-weight:500;
+    display:inline-flex;align-items:center;gap:12px;
+    margin-bottom:14px;white-space:nowrap;
+  }
+  .sec-eyebrow::before{content:"§";color:var(--accent);font-family:var(--serif);font-style:normal;font-size:16px}
+  .sec-head h2{
+    margin:0;
+    font-family:var(--serif);
+    font-size:clamp(24px,3.1vw,44px);
+    line-height:1.15;letter-spacing:-0.025em;
+    font-weight:700;word-break:keep-all;
+  }
+  .sec-head h2 em{font-style:normal;color:inherit}
+  .sec-head .sub{
+    margin-top:14px;font-size:clamp(17px,1.2vw,19px);color:var(--muted);max-width:64ch;line-height:1.6;
+  }
+
+  /* ---------- Operator letter ---------- */
+  .op-head{
+    margin-bottom:clamp(24px,3vw,40px);
+  }
+  .op-photo{
+    width:100%;aspect-ratio:21/8;border-radius:16px;
+    background:var(--bg-2);border:1px solid var(--line-2);
+    overflow:hidden;position:relative;margin-bottom:var(--s4);
+  }
+  .op-photo img{width:100%;height:100%;object-fit:cover;object-position:center 38%;display:block}
+  .op-name{font-size:20px;font-weight:700;letter-spacing:-0.02em}
+  .op-role{font-size:14px;color:var(--muted);margin-top:6px}
+
+  .how-box{
+    border-top:1px solid var(--line);
+    padding:var(--s4) 0 0;
+  }
+  .letter-body{
+    max-width:none;font-size:clamp(18px,1.35vw,21px);line-height:1.85;color:var(--ink-2);
+    font-family:var(--sans);
+  }
+  .letter-body p{margin:0 0 1.4em}
+  .letter-body .op-sign{margin-top:var(--s4);display:flex;align-items:center;gap:var(--s2)}
+  .op-sign-photo{width:64px;height:64px;border-radius:50%;object-fit:cover;border:1px solid var(--line-2);flex:0 0 auto}
+  .op-sign-name{font-weight:700;color:var(--ink);font-size:clamp(17px,1.3vw,20px);letter-spacing:-0.01em}
+  .op-sign-role{font-size:16px;color:var(--muted);margin-top:4px}
+  .letter-body p:last-child{margin-bottom:0}
+  @media (max-width:780px){
+    .op-photo{aspect-ratio:16/10}
+    .letter-body{font-size:16px}
+  }
+
+  /* ---------- Member stories (testimonials) ---------- */
+  .stories{
+    column-count:2;column-gap:var(--s3);
+  }
+  .story{
+    break-inside:avoid;-webkit-column-break-inside:avoid;
+    display:flex;flex-direction:column;
+    gap:var(--s3);
+    margin:0 0 var(--s3);
+    padding:var(--s4);
+    background:#FFFFFF;
+    border:1px solid #ECE6D9;
+    border-radius:22px;
+    box-shadow:0 1px 2px rgba(22,20,15,0.03), 0 10px 30px rgba(22,20,15,0.05);
+  }
+  .story-head{
+    display:flex;align-items:center;gap:16px;
+  }
+  .story-meta{min-width:0}
+  .story-photo{
+    width:64px;flex:0 0 auto;
+    aspect-ratio:1/1;border-radius:50%;
+    background:var(--bg-2);
+    border:1px solid var(--line-2);
+    position:relative;overflow:hidden;
+  }
+  .story-photo img{
+    width:100%;height:100%;object-fit:cover;object-position:top center;display:block;
+  }
+  .story-name{
+    font-family:var(--sans);font-size:18px;
+    font-weight:700;color:var(--ink);margin-bottom:6px;
+    letter-spacing:-0.01em;line-height:1.25;
+  }
+  .story-eyebrow{
+    font-family:var(--sans);font-size:14px;letter-spacing:-0.01em;
+    color:var(--muted);margin-bottom:0;font-weight:500;line-height:1.5;
+  }
+  .story-quote{
+    font-family:var(--serif);font-style:normal;font-weight:500;
+    font-size:clamp(20px,2.2vw,32px);line-height:1.25;letter-spacing:-0.025em;
+    color:var(--ink);margin:0;word-break:keep-all;
+  }
+  .story-quote .accent{color:inherit}
+  .story.longform .story-quote{
+    font-family:var(--sans);
+    font-size:clamp(17px,1.2vw,19px);
+    line-height:1.74;letter-spacing:-0.012em;font-weight:400;
+    color:var(--ink);margin:0;
+  }
+  .story-body{font-size:16px;line-height:1.7;color:var(--ink-2);max-width:72ch}
+  .story-link{
+    display:inline-flex;align-items:center;gap:8px;margin-top:18px;
+    font-size:14px;color:var(--accent);font-weight:500;
+    border-bottom:1px solid currentColor;padding-bottom:2px;
+  }
+  .stories-foot{
+    display:flex;justify-content:center;margin-top:clamp(28px,4.5vw,56px);
+  }
+  @media (max-width:780px){
+    .stories{column-count:1}
+    .story-photo{width:56px}
+  }
+
+  /* ---------- Talks ---------- */
+  .talks{
+    display:grid;grid-template-columns:1fr;gap:0;
+    width:100vw;max-width:100vw;margin-left:50%;transform:translateX(-50%);
+  }
+  .talk{
+    background:none;border:none;padding:0;
+    display:flex;flex-direction:column;gap:0;
+    text-decoration:none;color:var(--ink);
+  }
+  .talk > div{
+    width:100%;max-width:var(--maxw);margin:0 auto;
+    padding:var(--s2) var(--pad-x) var(--s3);
+  }
+  .talk:hover .talk-title{text-decoration:underline}
+  .talks .talk:last-child > div{padding-bottom:0}
+  .talk-desc{
+    font-family:var(--sans);font-size:clamp(16px,1.15vw,18px);
+    line-height:1.62;letter-spacing:-0.01em;color:var(--ink-2);
+    margin:7px 0 0;max-width:64ch;word-break:keep-all;
+    text-wrap:balance;
+  }
+  .talk-byline{
+    font-family:var(--sans);font-size:14px;color:var(--muted);
+    margin-top:9px;letter-spacing:-0.01em;
+  }
+  .talk-img{
+    height:clamp(260px,42vw,560px);background:var(--bg-2);
+    position:relative;overflow:hidden;
+  }
+  .talk-img::before{
+    content:"";position:absolute;inset:0;
+    background:repeating-linear-gradient(135deg,transparent 0 12px,rgba(22,20,15,0.04) 12px 24px);
+  }
+  .talk-img::after{
+    content:"IMAGE";position:absolute;inset:0;
+    display:flex;align-items:center;justify-content:center;
+    font-family:var(--mono);font-size:10px;letter-spacing:0.18em;color:var(--muted);
+  }
+  .talk-no{
+    font-family:var(--mono);font-size:11px;color:var(--accent);
+    letter-spacing:0.18em;text-transform:uppercase;
+  }
+  .talk-img.filled::before,.talk-img.filled::after{display:none}
+  .talk-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+
+  /* ---------- Blog-style talk recap list ---------- */
+  .recap-list{display:flex;flex-direction:column;gap:0;border-top:1px solid var(--line)}
+  .recap{
+    display:grid;grid-template-columns:300px 1fr;
+    gap:clamp(24px,3.5vw,48px);
+    padding:clamp(24px,3vw,36px) 0;
+    border-bottom:1px solid var(--line);
+    align-items:center;
+  }
+  .recap-img{
+    aspect-ratio:16/10;background:var(--bg-2);
+    border:1px solid var(--line-2);border-radius:12px;
+    position:relative;overflow:hidden;
+  }
+  .recap-img img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block}
+  .recap-meta{font-size:13px;color:var(--muted);margin-bottom:10px;letter-spacing:-0.01em}
+  .recap-title{
+    font-family:var(--serif);font-weight:500;
+    font-size:clamp(21px,2.1vw,30px);line-height:1.3;letter-spacing:-0.025em;
+    color:var(--ink);word-break:keep-all;margin:0;
+  }
+  .recap-more{
+    display:inline-flex;align-items:center;gap:7px;margin-top:16px;
+    font-size:14px;color:var(--accent);font-weight:600;
+  }
+  .recap:hover .recap-title{color:var(--accent)}
+  @media (max-width:680px){
+    .recap{grid-template-columns:1fr;gap:16px}
+  }
+  .talk-speaker{font-size:14px;color:var(--ink);margin-top:12px;font-weight:700;letter-spacing:-0.015em}
+  .talk-speaker .sub{display:block;font-size:12.5px;color:var(--muted);font-weight:500;margin-top:3px;line-height:1.45}
+  .talk-title{
+    font-family:var(--sans);font-weight:700;
+    font-size:clamp(18px,1.7vw,24px);
+    line-height:1.3;letter-spacing:-0.02em;
+    margin-top:0;word-break:keep-all;
+  }
+  @media (max-width:680px){
+    .talks{grid-template-columns:1fr}
+  }
+
+  /* ---------- Promises ---------- */
+  .promises{
+    display:flex;flex-direction:column;
+    border-top:1px solid var(--line);
+  }
+  .promise{
+    display:flex;align-items:baseline;
+    gap:8px;
+    padding:var(--s3) 0;
+    border-bottom:1px solid var(--line);
+  }
+  .promise .pno{
+    font-family:var(--sans);font-style:normal;
+    font-size:clamp(17px,1.9vw,22px);color:var(--ink);
+    font-weight:700;letter-spacing:-0.02em;flex:0 0 auto;
+  }
+  .promise .ptext{
+    font-family:var(--sans);font-weight:500;
+    font-size:clamp(17px,1.9vw,22px);line-height:1.4;letter-spacing:-0.02em;
+    color:var(--ink);white-space:nowrap;
+  }
+  @media (max-width:560px){
+    .promise .pno,.promise .ptext{font-size:16px}
+    .promise .ptext{white-space:normal}
+  }
+
+  /* ---------- Overview table ---------- */
+  .ovw{
+    display:grid;grid-template-columns:1fr 1fr;
+    gap:0;
+    border-top:1px solid var(--line);
+  }
+  .ovw-row{
+    display:grid;grid-template-columns:88px 1fr;
+    gap:14px;
+    padding:22px 0;
+    border-bottom:1px solid var(--line);
+    align-items:baseline;
+  }
+  .ovw-row:nth-child(odd){padding-right:32px;border-right:1px solid var(--line)}
+  .ovw-row:nth-child(even){padding-left:32px}
+  .ovw-row .k{
+    font-family:var(--mono);font-size:14px;color:var(--muted);
+    letter-spacing:0.06em;text-transform:uppercase;
+  }
+  .ovw-row .v{font-size:19px;line-height:1.5;color:var(--ink);font-weight:500;letter-spacing:-0.01em}
+  .ovw-row .v small{display:block;font-weight:400;color:var(--muted);font-size:14px;margin-top:4px}
+  .ovw-row.full{grid-column:1/-1;padding-right:0;padding-left:0;border-right:0}
+  .ovw-row.full .v{font-weight:500;color:var(--ink);font-size:19px;letter-spacing:-0.01em;line-height:1.5}
+  .ovw-row.highlight .v{color:var(--ink);font-weight:500;font-size:19px;letter-spacing:-0.01em}
+  @media (max-width:780px){
+    .ovw{grid-template-columns:1fr}
+    .ovw-row:nth-child(odd){padding-right:0;border-right:0}
+    .ovw-row:nth-child(even){padding-left:0}
+    .ovw-row{grid-template-columns:70px 1fr;gap:12px}
+  }
+
+  /* ---------- Final ---------- */
+  .final{
+    text-align:left;
+    padding-top:clamp(48px,7vw,84px);
+    padding-bottom:clamp(64px,8vw,120px);
+    background:var(--ink);color:var(--bg);
+    margin-top:0;
+  }
+  .final .fv-label{color:#C2BBA9;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:clamp(32px,4.5vw,52px);font-family:var(--sans);}
+  .final .fv-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;}
+  .final .fv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .final .fcta{margin-top:clamp(40px,6vw,72px);}
+  .final h2{
+    margin:0;
+    font-family:var(--serif);
+    font-size:clamp(36px,7vw,104px);
+    line-height:1.18;letter-spacing:-0.03em;
+    font-weight:500;word-break:keep-all;
+    max-width:22ch;
+  }
+  .final h2 em{font-style:normal;color:inherit}
+  .final .sub{
+    margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);
+    font-family:var(--sans);letter-spacing:-0.01em;
+  }
+  .final .actions{
+    margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;
+  }
+  .final .btn-primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
+  .final .btn-outline{color:var(--bg);border-color:var(--bg)}
+  .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
+  .final .contact{
+    margin-top:40px;color:#C9C3B4;
+    font-size:clamp(15px,1.3vw,20px);line-height:1.6;
+    font-family:var(--sans);letter-spacing:0;
+    border-top:1px solid #33312A;padding-top:24px;
+    text-align:right;
+  }
+  .final .contact span{color:#5A5751;padding:0 8px}
+
+  footer{
+    padding:32px 0 56px;color:var(--muted);font-size:13px;
+  }
+  footer .row{
+    display:flex;justify-content:space-between;align-items:center;
+    flex-wrap:wrap;gap:16px;
+  }
+
+  /* ---------- Apply note (urgency + reassurance) ---------- */
+  .apply-note{margin-top:18px;display:flex;flex-direction:column;gap:6px}
+  .apply-note .urgency{margin:0;font-size:clamp(15px,1.3vw,20px);font-weight:600;color:var(--accent-2);letter-spacing:-0.01em}
+  .apply-note .urgency .dday{font-family:var(--mono);font-weight:500}
+  .apply-note .reassure{margin:0;font-size:clamp(15px,1.3vw,20px);color:var(--muted);line-height:1.5}
+
+  /* ---------- FAQ ---------- */
+  .faq{border-top:1px solid var(--line)}
+  .faq-item{padding:clamp(22px,2.6vw,32px) 0;border-bottom:1px solid var(--line)}
+  .faq-q{font-family:var(--serif);font-weight:500;font-size:clamp(18px,1.6vw,23px);letter-spacing:-0.02em;color:var(--ink);margin:0 0 10px;word-break:keep-all}
+  .faq-a{font-size:16px;line-height:1.7;color:var(--ink-2);margin:0;max-width:74ch;word-break:keep-all}
+  .faq-a .todo{color:var(--accent-2);font-weight:500}
+
+  /* ---------- Sticky mobile CTA ---------- */
+  .sticky-cta{
+    display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;
+    padding:10px 16px calc(10px + env(safe-area-inset-bottom));
+    background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);
+    border-top:1px solid var(--line);
+  }
+  .sticky-cta .btn{width:100%}
+  @media (max-width:780px){
+    .sticky-cta{display:block}
+    body{padding-bottom:76px}
+  }
+
+  /* ---------- Photo hero (image-led) ---------- */
+  .hero-photo{position:relative;min-height:clamp(480px,80vh,780px);display:flex;align-items:flex-end;overflow:hidden;background:#16140F}
+  .hero-photo .bg{position:absolute;inset:0;background-size:cover;background-position:center 30%;filter:grayscale(0.3) contrast(1.03)}
+  .hero-bg{position:absolute;inset:0}
+  .hero-bg .slide{position:absolute;inset:0;background-size:cover;background-position:center 28%;filter:grayscale(0.3) contrast(1.03);opacity:0;transition:opacity 1.2s ease}
+  .hero-bg .slide.active{opacity:1}
+  .hero-photo .scrim{position:absolute;inset:0;
+    background:linear-gradient(90deg,rgba(10,9,7,0.84) 0%,rgba(10,9,7,0.6) 44%,rgba(10,9,7,0.25) 100%),
+               linear-gradient(0deg,rgba(10,9,7,0.72) 0%,rgba(10,9,7,0) 55%);}
+  .hero-photo .hp-inner{position:relative;width:100%;max-width:var(--maxw);margin:0 auto;
+    padding:clamp(40px,6vw,84px) var(--pad-x) clamp(40px,6vw,72px);}
+  .hero-photo h1{margin:0;font-family:var(--serif);font-size:clamp(20px,5.2vw,60px);
+    line-height:1.24;letter-spacing:-0.03em;font-weight:700;color:#F7F4EC;}
+  .hero-photo h1 .line{display:block;white-space:nowrap}
+  .hero-photo h1 .em{font-style:normal;color:#fff}
+  .hero-photo .hp-sub{margin-top:clamp(16px,2vw,26px);color:#E7E3D8;
+    font-size:clamp(15px,1.3vw,20px);line-height:1.5;max-width:46ch;}
+  .hero-photo .hp-sub p{margin:0}
+  .hero-photo .hero-actions{margin-top:clamp(22px,3vw,34px)}
+  .hero-photo .apply-note{margin-top:16px}
+  .hero-photo .apply-note .urgency{color:#fff}
+  .hero-photo .apply-note .reassure{color:#C9C3B4}
+  .hero-photo .btn-primary{background:#F7F4EC;color:var(--ink);border-color:#F7F4EC}
+  .hero-photo .btn-primary:hover{background:#fff;border-color:#fff}
+  .hero-photo .btn-outline{background:transparent;color:#F7F4EC;border-color:#F7F4EC}
+  .hero-photo .btn-outline:hover{background:#F7F4EC;color:var(--ink);border-color:#F7F4EC}
+  @media (max-width:560px){
+    .hero-photo .scrim{background:linear-gradient(0deg,rgba(10,9,7,0.88) 10%,rgba(10,9,7,0.3) 72%)}
+    .hero-photo{min-height:clamp(440px,86vh,640px)}
+    .hero-photo .hp-sub{font-size:15px}
+  }
+
+  /* ---------- Member face wall ---------- */
+  .facewall{display:grid;grid-template-columns:repeat(auto-fill,minmax(60px,1fr));gap:10px}
+  .facewall .f{aspect-ratio:1;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid var(--line-2);filter:grayscale(0.25)}
+  .facewall .f img{width:100%;height:100%;object-fit:cover;display:block}
+  .facewall-foot{margin-top:var(--s3);text-align:center}
+  .link-cta{position:relative;display:inline-block;font-family:var(--sans);font-weight:700;
+    font-size:clamp(16px,1.5vw,20px);letter-spacing:-0.01em;color:var(--ink);
+    text-decoration:none;padding-bottom:6px;}
+  .link-cta::after{content:"";position:absolute;left:0;right:0;bottom:0;height:2px;
+    background:var(--ink);transition:height .18s ease;}
+  .link-cta .arr{font-family:var(--mono);font-weight:400;display:inline-block;
+    margin-left:4px;transition:transform .18s ease;}
+  .link-cta:hover::after{height:3px}
+  .link-cta:hover .arr{transform:translateX(4px)}
+  @media (max-width:560px){
+    .facewall{grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:8px}
+  }
+</style>
+</head>
+<body>
+
+<!-- ⚠️ 신청 링크: 아래 모든 __APPLY_URL__ 를 실제 Typeform 신청 폼 주소로 교체하세요. (현재 미연결 placeholder) -->
+
+<template id="__bundler_thumbnail">
+  <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
+    <rect width="100" height="100" fill="#eeeeee"/>
+    <rect x="30" y="34" width="40" height="6" rx="3" fill="#16140F"/>
+    <rect x="30" y="46" width="28" height="6" rx="3" fill="#16140F"/>
+    <circle cx="66" cy="62" r="4" fill="#1F4FD9"/>
+  </svg>
+</template>
+
+<!-- ========= 1. HERO ========= -->
+<section class="hero-photo" data-screen-label="01 Hero" id="top">
+  <div class="hero-bg">
+    <div class="slide active" style="background-image:url('assets/hero-1.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-2.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-3.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-4.jpg')"></div>
+  </div>
+  <div class="scrim"></div>
+  <div class="hp-inner">
+    <h1>
+      <span class="line">창업자, C레벨이 혼자서 내린</span>
+      <span class="line">의사결정의 <em class="em">대가는 비쌉니다</em></span>
+    </h1>
+    <div class="hp-sub">
+      <p>비싼 결정을 혼자 하지 마세요,</p>
+      <p>검증된 100명의 사업가들과 함께 하세요.</p>
+    </div>
+    <div class="hero-actions">
+      <a class="btn btn-primary btn-lg" href="__APPLY_URL__" id="apply">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+      <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="apply-note">
+      <p class="urgency">정원 50명 한정 · 마감 7월 30일 <span class="dday"></span></p>
+      <p class="reassure">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</p>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true" style="margin-top:var(--flow-y)"></div>
+
+<!-- 활동 메타 -->
+<section class="section section--flow" data-screen-label="01b Meta">
+  <div class="wrap">
+    <div class="sec-head" style="margin-bottom:0">
+      <h2>모집 <em>개요</em></h2>
+    </div>
+    <div class="hero-meta">
+      <div>
+        <div class="k">대상</div>
+        <div class="v">CEO, 공동창업자, 임원급 의사결정자</div>
+      </div>
+      <div>
+        <div class="k">모집 인원</div>
+        <div class="v">50명 한정 · 엄선된 C레벨</div>
+      </div>
+      <div>
+        <div class="k">활동 기간</div>
+        <div class="v">26년 8월 ~ 27년 7월<br><span>1년 8회 공식 모임 + 네트워킹 모임</span></div>
+      </div>
+      <div>
+        <div class="k">비용</div>
+        <div class="v">300만원 <span>· 1년 8회</span></div>
+      </div>
+      <div>
+        <div class="k">절차</div>
+        <div class="v">신청 후 간단한 심사가 있습니다. <span>엄선된 멤버 선정을 위한 조치이니 양해 부탁 드립니다.</span></div>
+      </div>
+      <div>
+        <div class="k">마감일</div>
+        <div class="v">2026.07.30 (목)<br><span>정원 마감시 조기 종료</span> <span class="dday" style="color:var(--accent-2)"></span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
+
+<!-- ========= 2.5 멤버 얼굴 월 ========= -->
+<section class="section section--flow" data-screen-label="02b Members" id="members">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>지금까지 함께한<br/><em>검증된 C레벨들</em></h2>
+      <div class="sub">이미 100여 명의 검증된 창업자·C레벨이 필터 없는 멤버십과 함께하고 있습니다.</div>
+    </div>
+    <div class="facewall">
+      <div class="f"><img src="assets/faces/m001.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m002.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m003.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m004.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m005.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m006.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m007.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m008.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m009.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m010.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m011.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m012.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m013.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m014.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m015.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m016.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m017.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m018.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m019.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m020.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m021.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m022.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m023.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m024.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m025.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m026.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m027.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m028.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m029.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m030.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m031.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m032.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m033.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m034.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m035.png" alt="" loading="lazy"/></div>
+      <div class="f"><img src="assets/faces/m036.png" alt="" loading="lazy"/></div>
+    </div>
+    <div class="facewall-foot">
+      <a class="link-cta" href="members.html">필터 없는 멤버십 전체 명단 보기 <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
+
+<!-- ========= 3. 멤버 스토리 (추천사) ========= -->
+<section class="section section--flow" data-screen-label="03 Member Stories">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>멤버들이 말하는<br/><em>'필터 없는 멤버십'</em></h2>
+    </div>
+
+    <div class="stories">
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-1.png" alt="조종암" /></div>
+          <div class="story-meta">
+            <div class="story-name">엑셈 조종암 회장</div>
+            <div class="story-eyebrow">2015년 엑셈 코스닥 상장<br/>2023년 신시웨이 코스닥 상장</div>
+          </div>
+        </div>
+        <p class="story-quote">"두 번의 상장을 겪으며 제 나름대로 경영의 답을 안다고 생각했습니다. 그런데 이 모임에서 젊은 창업자들을 만나 제 경험을 나누다 보니, 오히려 제가 더 많은 것을 배움니다. 그동안 전혀 몰랐던 산업과 비즈니스 이야기를 듣고 있으면, 제 시야가 얼마나 좁았는지를 새삼 깨닫게 됩니다. 경험을 전수하러 왔다가 오히려 한 수 배워 돌아가는 자리. C레벨과 창업자라면 누구나 얻을 것이 많은 모임입니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-2.png" alt="박수만" /></div>
+          <div class="story-meta">
+            <div class="story-name">벗뷰리풀(추룹) 박수만 대표</div>
+            <div class="story-eyebrow">미투데이를 네이버에 매각<br/>밴드 앱 총괄, 네이버 CIC 대표 역임</div>
+          </div>
+        </div>
+        <p class="story-quote">"미투데이 매각, 네이버 CIC 대표 등을 거쳐, 8년 만에 다시 스타트업을 시작했습니다. 그래서인지 멤버십에서 필터 없는 대표님들의 스토리를 듣는 시간이 너무나도 값지게 다가왔습니다. 성공도 실패도, 진행 중인 과정의 고민도 너무나 귀한 여정입니다. 그게 모든 대표가 걷고 있는 길이며, 제 스토리도 누군가에게 배움과 위로가 될 수 있는지 스스로 생각해보게 됐습니다. 한두달에 한 번, 몇 시간을 투자할만한 이유를 찾을 수 있으실 거라 확신합니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-3.png" alt="천정욱" /></div>
+          <div class="story-meta">
+            <div class="story-name">VTPL(씨스터앤) 천정욱 대표</div>
+            <div class="story-eyebrow">올리브영 아이라인 카테고리 1위<br/>전세계 22개국에 수출</div>
+          </div>
+        </div>
+        <p class="story-quote">"필터 없는 멤버십의 가치는 단순합니다. 내 업종 바깥의 대표들이 어떻게 일하고, 어디에 돈을 거는지 엿볼 수 있다는 것. 주식·투자, AI, 그리고 패션·식품·숙박까지. 당장 내 매출과는 상관없어 보이는 이야기들이, 묘하게 내 비즈니스의 힌트가 됩니다. 다음 파도가 어디서 오는지는 항상 내 업계 밖에서 먼저 보이더군요. 즉각적인 돈벌이를 기대하고 오는 자리는 아닙니다. 하지만 시야를 넓히고 싶은 대표라면 후회 없을 모임입니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-4.png" alt="홍승일" /></div>
+          <div class="story-meta">
+            <div class="story-name" style="font-size:15px">힐링페이퍼(강남언니) 홍승일 대표</div>
+            <div class="story-eyebrow">6천억 기업가치, 누적 투자액 741억<br/>일본, 중국 등 글로벌 진출 중</div>
+          </div>
+        </div>
+        <p class="story-quote">"이승환 대표님의 멤버십 1기로 함께할 수 있어 진심으로 감사한 시간이었습니다. 비슷한 고민을 안고 각자의 사업을 일구어 가는 대표님들을 만나, 저마다의 고유한 관점과 솔직한 이야기를 나누면서 정말 많은 자극과 배움을 얻었습니다. 정답을 주입받는 자리가 아니라, 서로의 시행착오와 고민을 가감 없이 꺼내놓으며 함께 답을 찾아가는, 밀도가 굉장히 높은 모임이었습니다. 같은 길을 걷는 동료가 필요한 대표님들에게 강력히 추천드립니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/t-hyungjin-v.jpg" alt="이형진" /></div>
+          <div class="story-meta">
+            <div class="story-name">마이노멀 이형진 대표</div>
+            <div class="story-eyebrow">식품·소비재 브랜드 '마이노멀' 운영</div>
+          </div>
+        </div>
+        <p class="story-quote">"식품 브랜드를 만들며 제품도, 문구도, 방향도 늘 혼자 결정해 왔습니다. 그 무게를 온전히 나눌 자리는 드물죠. 필터 없는 멤버십에서 식품·유통·소비재 대표들의 이야기를 들으며 '나만 이렇게 고민하는 게 아니구나'를 실감했습니다. 동시에 전혀 다른 산업을 이끄는 대표들의 이야기는 더 날카로운 거울이 됐습니다. 이종 산업의 언어로 내 업을 다시 바라볼 때, 비로소 내 위치가 객관적으로 잡혔습니다. 화려한 성공담이 아니라 아직 풀리지 않은 고민을 꺼낼 수 있는 자리. 솔직한 내면을 꺼내놓을 자리가 필요한 모든 외로운 창업자에게 추천합니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-5b.png" alt="신현욱" /></div>
+          <div class="story-meta">
+            <div class="story-name">더휴식 신현욱 대표</div>
+            <div class="story-eyebrow">창업 6년만에 매출액 1800억<br/>영업이익 200억원</div>
+          </div>
+        </div>
+        <p class="story-quote">"회사를 만들고, 팔고, 인수하는 과정에서 깨달은 게 있습니다. 경영자에게 부족한 건 정보가 아니라, 같은 무게의 결정을 내려본 사람과 '필터 없이' 나눌 시간이라는 겁니다. 멤버십을 통해 상장사 회장님부터 유망 스타트업 대표, 기업 임원, 이제 막 시작한 사업가까지도 만날 수 있었습니다. 평소엔 듣기 어려운 살아 있는 인사이트가 오갔고, 모임에서 얻은 관점이 실제 제 의사결정을 바꾸기도 했습니다. 그렇게 맺은 인연이 비즈니스 협업으로 이어져 본업에도 도움이 되고 있습니다. 만족도가 높아 다음 기수에도 참석합니다. 살아 있는 인사이트를 갈망하는 분들에게 권합니다."</p>
+      </div>
+    </div>
+
+    <div class="stories-foot">
+      <a class="link-cta" href="testimonials.html">멤버들의 추천사 전문 보기 <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
+
+<!-- ========= 4. 발표 사례 ========= -->
+<section class="section section--flow" data-screen-label="04 Talks" id="talks">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>필터 없는 멤버십 <em>쫑파티 발표</em></h2>
+    </div>
+
+    <div class="talks">
+      <a class="talk" href="talk-shin-thehue.html">
+        <div class="talk-img filled"><img src="assets/talks/shin.jpg" alt="신현욱" style="object-position:center 28%" /></div>
+        <div>
+          <div class="talk-title">매출은 최대로, 비용은 최소로</div>
+          <p class="talk-desc">연매출 1,800억, 영업이익 200억이지만, 여전히 더휴식 사무실에는 엘리베이터가 없다. 대표의 의무는, 오직 매출과 비용을 관리해 이익을 내는 것이다.</p>
+          <div class="talk-byline">더휴식 신현욱 대표 · 연매출 1,800억, 영업이익 200억</div>
+        </div>
+      </a>
+      <a class="talk" href="talk-kim-4people.html">
+        <div class="talk-img filled"><img src="assets/talks/kimyr.jpg" alt="김용래" style="object-position:center 26%" /></div>
+        <div>
+          <div class="talk-title">동기부여를 넘어, 직원의 비전을 함께 설계하기</div>
+          <p class="talk-desc">휴대폰 판매점은 아무런 꿈이 없는 고졸이 면접을 본다. 이런 이들로 하여금 꿈을 그리게 하고, 나아가 개인과 조직의 비전을 일치시키며 연매출 500억을 달성했다.</p>
+          <div class="talk-byline">포피플 김용래 대표 · 휴대폰 대리점 50개 운영, 연매출 500억</div>
+        </div>
+      </a>
+      <a class="talk" href="talk-seo-koncon.html">
+        <div class="talk-img filled"><img src="assets/talks/seo.jpg" alt="서소영" style="object-position:center 22%" /></div>
+        <div>
+          <div class="talk-title">22살 창업, 어리다는 약점을 강점과 기회로 바꾸기</div>
+          <p class="talk-desc">“대리인 모셔오세요” 어디서나 무시당했다. 하지만 기존의 방법론에 얽매이지 않고, 오히려 어리다는 것을 기회로 활용하며 20대에 연매출 100억을 향해가고 있다.</p>
+          <div class="talk-byline">콘콘 서소영 대표 · 22살에 창업해 5년 만에 연매출 100억</div>
+        </div>
+      </a>
+      <a class="talk" href="talk-kim-zet5.html">
+        <div class="talk-img filled"><img src="assets/talks/kimks.jpg" alt="김강수" style="object-position:center 24%" /></div>
+        <div>
+          <div class="talk-title">AX 시대를 INTJ가 즐기는 법</div>
+          <p class="talk-desc">사실 조직의 비용은 일하는 시간보다 ‘커뮤니케이션’ 시간이 훨씬 길다. 효율 집착 INTJ가 AI를 활용하여, 조직 내 구성원 간에 오해와 소통을 줄이는 데 성공한 이야기.</p>
+          <div class="talk-byline">제트5 김강수 대표 · 두 번의 창업, 두 번의 엑싯</div>
+        </div>
+      </a>
+    </div>
+    <div class="facewall-foot">
+      <a class="link-cta" href="talks.html">더 많은 멤버들 발표 보러 가기 <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
+
+<!-- ========= 5. 이렇게 운영됩니다 ========= -->
+<section class="section section--flow" data-screen-label="05 How" id="how">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>필터 없는 멤버십은<br/><em>이렇게 운영됩니다</em></h2>
+    </div>
+
+    <div class="op-photo"><img src="assets/founder-wide.jpg" alt="필터 없는 멤버십 모임" /></div>
+
+    <div class="letter-body how-box">
+      <p>저는 ㅍㅍㅅㅅ를 운영하며, 300명 이상의 C레벨을 인터뷰했습니다.</p>
+      <p>창업자, C레벨은 어렵습니다. 항상 무거운 의사결정을 내려야 하죠. 그래서 외롭습니다. 가족도 이해하기 힘든 상황에 혼자 놓여있지요.</p>
+      <p>필터 없는 멤버십은 검증된 C레벨들이 모여 ‘필터 없이’ 털어놓고 이야기하며 서로의 비즈니스를 돕는 모임입니다.</p>
+      <p>단순히 모여서 강의 듣고 친목질하는 모임이 아닙니다. 매번 8명 내외의 멤버들이 함께 모여서, 쉽게 이야기하지 못했던 우리 회사의 이야기를 합니다.</p>
+      <p>이를 통해 서로가 지혜를 모아 더 나은 결정을 만들어 나갑니다. 동시에 다른 산업과 시장을 서로의 인사이트를 통해 깊이 있게 학습합니다.</p>
+      <p>이번 기수부터는 스터디를 넘어 서로 더 끈끈하게 친해지는 네트워킹도 강화할 계획입니다. 스터디 모임 외에도 더 편하게 이야기할 저녁 자리도 자주 열립니다.</p>
+      <p>필터 없는 멤버십을 통해 당신의 비즈니스가 더 건강하게 성장하길 바랍니다. 멤버들의 사업에 좋은 영향을 줄 수 있는 분이라면 누구든 환영합니다.</p>
+      <div class="op-sign">
+        <img class="op-sign-photo" src="assets/swan-portrait.jpg" alt="이승환" />
+        <div>
+          <div class="op-sign-name">이승환</div>
+          <div class="op-sign-role">필터 없는 멤버십 오너</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
+
+<!-- ========= 6. 발표·토론 보러 가기 ========= -->
+<style>
+  .talkpick{margin-top:clamp(28px,3.5vw,44px)}
+  .jrnl{display:grid;grid-template-columns:1fr 1fr;column-gap:clamp(30px,4vw,52px);position:relative}
+  .jrnl::before{content:"";position:absolute;top:0;bottom:0;left:50%;width:1px;background:var(--line)}
+  .brief{padding:clamp(24px,3vw,32px) 0;border-top:1px solid var(--line);text-decoration:none;color:inherit;
+         display:grid;grid-template-columns:1fr 140px;gap:20px;align-items:center}
+  .b-img{overflow:hidden;border-radius:4px;background:var(--bg-2);aspect-ratio:3/4}
+  .b-img img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .4s ease}
+  .brief:hover .b-img img{transform:scale(1.05)}
+  .b-body{display:flex;flex-direction:column;justify-content:center}
+  .b-title{font-family:var(--serif);font-weight:700;font-size:clamp(19px,1.8vw,24px);line-height:1.3;letter-spacing:-0.025em;color:var(--ink);margin:0 0 11px;word-break:keep-all;text-wrap:balance}
+  .b-dek{font-size:14px;line-height:1.6;color:var(--ink-2);margin:0 0 12px;text-wrap:balance}
+  .b-by{font-size:12.5px;color:var(--muted);font-weight:600}
+  @media (max-width:780px){
+    .jrnl{grid-template-columns:1fr}.jrnl::before{display:none}.brief{grid-template-columns:1fr 120px}
+  }
+</style>
+<section class="section section--flow" data-screen-label="06 Talks" id="talks">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>필터 없는 멤버십 모임<br/><em>발표 토론 보러 가기</em></h2>
+      <p class="sub">평소 멤버십 모임에서 각 대표님들이 발표한 내용을 재구성하였습니다.</p>
+    </div>
+
+    <div class="talkpick jrnl">
+      <a class="brief" href="talk-hong-gangnamunni.html">
+        <div class="b-body">
+          <h3 class="b-title">강남언니가 시장을 찾아가는 법</h3>
+          <p class="b-dek">암 시장에서 시작해 '사진 3장 견적'까지, 끝없이 문제를 좁히며 PMF를 찾아낸 과정.</p>
+          <div class="b-by">홍승일  힐링페이퍼(강남언니) 대표</div>
+        </div>
+        <div class="b-img"><img src="assets/hsi-34.png" alt="홍승일" /></div>
+      </a>
+      <a class="brief" href="talk-jo-exem.html">
+        <div class="b-body">
+          <h3 class="b-title">2개 상장사를 이끈 '팀장 중심' HR</h3>
+          <p class="b-dek">두 회사를 상장시킨 회장이 말하는, 팀장을 스타트업 대표처럼 세우는 인사 원칙.</p>
+          <div class="b-by">조종암  엑셈 회장</div>
+        </div>
+        <div class="b-img"><img src="assets/jja-34.png" alt="조종암" /></div>
+      </a>
+      <a class="brief" href="talk-jo-agile.html">
+        <div class="b-body">
+          <h3 class="b-title">'애자일'과 '스쿼드'의 진실</h3>
+          <p class="b-dek">유연한 조직과 TF에 대한 오해. 군대의 임무형 지휘로 풀어낸 두 단어의 본질.</p>
+          <div class="b-by">조승빈  컨그루언트애자일 대표</div>
+        </div>
+        <div class="b-img"><img src="assets/jsb-34.png" alt="조승빈" /></div>
+      </a>
+      <a class="brief" href="talk-kim-bunjang.html">
+        <div class="b-body">
+          <h3 class="b-title">스타트업 경영의 3가지 깨달음</h3>
+          <p class="b-dek">셀잇·번개장터 매각에서 배운 작은 피벗과 고객 집중, 그리고 진짜 그로스의 원리.</p>
+          <div class="b-by">김철우  더벤처스 대표</div>
+        </div>
+        <div class="b-img"><img src="assets/khw-34.png" alt="김철우" /></div>
+      </a>
+      <a class="brief" href="talk-kwon-21gram.html">
+        <div class="b-body">
+          <h3 class="b-title">돈 되는 시장에만 집중하라</h3>
+          <p class="b-dek">건축가에서 반려동물 장례식장 국내 1위로. 엉뚱한 확장의 실패와 다시 '집중'으로 돌아온 이야기.</p>
+          <div class="b-by">권신구  21그램 대표</div>
+        </div>
+        <div class="b-img"><img src="assets/ksg-34.png" alt="권신구" /></div>
+      </a>
+      <a class="brief" href="talk-lee-medspa.html">
+        <div class="b-body">
+          <h3 class="b-title">4번의 엑싯을 만든 제품 개발법</h3>
+          <p class="b-dek">남의 제품을 네 번 엑싯시킨 PM. '미니 CEO'의 관점과 MVP에 비전을 담는 개발법.</p>
+          <div class="b-by">이화랑  미소 메드스파 대표</div>
+        </div>
+        <div class="b-img"><img src="assets/lhr-34.png" alt="이화랑" /></div>
+      </a>
+      <a class="brief" href="talk-kook-spigen.html">
+        <div class="b-body">
+          <h3 class="b-title">해외에서 시작해 지속 성장하는 법</h3>
+          <p class="b-dek">매출의 90%가 해외에서. 처음부터 글로벌을 겨냥해 설계한 슈피겐의 해외 진출 전략.</p>
+          <div class="b-by">국봉환  슈피겐코리아 부문장</div>
+        </div>
+        <div class="b-img"><img src="assets/kbh-34.png" alt="국봉환" /></div>
+      </a>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true" style="margin-bottom:clamp(28px,4vw,52px)"></div>
+
+<!-- ========= 7. 최종 CTA ========= -->
+<section class="final" data-screen-label="07 Final" id="contact">
+  <div class="fv-frame">
+    <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="필터 없는 멤버십 쫑파티 현장" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="wrap fcta">
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="sub">정원 50명 · 7월 30일 마감 <span class="dday"></span></div>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+      <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="sub" style="margin-top:14px;font-size:clamp(15px,1.3vw,20px);line-height:1.5;letter-spacing:0;color:#C9C3B4">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</div>
+    <div class="contact">
+      문의: 010-2494-1884 (카톡 가능) <br/>hop2go@gmail.com
+    </div>
+  </div>
+</section>
+
+<!-- 모바일 고정 지원 버튼 -->
+<div class="sticky-cta">
+  <a class="btn btn-primary" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+</div>
+
+<script>
+  (function(){
+    var deadline = new Date('2026-07-30T23:59:59+09:00');
+    var days = Math.ceil((deadline - new Date()) / 86400000);
+    var label = days > 0 ? '(D-' + days + ')' : (days === 0 ? '(D-DAY)' : '(마감)');
+    document.querySelectorAll('.dday').forEach(function(el){ el.textContent = label; });
+  })();
+  (function(){
+    var slides = document.querySelectorAll('.hero-bg .slide');
+    if(slides.length > 1){
+      var i = 0;
+      setInterval(function(){
+        slides[i].classList.remove('active');
+        i = (i + 1) % slides.length;
+        slides[i].classList.add('active');
+      }, 4500);
+    }
+  })();
+</script>
+
+</body>
+</html>

@@ -1,0 +1,1199 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>필터 없는 멤버십 — Wall of Fame</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  :root{
+    --bg:#eeeeee; --bg-2:#E3E3E3; --paper:#F6F6F6;
+    --line:#D8D2C4; --line-2:#C2BBA9;
+    --ink:#16140F; --ink-2:#3A372F; --muted:#6B675C; --muted-2:#9A9587;
+    --accent:#1F4FD9;
+    --maxw:1500px; --pad-x: clamp(20px, 5vw, 56px);
+    --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;font-size:16px;letter-spacing:-0.005em;}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(242,238,229,0.88);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line);}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;height:64px;gap:24px;}
+  .brand{font-weight:700;letter-spacing:-0.02em;font-size:15px;display:flex;align-items:center;gap:10px;}
+  .brand .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .topbar .cta{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);font-weight:500;border:1px solid var(--ink);padding:9px 14px;border-radius:999px;background:transparent;}
+  .topbar .cta:hover{background:var(--ink);color:var(--bg)}
+  .topbar .cta .arr{font-family:var(--mono);font-weight:400}
+
+  .page-head{text-align:center;padding:clamp(56px,8vw,108px) 0 clamp(28px,3.5vw,44px);}
+  .eyebrow{font-family:var(--mono);font-size:14px;letter-spacing:0.08em;text-transform:uppercase;color:var(--accent);font-weight:500;display:inline-flex;align-items:center;gap:10px;margin-bottom:24px;white-space:nowrap;}
+  .eyebrow::before{content:"§";color:var(--accent)}
+  .page-head h1{margin:0;font-size:clamp(34px,5.5vw,68px);line-height:1.1;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;}
+  .page-head .sub{margin:clamp(20px,2.5vw,28px) auto 0;font-size:clamp(15px,1.2vw,18px);color:var(--ink-2);line-height:1.7;max-width:52ch;word-break:keep-all;}
+  .count-pill{display:inline-flex;align-items:baseline;gap:8px;margin-top:24px;font-family:var(--mono);font-size:13px;color:var(--muted);letter-spacing:0.04em;border:1px solid var(--line);border-radius:999px;padding:8px 16px;}
+  .count-pill b{color:var(--ink);font-size:15px;font-weight:700}
+
+  .wall{columns:3;column-gap:clamp(16px,1.5vw,22px);padding-bottom:clamp(48px,6vw,80px);}
+  @media (max-width:1100px){ .wall{columns:2} }
+  @media (max-width:680px){ .wall{columns:1} }
+
+  .wcard{break-inside:avoid;margin:0 0 clamp(16px,1.5vw,22px);background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;}
+  .wc-head{display:flex;align-items:center;gap:13px;}
+  .wc-av{width:52px;height:52px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid var(--line-2);}
+  .wc-av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .wc-av .ini{width:100%;height:100%;display:flex;align-items:center;justify-content:center;font-size:19px;font-weight:700;color:#fff;letter-spacing:-0.02em;}
+  .ini.c-blue{background:#1F4FD9}.ini.c-red{background:#B23A2E}.ini.c-teal{background:#1F7A60}.ini.c-purple{background:#6E45B8}.ini.c-amber{background:#B5701A}.ini.c-slate{background:#41464E}
+  .wc-id{min-width:0;flex:1;display:flex;align-items:center;gap:10px;flex-wrap:wrap;}
+  .wc-name{font-size:17px;font-weight:700;letter-spacing:-0.02em;line-height:1.3;word-break:keep-all;}
+  .wc-co{font-weight:600;color:var(--muted);font-size:15px;}
+  .wc-bio{font-size:14px;color:var(--ink-2);margin:15px 0 0;line-height:1.72;word-break:keep-all;}
+  .wcard.rich{background:#fff;}
+  .wc-social{display:flex;gap:7px;}
+  .wc-social a{width:24px;height:24px;flex:0 0 auto;border-radius:50%;display:flex;align-items:center;justify-content:center;color:var(--muted);border:1px solid var(--line);transition:color .15s ease, background .15s ease, border-color .15s ease;}
+  .wc-social a[aria-label="LinkedIn"]{color:#0A66C2;border-color:rgba(10,102,194,0.3);}
+  .wc-social a[aria-label="Facebook"]{color:#1877F2;border-color:rgba(24,119,242,0.3);}
+  .wc-social a[aria-label="Instagram"]{color:#E1306C;border-color:rgba(225,48,108,0.3);}
+  .wc-social a[aria-label="YouTube"]{color:#FF0000;border-color:rgba(255,0,0,0.3);}
+  .wc-social a[aria-label="Website"]{color:var(--accent);border-color:rgba(31,79,217,0.3);}
+  .wc-social a:hover{color:#fff;background:var(--ink);border-color:var(--ink);}
+  .wc-social a[aria-label="LinkedIn"]:hover{background:#0A66C2;border-color:#0A66C2;}
+  .wc-social a[aria-label="Facebook"]:hover{background:#1877F2;border-color:#1877F2;}
+  .wc-social a[aria-label="Instagram"]:hover{background:#E1306C;border-color:#E1306C;}
+  .wc-social a[aria-label="YouTube"]:hover{background:#FF0000;border-color:#FF0000;color:#fff;}
+  .wc-social a[aria-label="Website"]:hover{background:var(--accent);border-color:var(--accent);color:#fff;}
+  .wc-social svg{width:14px;height:14px;display:block;}
+
+  .foot-note{text-align:center;padding:clamp(24px,3vw,40px) 0 clamp(56px,7vw,96px);color:var(--muted);font-size:13px;border-top:1px solid var(--line);word-break:keep-all;}
+  .foot-note .back{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;font-size:14px;color:var(--accent);font-weight:500;border-bottom:1px solid currentColor;padding-bottom:2px;}
+  .foot-note .back .arr{font-family:var(--mono)}
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
+  .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
+  @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
+</style>
+</head>
+<body>
+
+
+<main class="wrap" data-screen-label="Wall of Fame">
+  <div class="page-head">
+    <h1><span style="white-space:nowrap">필터 없는 멤버십을</span> <span style="white-space:nowrap">함께한 사람들</span></h1>
+    <p class="sub">1기·2기, 검증된 대표님들이 먼저 함께했습니다. 다양한 산업의 창업자와 C레벨이 한자리에 모였습니다.</p>
+    <div class="count-pill">참여 멤버 <b>111</b>명</div>
+  </div>
+
+  <div class="wall">
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m001.png" alt="강동주" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">강동주 <span class="wc-co">(아이유노)</span></div>
+            <div class="wc-social"><a href="https://linkedin.com/in/djohnkang" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/djohnkang/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/djohnkang" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">멋쟁이사자처럼 공동창업자 겸 COO, 아트테크 eazel 공동창업자 겸 CTO를 지냈다. 보육 기업 아누리, 교육기업 하이퍼그로스를 창업 후 매각했다. 현재는 글로벌 자막 현지화 및 더빙 전문 기업 아이유노 VP로 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m002.png" alt="강신경" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">강신경 <span class="wc-co">(베이직스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%8B%A0%EA%B2%BD-%EA%B0%95-57a41a201" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/profile.php?id=100001574366928" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://basic-s.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">국밥집, 여성전용고시원, 관절보호대 의료기기 등 여러 사업을 거쳐 2019년 노트북 사업으로 피벗했다. 가성비 노트북 베이직스로 국내 노트북 시장 3위를 차지했고,태블릿으로 제품군을 확장하며 연매출 900억을 바라보고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m003.png" alt="고봉수" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">고봉수 <span class="wc-co">(님버스테크)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EB%B4%89%EC%88%98-%EA%B3%A0-31602975/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/bskosk" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/bongsu9357/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/@%EA%B3%A0%EB%B4%89%EC%88%98-v5v" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.nimbustech.co.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">일찍이 ROTC 군대 전산실에서부터 개발 일을 시작했으며 SK에서 본격적인 시스템 개발에 들어섰다. 현재는 님버스테크를 창업해 다양한 금융기관, 공공기관의 프라이빗 클라우드 인프라 구축, 운영 및 유지보수, AX를 진행 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m004.png" alt="곽근봉" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">곽근봉 <span class="wc-co">(원지랩스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/ken-kwak/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">상장사 엔비티를 공동창업했다. CTO로 시작해 CPO, CMO, 자회사 대표까지, 전방위적인 역할을 수행했다. 이후 '원지랩스'를 창업하여 AI를 활용해 컬리 듣 다양한 기업에 소프트웨어를 개발하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m005.png" alt="구동언" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">구동언 <span class="wc-co">(로그프레소)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/dgoo/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/dongeon.goo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://instagram.com/8con" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://logpresso.com/ko" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">2013년 빅데이터 스타트업 이디엄을 창업했으며, 2020년 사명을 로그프레소로 변경했다. 현재는 사업 총괄을 맡고 있으며 누적 230억 투자를 이끌었다. 클라우드 SIEM 서비스 '로그프레소 클라우드' 확산에 주력하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m006.png" alt="국봉환" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">국봉환 <span class="wc-co">(슈피겐코리아)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/bonghwan-kuk-a9aa56a1/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/bhkuk" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/kuk_blue" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/@spigen_korea" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.spigen.co.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">IT 업계 고인물로, 2012년 슈피겐코리아에 합류해 국내 사업을 총괄하여 코스닥 상장까지 이끌었다. 복합문화공간 '슈피겐홀'과 팬덤 라이프스타일 브랜드 '페스티버'를 사업을 런칭하여 성장시키고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m007.png" alt="권기범" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">권기범 <span class="wc-co">(자성팩)</span></div>
+            <div class="wc-social"><a href="https://instagram.com/jasungpack" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.jasung.co.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://jasung.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">맞춤 포장 비닐 생산 유통 기업 '자성팩'을 창업 후 운영하고 있다. 슈가 멤버 아유미의 남편으로 더 잘 알려져 있으며, 해외 F&amp;B, 뷰티 사업 진출을 도모 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m008.png" alt="권신구" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">권신구 <span class="wc-co">(21그램)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%8B%A0%EA%B5%AC-sinb-%EA%B6%8C-b49b3b246/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/sinku.kwon" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://21gram.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">건축설계와 부동산 개발 실무를 6년간 경험했다. 반려동물 장례사업의 가능성을 보고 2014년 21그램을 창업해 11년째 운영하고 있다. 현재 PE에 인수, 반려동물 장례식장 21그램을 6개 지점 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m009.png" alt="김가현" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김가현 <span class="wc-co">(메이저스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/cherishkkh/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/cherishkkh" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/newzvibe/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://majors.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">아나운서와 IT 기자를 거쳐 '지식 숏폼' 기업 메이저스를 창업했다. 현재는 다양한 숏폼 컨설팅, 교육 사업을 진행 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m010.png" alt="김강수" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김강수 <span class="wc-co">(제트5)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/gangsoo.kim84" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/blue8421/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.z5.xyz/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">모바일 게임'드래곤빌리지' 을 프로듀싱, 출판, 카드, 완구 등 다양한 사업을 이끌었다. 이후 제트5를 설립해 웹3 게임 '픽셀 히어로즈 어드벤처'를 개발·퍼블리싱했으며, 넥서스에 매각한 후 그룹사 플랫폼 사업을 이끌고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m011.png" alt="김경태" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김경태 <span class="wc-co">(트레져러)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/kyungtae-ted-kim/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/kyungtae.kim.52090" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.treasurer.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">2013년 헬스케어 스타트업 직토를 창업해 매각한 뒤 2017년 트레져러를 창업했다. 로열티(포인트) 기반 투자 모델을 개발해 오케이캐시백, 엘포인트 등 70% 이상의 포인트사가 트레져러 솔루션을 활용하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m012.png" alt="김경훈" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김경훈 <span class="wc-co">(프록시랩스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/dexter-kim-1a4938115/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/gimgyeonghun.447495/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">하이퍼커넥트, 비바리퍼블리카, 에이블리 등에서 신사업 개발자·PM으로 일했다. SaaS 사이드 프로젝트 PDFSwitch를 이파피루스에 매각했다. 현재 매칭 앱 2개를 운영하며 글로벌 확장을 꾀하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m013.png" alt="김도균" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김도균 <span class="wc-co">(베뉴에이)</span></div>
+          </div>
+        </div>
+        <p class="wc-bio">먼 옛날 딴지일보 편집장을 역임했다. 수많은 여행 경험을 바탕으로 '트래블메이트'를 창업, 사모펀드에 매각했다. 현재는 엑셀러레이터 '아지트로'를 통해 스타트업에 투자하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m014.png" alt="김도형" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김도형 <span class="wc-co">(스타트업북스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EB%8F%84%ED%98%95-%EA%B9%80-3aa9bb75/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/profile.php?id=100014320023153" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/kimdohyungg/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://startupbooks.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">연세대 국어국문학과를 중퇴하고 1인 출판사를 창업했다. 현재 스타트업 전문 출판사 스타트업북스를 운영하며, 전자책 제작과 번역을 돕는 출판 SaaS를 개발하고 있다. 나름 인스타 인플루언서이기도 하다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m015.png" alt="김동하" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김동하 <span class="wc-co">(트윈플러스파트너스)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/profile.php?id=100009482404029" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/maxkdh/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://twinp.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">머니투데이·파이낸셜뉴스에서 기자 생활을 했다. HQ인베스트먼트 부사장, IHQ 경영전략실 이사 등을 거쳤다. 현재 한성대 전임교수이자 영화 투자·제작·배급사 트윈플러스파트너스 대표를 맡고 있다. '다음소희'를 제작·배급했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m016.png" alt="김범준" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김범준 <span class="wc-co">(피플에듀)</span></div>
+            <div class="wc-social"><a href="https://ppleedu.org/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">서울과학기술대 재학 시절, 헌혈자와 수혈자를 연결하는 앱 '피플'을 출시했다. 현재는 사회적 약자의 디지털 리터러시를 높이는 교육을 다양한 기업의 후원 하에 실시하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m017.png" alt="김상혁" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김상혁 <span class="wc-co">(인테그로)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/pabloindosi/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.integro.work/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">베트남에서 패션 e커머스 플랫폼 '도시인'을 창업 후, 베트남 개발을 연결하는 SI 회사를 운영했다. 현재는 AX 전문 기업 '인테그로'를 운영하여, 공장 등 제조업 자동화에 나서고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m018.png" alt="김선영" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김선영 <span class="wc-co">(마켓핏랩)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/ottugui" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/ottugui/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">데이터 컨설팅 기반의 디지털 마케팅 회사인 데이터리셔스를 설립하여 영국계 회사에 매각했다. 현재 마켓핏랩 솔루션사업부 대표를 맡아, 다양한 마케팅 솔루션을 기업에 보급하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m019.png" alt="김수민" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김수민 <span class="wc-co">(잼플)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/esthersmkim/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.instagram.com/esther.minime/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.jamful.co/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">영국에서 IB와 PE를 경험했으며, 국내에 복귀 후 운동 앱 잼플을 창업했다. B2B 기업 복지에서 시작하여, B2C 이용권으로 판로를 확장 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m020.png" alt="김승일" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김승일 <span class="wc-co">(모두의연구소)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/seungil-kim-a109261b/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/DrSonicwave" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/drsonicwave?igsh=MXM4eXJpbDB3aHVydw%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://modulabs.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">누구나 자유롭게 연구할 수 있는 모두의연구소를 설립해 822개 연구모임과 60편의 학회 채택 논문을 배출했다. 현재 누적 투자 70억을 받았으며, AI·SW 인재 양성 교육과 기업 대상 SW 교육으로 사업을 확장하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m021.png" alt="김영훈" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김영훈 <span class="wc-co">(메이사)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%98%81%ED%9B%88-%EA%B9%80-38511884/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/raseack" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/raseack/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.meissa.ai/kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">21살에 스타트업 경력을 시작했다. 2018년 메이사를 공동창업해 5년간 대표를 맡았고, 현재는 부대표로서 B2G와 해외사업개발을 총괄한다. 누적 250억 원을 유치했으며 2026년 말 상장을 준비하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m022.png" alt="김용래" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김용래 <span class="wc-co">(포피플)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/forpeople_ceo?igsh=MTlpMHE2MTZmeHB5Zg%3D%3D&amp;utm_source=qr" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://youtube.com/@forpeople_tv?si=Hws0HqAvIf7z3H4l" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.hi-phone.co.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://www.facebook.com/yonglae11" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">스노우보드 선수 출신으로, 휴대폰 판매 아르바이트로 사회 생활을 시작했다. 현재 연 500억 매출을 내는전국 50개 휴대폰 판매점을 운영하는 '포피플' 대표로 있으며, 온라인 중고폰 플랫폼, 해외 중고폰 플랫폼도 함께 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m023.png" alt="김원균" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김원균 <span class="wc-co">(로랩스)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/wildbunch84" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://airsupply.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">대학 시절부터 쇼핑몰을 운영했고, 다양한 IT 플랫폼을 개발했다. 현재는 기업 자재구매 솔루션 '에어서플라이'를 런칭하여, 손쉬운 관리로 총무팀 비용을 줄이는 토탈 구매 솔루션으로 진화시키고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m024.png" alt="김윤수" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김윤수 <span class="wc-co">(빌사남)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/yskim0" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/bsnyoonsu/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/@bsn_" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.building0.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">블로그 '빌사남'으로 이름을 알리며 2017년 빌사남을 창업하여, 투자 없이 연매출 100억 이상을 기록 중이다. 빌딩 매매에서 관리·설계·시공·자산운용으로 영역을 넓혔다. 구독자 7만 명의 유튜브를 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m025.png" alt="김인기" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김인기 <span class="wc-co">(내러티브)</span></div>
+            <div class="wc-social"><a href="http://linkedin.com/in/ingikim" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/ingikim1214" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/codekim1214/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/@startkim" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://narrative.im/kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">실리콘밸리 부트캠프 핵 리액터를 한국화한 코딩 부트캠프 '코드스테이츠'를 창업했다. 현재는 홀딩컴퍼니 '내러티브'를 운영하며, 빌더이자 투자자로서 로켓펀치·태니지먼트 등을 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m026.png" alt="김재용" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김재용 <span class="wc-co">(플레이스파이브)</span></div>
+            <div class="wc-social"><a href="https://kimstudy.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">2013년 모두의지도를 공동창업했다.(이후 쿠캣으로 발전) 2015년 과외 매칭 서비스 '김과외'를 런칭해 현재 회원 200만 명, 연 거래액 약 1천억 원 규모로 성장시켰다. 2025년에는 K-뷰티 컨설팅 수출 앱 '서울뷰티랩'을 선보였다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m027.png" alt="김정현" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김정현 <span class="wc-co">(쉐어하우스우주)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/valakas95/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://woozoo.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">대학 시절 사회적기업 딜라이트를 창업해 대원제약에 매각했다. 이어 청년 주거 문제 해결을 위한 셰어하우스우주를 창업 후 직방에 매각하여 수년 간 경영했다. 2012년부터 수십 개 스타트업에 투자해 왔으며, 현재는 컴퍼니 빌더와 경영을 함께 하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m028.png" alt="김정훈" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김정훈 <span class="wc-co">(콘텐츠베이커리)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/JeungHunKim" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/junghoon_kim_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://contentsbakery.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">디인텔리전스, 애드쿠아인터랙티브에서 일찍부터 디지털 마케팅을 경험했다. 현재 '콘텐츠베이커리' 대표로 디지털 및 브랜딩 캠페인, SNS 운영대행 등 다양한 디지털 마케팅을 총괄하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m029.png" alt="김종규" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김종규 <span class="wc-co">(식스티헤르츠)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/jongkyukim/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/kjk0912" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">희귀병 아동 유전체 검사 서비스 'RG코리아'를 설립했다. 독일 막스플랑크 연구소에서 유학 후, 재생에너지 발전량 예측·관리와 RE100 지원 '식스티헤르츠'를 창업했다. SK텔레콤, LG전자, 신한금융그룹 등을 고객사로 두고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m030.png" alt="김준우" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김준우 <span class="wc-co">(워크스페이스그룹)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/jk-junwoo-kim-00403a1ba/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://instagram.com/jkxxeo" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.work-space.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">종합 부동산 디벨로퍼 '워크스페이스 그룹' 운영 중이다. 프로젝트 기획·관리 담당 본사, 건축·인테리어 설계·인허가·감리 법인, 시공·현장관리 전문 법인, 총 3개 법인을 운영하며, 오피스를 중심으로 부동산 사업을 전개하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m031.png" alt="김지민" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김지민 <span class="wc-co">(티켓투더문)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/funjimin" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://ticketothemoon.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">샌드박스네트워크에서 광고사업본부 총괄 디렉터와 자회사 캐스팅유니버스 대표를 겸했다. 2023년 유명 여성 인플루언서 에이전시 티켓투더문을 창업했다. 2030 여성 타깃의 MCN으로 연예인 유튜브 PPL 세일즈, 브랜드 캐스팅을 진행하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m032.png" alt="김지현" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김지현 <span class="wc-co">(동일프라텍)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/jh.kaoru" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/hello_diang/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.dongilstraw.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">15년째 플라스틱 압출성형 제조업을 운영하며, 주로 음료용 빨대를 생산해 왔다. 옥수수 전분 추출 생분해 빨대를 개발·상용화했으며, 분해 포장지 등 다양한 카페용품으로 제품을 확장하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m033.png" alt="김지훈" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김지훈 <span class="wc-co">(스탠잇)</span></div>
+          </div>
+        </div>
+        <p class="wc-bio">넥슨, 엔씨, 컴투스 USA 등에서 다양한 게임 마케팅을 리드했다. 현재는 팬테크 회사 '스탠잇'을 창업, IP와 팬을 포토카드로 잇는 서비스 '푸키'를 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m034.png" alt="김찬현" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김찬현 <span class="wc-co">(웰리)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%B0%AC%ED%98%84-%EA%B9%80-6971041b4/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/chanhyounkim" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/soul.chip/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">SK하이닉스 미래기술연구원 선임연구원, 변화를 꿈꾸는 과학기술인 네트워크(ESC) 대표를 역임했으다. 며 차세대융합기술연구원 이사 등으로 활동했다. 현재 웰니스 여행 플랫폼 웰리를 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m035.png" alt="김철우" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김철우 <span class="wc-co">(더벤처스)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/chulwukim" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://theventures.vc/ko" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">중고거래 서비스 셀잇을 창업해 카카오에 매각했고, 셀잇이 퀵켓과 합병해 출범한 번개장터의 CPO를 맡아 사모펀드에 매각했다. 이후 셀잇에 초기 투자했던 VC 더벤처스의 대표를 역임 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m036.png" alt="김충희" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김충희 <span class="wc-co">(워커스하이)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/profile.php?id=100005391704760" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.workershigh.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">롯데칠성음료에서 사내벤처 제도를 운영하다 직접 사업에 뜻을 두고 분사 창업했다. 식품 브랜드의 오프라인 D2C를 지원하는 초소형 무인스토어를 구축·운영하고 있으며, 스마트 자판기 사업도 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m037.png" alt="김희주" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">김희주 <span class="wc-co">(솜인터내셔널)</span></div>
+            <div class="wc-social"><a href="https://www.sominternational.com" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">총 연매출 1천억의 식품 종합 기업으로, 다양한 내츄럴 가공 식품 소재 수입 유통, 제조 가공을 수행하고 있다. 경쟁력을 높이기 위해 보세 장치, 보관, 운송 자체 시스템 보유하고 있으며, B2C 브랜드 '딜라잇가든'를 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m038.png" alt="남상협" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">남상협 <span class="wc-co">(버즈니)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%83%81%ED%98%91-%EB%82%A8-46777b34/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/namsangboy" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.buzzni.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">포스텍에서 정보 검색과 자연어 처리를 전공했다. 메타 홈쇼핑 커머스 플랫폼 '홈쇼핑모아'를 10년 이상 운영 중이다. 기술력을 바탕으로, 검색, 추천, 쇼핑 에이전ㅌ, AI 회의록, 숏폼 생성 등 다양한 커머스 AI 솔루션을 기업에 제공하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m039.png" alt="남현" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">남현 <span class="wc-co">(세움)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/hyunnam?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=ios_app" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/share/1AMbR74Zc8/?mibextid=wwXIfr" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.seumlaw.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">서울과학고와 서울공대를 거쳐 사법시험에 합격했다. 20년 가까이 판사 생활을 보낸 후 스타트업 전문 법무법인 세움의 파트너 변호사로 있다. 미국 일리노이 주 변호사 자격도 보유하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m040.png" alt="명광민" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">명광민 <span class="wc-co">(디아이랩)</span></div>
+            <div class="wc-social"><a href="http://www.linkedin.com/in/kwang-min-myung-b859106b" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/share/1DoiWrYBfC/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/kwangmin.myung" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">대한민국 1호 기상예보사. 기후 AI 스타트업 '디아이랩' 운영. 집중호우, 폭염 등 이상기후 위험 진단 및 적응 솔루션 서비스를 제공하며, 글로벌 기상청 대상 기후 AI 서비스를 제공하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m041.png" alt="문지형" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">문지형 <span class="wc-co">(알스퀘어)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%A7%80%ED%98%95-%EB%AC%B8-368016119?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/diable7" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.rsquare.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">기자 생활과 KT 홍보팀을 거쳐 스타트업 PR의 세계로 뛰어들었다. 여기어때, 씽씽의 홍보 임원을 거쳐 지금은 상업용 부동산 종합 서비스 기업 알스퀘어의 홍보 임원으로 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m042.png" alt="박기덕" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박기덕 <span class="wc-co">(밴스드)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/kylepark82/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/KyleKideokPark" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.vanced.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">에코마케팅, 메타를 거쳐 디지털 에이전시 '밴스드'를 창업했다. 퍼포먼스 마케팅을 중심으로 하여, 다양한 디지털 마케팅을 종합적으로 제공한다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m043.png" alt="박수만" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박수만 <span class="wc-co">(벗뷰리풀)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/sumanpark" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/sumanpark/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">미투데이를 창업해 네이버에 매각했고, 네이버에서 모바일 소셜앱 밴드를 기획·출시했다. 네이버 TUNE CIC 대표로 밴드, 클로바, 라인뮤직, 바이브, 나우 등을 총괄했다. 현재 글로벌 소셜 앱 '츄룹'을 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m044.png" alt="박영욱" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박영욱 <span class="wc-co">(무인화연구소)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/yeonguk1" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/michaelpark" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://andingstudy.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">코트라와 외국계 IT 회사에서 근무했다. 현재 '무인화연구소'를 창업, 스터디 카페, 무인 탁구장, 워크 라운지 등 무인화 솔루션과 QR 앱 결제 등 무인화 솔루션을 보급하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m045.png" alt="박영호" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박영호 <span class="wc-co">(라구나인베스트먼트)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/youngparkpark/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/quainty" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://lagunai.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">한국투자파트너스 심사역으로 활동하며 카카오, 네이버, 김기사 등에 투자했다. 게임사 네시삼십삼분 대표, 상장사 조이시티 대표를 거쳐 라구나인베스트먼트를 창업했다. 현재 하이브 사외이사·감사를 겸하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m046.png" alt="박우범" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박우범 <span class="wc-co">(위시켓)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/woobeom" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/woobeom_park/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.wishket.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">대학 시절 IT 외주를 안정적으로 연결하는 플랫폼 위시켓을 런칭하여, 연매출액 239억을 기록했다. IT 콘텐츠 미디어 요즘IT, 솔루션 마켓 위시켓 스토어, 기업 AI 성공을 위한 AX 컨설팅 구축 서비스 AIDP로 사업을 확장 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m047.png" alt="박준길" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박준길 <span class="wc-co">(로카101)</span></div>
+            <div class="wc-social"><a href="https://instagram.com/jayden_jpark" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://loka101.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">대학 시절 외국인 대상 릴로케이션 서비스를 창업했다. 이후 국내 최대 고시원 프랜차이즈 '픽셀하우스'를 70개 지점 이상 확장하고 있다. 현재는 호스텔, 리테일 등, 공실 건물의 밸류를 높이는 사업을 진행하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m048.png" alt="박찬구" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박찬구 <span class="wc-co">(박자문사무소)</span></div>
+            <div class="wc-social"><a href="http://www.linkedin.com/in/chankoo-park-b861274" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://facebook.com/chankoo.park.1" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/ckoopark/@ckoopark" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://leadershipmoment.stibee.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">삼성경제연구소와 외국계 컨설팅 Arthur D. Little을 거쳐 재능교육 경영관리본부장을 지냈다. 웅진케미칼(이후 도레이케미칼) 대표이사와 상장사 세방전지 대표이사를 역임했다. 현재는 CEO와 임원을 코칭하는 경영자 코치로 활동하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m049.png" alt="박현주" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박현주 <span class="wc-co">(아틀리에컴퍼니)</span></div>
+            <div class="wc-social"><a href="https://instagram.com/atelier_hyeonju" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://atelierpark.co.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">12년차 브랜드 디렉터로, 패션 브랜드 Atelier Park / USUEL를 런칭했다.  브랜드 총괄 운영, 제품 디자인, 마케팅 및 컨텐츠 기획까지 내부에서 수행한다. 인플루언서와 브랜드 협업하여 브랜드를 확장하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m050.png" alt="박혜윤" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박혜윤 <span class="wc-co">(마플)</span></div>
+            <div class="wc-social"><a href="http://www.linkedin.com/in/hyeyun-milg-park" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.instagram.com/milg" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.marpple.com/kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">2007년 한 장도 주문제작하는 쇼핑몰 마켓프레스를 창업해 2015년 온라인 마플로 전환했다. 2020년에는 크리에이터 굿즈 플랫폼 마플샵을 런칭하여 운영 중이며, 누적투자금 145억원을 유치했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m051.png" alt="박혜진" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">박혜진 <span class="wc-co">(에이치제이무역)</span></div>
+          </div>
+        </div>
+        <p class="wc-bio">글로벌 소싱·무역 사업 해외 거래처를 기반으로 제품 소싱, 단가 협상, 품질·납기 관리 등을 진행하고 있다. 부업으로 굿즈 브랜드화와 샌드위치 가게를 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m052.png" alt="배수규" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">배수규 <span class="wc-co">(오세븐)</span></div>
+            <div class="wc-social"><a href="https://ohseven.co.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://www.linkedin.com/in/dainebae-ohseven/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">소셜 임팩트에서 사회생활을 시작했다. 브랜드 디자인 에이전시 오세븐을 창업하여 10년째 운영 중이다. 케이뷰티, 케이푸드 등 소비재 위주로 브랜드 디자인을 펼쳐가고 있다. P&amp;G, 아모레퍼시픽, 멘소레담, 유한킴벌리, 빙그레 등을 고객사로 두고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m053.png" alt="백정연" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">백정연 <span class="wc-co">(소소한소통)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/jeongyounbaek" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/jeongyoun.back/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.sosocomm.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">사회복지 섹터에서 약 15년간 일했다. 보건복지부 장애인서비스과 전문위원을 거쳐 2017년 사회적기업 소소한소통을 설립했다. 발달장애인 등 정보 약자를 위한 쉬운 정보를 제작하며 현재 쉬운 글 AI 변환 서비스를 개발하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m054.png" alt="서광열" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">서광열 <span class="wc-co">(코드박스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/kwang-yul-seo-600b8a213/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/kwangyul.seo.9" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://zuzu.network/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">10년 이상 IT 기업 CTO를 지낸 뒤 블록체인 스타트업 코드박스를 창업했다. 투자자·주주·스톡옵션·임원 관리를 아우르는 법인 토털 서비스 주주(ZUZU)를 런칭했다. 현재는 두나무에 인수되어, 다양한 방향으로 사업을 확장하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m055.png" alt="서소영" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">서소영 <span class="wc-co">(콘콘)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/grow-s0/?originalSubdomain=kr" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.instagram.com/grow_s0_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://ozjejakso.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">99년생으로 대학 시절 굿즈 제작을 반복 경험하며 이 시장의 해결하기 위해 창업했다. 현재 기업 굿즈 제작 플랫폼 오즈의 제작소를 운영하며 IP 라이선스를 확보해 굿즈 판매·유통으로 영역을 넓히고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m056.png" alt="성현철" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">성현철 <span class="wc-co">(닥터스피부과)</span></div>
+            <div class="wc-social"><a href="https://www.youtube.com/channel/UCDTlhztDq-s7OJZBL1Ymf2A" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.doctors365.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">피부과 전문의로 전국 24개 지점, 60여 명의 피부과 전문의가 모인 피부과 전문의 네트워크 닥터스그룹을 운영하고 있다. 2020년 더모코스메틱 브랜드 테라로직을 런칭했으며 피부과 파워블로거이자 유튜버로도 활동하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m057.png" alt="손종수" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">손종수 <span class="wc-co">(브라운백)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/jongsu.a.son" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://brownbag.one/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">원두를 온라인으로 공급하는 브라운백커피를 창업해, 전국 2천여개 카페에 보급했다. 사무실 커피 구독 서비스 블리스를 약 3천개 기업에 공급했으며, 현재 디지털 SaaS형 커피머신 어웨어를 제조, 전국의 카페에 보급하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m058.png" alt="송성근" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">송성근 <span class="wc-co">(아이엘)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/sunggeun.song.5" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/sunggeun.song/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="http://il.co.kr/v2/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+              <p class="wc-bio">컨테이너에서 살 정도로 어려운 시절을 겪었다. 대학 시절 500만원으로 창업하여 '아이엘'을 코스닥에 상장했다. 세계 최초로 LED용 실리콘렌즈를 양산하여 전세계 주요 자동차 기업에 수출하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m059.png" alt="송유창" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">송유창 <span class="wc-co">(큐티네트웍스)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/ycdaniel" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.qtnetworks.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+              <p class="wc-bio">큐티네트웍스 대표이사. 현재 기독 청년들을 위한 소개팅 앱 '크리스천데이트'를 15년째 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m060.png" alt="송정은" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">송정은 <span class="wc-co">(꽃밥에피다)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/goodsong88/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/flowerrice_official/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.goodbab.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">인사동과 북촌의 프리미엄 비건 식당 '꽃밥에피다'를 운영하고 있다. 농업회사법인 네니아 전무, 우리밀살리기운동본부 정책위원도 겸임 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m061.png" alt="송창규" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">송창규 <span class="wc-co">(콩스튜디오)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/ck-changkyu-song-65157716/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/innover" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">넥슨에서 20년간 크레이지아케이드, 버블파이터, 던전앤파이터 등을 개발한 프로그래머 출신이다. NDC, GDC 등에서 라이브 게임 개발에 관한 발표를 다수 진행했다. 현재 콩스튜디오코리아 대표를 역임하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m062.png" alt="신현욱" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">신현욱 <span class="wc-co">(더휴식)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/shwook1" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.thehyoosik.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">프리미엄 독서실 브랜드 그린램프라이브러리 운영사 아토스터디를 창업해 상장사 아이에스동서에 매각했다. 이후 종합 숙박업 솔루션 전문 기업 '더휴식'을 창업하여, 6개의 자회사로 확장 경영 중이다. 연매출 1800억, 영업이익 200억을 기록 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m063.png" alt="양희영" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">양희영 <span class="wc-co">(마이워크스페이스)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/ronyang1/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/ronald.yang.58" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/ron.yang/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.myworkspace.co.kr/ko/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">사무실을 쪼개 쓰려던 아이디어를 공유오피스 사업으로 발전시켜 마이워크스페이스를 운영하고 있다. 현재 강남역을 중심으로 사업을 전개 중이며, KT, KB국민은행, 서울대병원, 관악구청 등의 공유오피스를 위탁 운영한 경험이 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m064.png" alt="염예슬" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">염예슬 <span class="wc-co">(올릿)</span></div>
+            <div class="wc-social"><a href="https://www.olit.kr/ko/home" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">서울대 재학 중 커머스 스타트업 '올릿'을 창업했다. 현재 코파운더와 부대표로, 주로 마케팅, 글로벌 진출을 주로 맡고 있다. 건기식, 뷰티 등 다양한 제품을 판매 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m065.png" alt="오세은" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">오세은 <span class="wc-co">(해웃음심리교육연구소)</span></div>
+            <div class="wc-social"><a href="https://instagram.com/therapist_odi" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/melodykitchen" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://blog.naver.com/odylabheysoom" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">심리상담센터, 정신건강의학과의원, 아동발달센터 경력 15년차다. 현재는 해웃음 심리발달센터 센터장으로 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m066.png" alt="윤정하" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">윤정하 <span class="wc-co">(작당모의)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%A0%95%ED%95%98-%EC%9C%A4-70427044/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/jungha.yun.1" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://zamface.fun/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">작당모의컴퍼니를 창업해 뷰티 유튜버 영상을 모아주는 앱 '잼페이스'를 런칭했다. AI로 영상 속 뷰티 제품을 추출, 퍼스널컬러, 화장품 적합도로 서비스를 확장했다. 누적 고객 360만 명, 누적 투자 110억 원을 기록 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m067.png" alt="이상태" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이상태 <span class="wc-co">(세니아의원)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%83%81%ED%83%9C-%EC%9D%B4-7705ab154/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://instagram.com/sangtaee" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://xenia.clinic/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">피부미용클리닉을 개원하여 3년차에 매각했다. 현재 강남, 명동 대형 피부미용 클리닉을 운영하고, 도쿄에 피부미용클리닉 직접 진출한 MSO 부대표를 역임하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m068.png" alt="이아람" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이아람 <span class="wc-co">(어니스타컴퍼니)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/innerb_rami/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://delightein.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">F&amp;B 기업 '어니스타컴퍼니'를 9년 째 운영 중. 샌드위치 가게 '댄스댄스댄스', 비건 쿠키 '빵어니스타', 온라인 스콘, 쿠키 브랜드 '딜라이틴' 운영 중.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m069.png" alt="이영석" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이영석 <span class="wc-co">(와이더블유모바일)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/brightstone/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/brightstone.lee" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">전기차 충전 대행 서비스 이온(eON), 번개 배차와 선불 충전 방식의 대리운전 '별대리', 법인 전용 대리운전 '스타드라이버', 대리운전과 탁송을 아우르는 모빌리티 플랫폼 '스타티(star-t)' 등 다양한 모빌리티 서비스를 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m070.png" alt="이정주" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이정주 <span class="wc-co">(핀스케어)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/erudajoo?locale=ko_KR" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/re.ejay/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.finthcare.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">2011년 외국인 환자의 상급종합병원 예약·컨시어지 스타트업 '하이메디'를 창업하여, 누적 투자금 110억원을 유치했다. 현재는 대학병원 명의 추천, 건강검진 등 쉽고 빠른 병원 예약 서비스를 제공하는 '핀스케어'를 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m071.png" alt="이주환" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이주환 <span class="wc-co">(캔디드)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/candid-juan/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://teamcandid.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">스타트업 전문 HR 기업 '캔디드' 대표이사. 기업의 명확한 HR 니즈를 분석하고, 맞춤형 채용 전략 제안, 헤드헌팅 등 다양한 인사 업무를 수행하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m072.png" alt="이준명" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이준명 <span class="wc-co">(네오테크)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/jun-myung-lee-7750991a6?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/junmyung.lee.56?mibextid=ZbWKwL" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.threads.net/@neotech_jun" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.youtube.com/channel/UCyJg_pM6msFcM0ARv19JhBA" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.neosus.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">브레이크, 서스펜션 등 자동차 튜닝 부품 제조 기업 네오테크를 이끌며, 방산 분야로 신사업을 확장하고 있다. 매년 국내 최대 규모 자동차 튜닝 및 모터스포츠 축제 네오테크 모터 페스티벌을 주관하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m073.png" alt="이지유" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이지유 <span class="wc-co">(서프제이)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/_yijiyu_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://surf-agency.com/kor/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">CJ 다이아TV 출신으로 인플루언서 마케팅 에이전시 '서프' 운영 중. 인플루언서 캠페인, 시딩, 라이브커머스, 팝업 등 다양한 마케팅 액션 대행.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m074.png" alt="이채린" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이채린 <span class="wc-co">(클라썸)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/chaerin-lynn-lee/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/chaerinlynnlee" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/chae_rin_lee_/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://business.classum.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">교수, 학생, 조교가 자유롭게 질문하고 토론하는 플랫폼 클라썸을 창업하여, 포브스 아시아 30세 이하 리더에 선정됐다. AI 기반 기업용 역량 관리 플랫폼으로 확장해 전세계 32개국 1만1천여 개 기업이 사용하며 누적 투자 225억 원을 유치했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m075.png" alt="이형진" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이형진 <span class="wc-co">(마이노멀컴퍼니)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/mynormal_low/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://mynormal.shop/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">저당, 웰니스 푸드 브랜드 '마이노멀'과 소셜 다이어트 플랫폼 '인아웃'을 운영하며 건강한 라이프스타일과 관련된 제품과 서비스를 제공 중. 매년 성장하며 2025년 연. 매출액 419억을 기록했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m076.png" alt="이화랑" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이화랑 <span class="wc-co">(메소 메드스파)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/eric-b73755328/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/gozillacj" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/rang.e.cj/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.mesospa.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">팀슬로그업을 창업해 SK렌터카, 민팃, 에버온 등 대기업 SI를 다수 수행 후 매각했다. 가전 케어 플랫폼 쓱싹을 런칭해 매각했으며,피부과 전용 SaaS 부스트리를 런칭 후 매각했다. 현재 미국에서 피부과를 직영으로 운영하는 MeSO MEDSPA를 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m077.png" alt="이효석" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이효석 <span class="wc-co">(소리에셋)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/hyoseok-yi-aa934216/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/yi.hyoseok" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/veritaholic/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">카이스트에서 물리학 학석박사 후 ETRI 선임연구원과 하버드 전임연구원을 지냈다. 네오펙트 CAO로 IoT, AI, VR을 재활의료기기에 적용했다. 2021년부터 소리애셋 CTO로 상장·비상장 투자를 담당하고 있다. 해외 뉴스를 번역하는 뉴스페퍼민트 발행인이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m078.png" alt="이효정" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">이효정 <span class="wc-co">(언더워치)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/hyojung-lee-underwatch/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/rosa.lee.37625843" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/hyojunglee.rosa/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.underwatch.co/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">뉴스, 광고, 이벤트, 채용, 특허 등 다양한 경쟁사 데이터를 기반으로 고객사별 1:1 맞춤형 경쟁사 동향 모니터링을 제공하는 경쟁 인텔리전스 플랫폼 '언더워치' 운영 중.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m079.png" alt="임호열" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">임호열 <span class="wc-co">(스티비)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/imhoyeol" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="http://facebook.com/imhoyeol" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://instagram.com/imhoyeol" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://team.timospitche.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://stibee.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">삼성전자에서 서비스 기획자로 시작, 슬로워크에 합류해 이메일 마케팅 솔루션 스티비를 만들기 시작했다. 2019년 별도 법인으로 분사하여 대표로 회사를 이끌고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m080.png" alt="장동현" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">장동현 <span class="wc-co">(쿠키플레이스)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/cdh911216" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/changdh1216/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.instagram.com/mizimd_official/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://instagram.com/donghyun_themotion" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">UNIST 1기로 입학해 총학생회장 등 학생운동을 하다 제적됐고, sopoong 1기 투자를 받으며 창업에 입문했다. 현재 5,000억 원 규모 시장을 겨냥한 커미션(2차 창작 의뢰) 중개 플랫폼 크레페(CREPE)를 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m081.png" alt="장형윤" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">장형윤 <span class="wc-co">(매홍엘앤에프)</span></div>
+            <div class="wc-social"><a href="https://instagram.com/maehong_jang" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.maehong.kr" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">대학교를 다니던 중 창업, 고구마 말랭이로 시작하여 다양한 식품 가공을 통해 연매출 300억 규모의 회사로 키웠다. 수십 종의 가공 식품을 생산하며, 글로벌 진출을 도모하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m082.png" alt="전창열" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">전창열 <span class="wc-co">(밍글링)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/traditionj" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.skywaylab.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">동기부여, 학습 에듀테크 스타트업 스카이웨이랩의 대표 멘토로 있다. 서울대 재학 시절 총학생회장을 역임했으며, 청년창업네트워크 '프리즘'의 이사장으로도 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m083.png" alt="전혜진" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">전혜진 <span class="wc-co">(이지태스크)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/hyejin.jeon.9674" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/jeon1204/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://easytask.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">외식, 무역, 교육 등 다수의 사업을 창업했다. 2021년 온라인 사무보조 플랫폼 이지태스크를 런칭했다. 2025년 오프라인과 국내 거주 외국인으로 사업을 확장했으며 누적 업무 매칭 280만 건과 대기 프리랜서 4만 명을 돌파했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m084.png" alt="전홍준" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">전홍준 <span class="wc-co">(트라이톤소프트)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/richard-jeon-08219869/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/Richard.Jeon.kr" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://instagram.com/jeon_honjoon" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">게임 회사 쿵엔터테인먼트를 창업, 엔도어즈에 매각해 개발이사로 일하며 '쿵파' 등을 제작했다. 이후 트라이톤소프트를 창업해 '퍼즐삼국', '영웅의 진격'을 개발했으며, 현재는 다양한 소셜 카지노 게임을 개발해 글로벌 서비스하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m085.png" alt="정도환" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정도환 <span class="wc-co">(페이스메이커코퍼레이션)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/dohwan-jeong-041ab8379/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.pacemakercorp.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">블랭크코퍼레이션과 랩도쿠에서 소비재 브랜드를 리드했다. 이후 더파운더즈에서 향 브랜드 리드와 아누아 리브랜딩, 프롬랩스 글로벌 리드를 맡았다. 현재는 커머스 기업을 창업, 건기식과 뷰티 커머스를 매년 2배 이상 성장시키고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m086.png" alt="정우초" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정우초 <span class="wc-co">(세이브유어뮤직)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/ohbentto/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">음악 관련 기업들의 다양한 데이터를 분석하여 인사이트를 도출한다. 국내 대형 엔터 기획사를 모두 고객으로 두고 있으며, 일본 시장에도 진출 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m087.png" alt="정운욱" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정운욱 <span class="wc-co">(텍시스)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/jameswoonuk.jerng" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.youtube.com/@tekxis-2025" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">무역, 언론 등 다양한 사업 경험 후, 2024년 친환경 자동차 시험기 분야 1세대 기업 '텍시스'를 운영 중이다. 국내 뿐 아니라 일본과 베트남 등 동남아를 비롯한 여러 나라를 오가며 활동하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m088.png" alt="정인모" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정인모 <span class="wc-co">(사사사)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/inmo.chung.7" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/inmochung/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">현재 650만 사용자 규모의 아이엠스쿨을 창업해 NHN에 매각했다. 이후 샌드박스 게이밍 CEO로 일하며 프로게임단을 상장사에 매각했다. 현재는 국내 사우나 사업을 리드하는 '사사사'를 창업하여 운영 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m089.png" alt="정재욱" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정재욱 <span class="wc-co">(센디)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%9E%AC%EC%9A%B1-%EC%A0%95-9160682a9/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/jk9462" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/venditz/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://sendy.ai/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">공동창업자 3명이 17년째 10여 가지 사업을 함께 하고 이따. 화물운송 매칭 플랫폼 '센디'를 런칭하여, 누적 사용자 약 1만8천 명, 누적 투자 185억 원을 기록했다. 코리아스타트업포럼 동남권협의회 초대 회장을 지냈다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m090.png" alt="정환보" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정환보 <span class="wc-co">(닥터프레소)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/whanbo-jung-8802/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/whanbo.jung" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://instagram.com/humanbyte" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://doctorpresso.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">중앙대 의학부를 졸업하고 현재 상장한 VUNO 최고의학책임자로 스타트업에 입문했다. 이후 1차 진료 의원을 개원했다 매각했다. 현재는 신건강 아이템을 빌드업한 멘탈테크 스타트업 '닥터프레소'로 AI와 의료를 연결해가고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m091.png" alt="정훈구" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">정훈구 <span class="wc-co">(담장너머)</span></div>
+            <div class="wc-social"><a href="https://www.instagram.com/j.hun9?igsh=MTVxM2F1NzhqdnpjOQ==" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/jeonghungu.2025" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.damjangneomeo.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">공간 기획, 실내 디자인 등에 주력하는 '담장너머'를 운영 중이다. 세계 3대 디자인 어워즈 레드닷, 굿 디자인 어워즈에서 수상했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m092.png" alt="조경상" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">조경상 <span class="wc-co">(메트릭스튜디오)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/kevin.kyungsang.cho" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.nnt-consulting.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">컨설팅펌과 배민에서 경력을 쌓은 후 '숨고'를 공동창업했다. 이후 디지털 에이전시 '메트릭스튜디오'를 설립, AI 에이전트가 실행하는 '에이전틱 에이전시'를 지향하며, SEO·GEO부터 CRM·데이터까지 풀스택 디지털 마케팅을 전개하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m093.png" alt="조새한별" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">조새한별 <span class="wc-co">(파인유얼뷰티)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%83%88%ED%95%9C%EB%B3%84-%EC%A1%B0-a32b21288/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/saehanbyeol.jo" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/byeol_arden" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://beaurit.net/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">스스로 몸을 연구하며 여성의 몸에 관한 노하우를 쌓았고 이를 가르치기 위해 수업을 시작했다. 센터에 오지 않아도 운동할 수 있는 홈필라테스 툴을 개발했으며, 이를 기반으로 '뷰릿'을 창업해 글로벌 K-홈트 전파를 목표로 활동하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m094.png" alt="조성국" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">조성국 <span class="wc-co">(엔와이엔코)</span></div>
+            <div class="wc-social"><a href="https://nynco.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">삼성전자 반도체에 사회생활을 시작했다. '엔와이엔코'를 통해 K팝 굿즈, 음반 등을 유통하고 있으며, 해외에서 팬미팅, 콘서트 등 아티스트 이벤트도 주최하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m095.png" alt="조승빈" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">조승빈 <span class="wc-co">(컨그루언트애자일)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/choseungbin/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/seungbin.cho.2025" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://congruentagile.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">빅테크 기업에서 조직의 협업 구조와 프로세스 혁신을 실천해 왔다. 현재는 일하는 방식 코칭·교육 전문 기업인 '컨그루언트 애자일'을 운영하며, 리더와 팀이 고유한 맥락에 맞춰 실질적인 성과를 낼 수 있도록 돕는 변화 파트너로 활동 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m096.png" alt="조종암" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">조종암 <span class="wc-co">(엑셈)</span></div>
+            <div class="wc-social"><a href="https://www.facebook.com/cachoxm" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://ex-em.com/ko" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">1세대 오라클 DB 컨설턴트로 컨설팅 회사를 창업한 뒤 국산 APM 맥스게이지를 출시했다. 엑셈을 상장시키고 자회사 신시웨이도 상장시켰으며 직원이 책을 쓰는 지식경영을 확립했다. 통합 모니터링 솔루션 엑셈 원을 출시하여 보안, 모니터링 시장을 리드하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m098.png" alt="지윤성" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">지윤성 <span class="wc-co">(링크브릭스)</span></div>
+            <div class="wc-social"><a href="https://l.facebook.com/l.php?u=https%3A%2F%2Flinkedin.com%2Fin%2Fbenedict-ji-6042771a%3Ffbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExaDVsQTdGa0FCZnZTclE0QXNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR42UQR2OI2vvnYRXawakC2e5wzpxL25OJYWpuRpG0zJJz3gLXQEjsVjgAadKg_aem_f4pTPP9lMuRIQnJrFC0TeQ&amp;h=AT2Cui5VwLiCqPTW3Y322ePo2n8dcpkU0Ls6mZY4g9fOchLPMZ32SJOZZ5cPMUkmG838nlrJ5VCiOAtNqzZesigOLVnQt8IZgt03Kok0NT1HVtoE4jW-bzKc1qoVLW8lGxoVaVI" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/saxoji/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://instagram.com/iilovestory" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://l.facebook.com/l.php?u=https%3A%2F%2Fyoutube.com%2F%40yousaxoji%3Ffbclid%3DIwZXh0bgNhZW0CMTAAYnJpZBExaDVsQTdGa0FCZnZTclE0QXNydGMGYXBwX2lkEDIyMjAzOTE3ODgyMDA4OTIAAR5dPT2W7lH77mfh3bzTcZmESlRtbkzYseBLtVef6lsF0PEkwd4tOf6-zN7yfg_aem_U_2C_WJrLl6M_pi85tGMXA&amp;h=AT3xlkQ1DpmbI2ZO9h0mP4hzP_SoVevS02Ilu-A3NoEM5WsqfQJJLHHCeu3l0NnHS0Fd03BJGhJr5MHttvg0EyY1Bj-NrTp_dKbclY0ipwsO2X1dpryDXqDoAtH0NlU84Z4U4rs" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.horizonai.ai" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">일찍부터 IT 사업에 뛰어들었고, K1 프로모터로 최홍만을 영입하기도 했다. 한글과컴퓨터 대표이사를 역임했고, 현재는 '링크브릭스'를 통해 다양한 AI 회사에 투자 중이다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m099.png" alt="천정욱" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">천정욱 <span class="wc-co">(VTPL)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/jung-uk-chun-8ba09924?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=ios_app" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/jeongug.cheon" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/itsible/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://sister-ann.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">화장품 병행수입으로 사업을 시작했다. 자사 브랜드 씨스터앤을 런칭해 올리브영 전체 1위 등에 힘입어 투자 없이 연 매출 400억 원을 달성했다. 아이펜슬은 누적 551만 개가 팔렸으며 일본, 대만, 인도네시아 등에 수출해 해외 매출 비중이 70%에 이른다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m100.png" alt="최가희" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">최가희 <span class="wc-co">(발렌라이프)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/gahee-choi-416aa824a/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.linkedin.com/in/gahee-choi-416aa824a/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.valen-life.com" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">안다르, 에코마케팅, 정육각에서 마케터로 일했다. 현재는 '발렌라이프'를 창업, H&amp;B 브랜드의 마케팅·유통·글로벌 진출을 설계하며, 올리브영·아마존·일본·중동 시장까지 연결하는 성장 파트너 역할을 하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m101.png" alt="최다혜" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">최다혜 <span class="wc-co">(MSS 그룹)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/dahyechoice?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=ios_app" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://instagram.com/dadolchoi" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/dahyechoice" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">BCG에서 컨설턴트로 사회생활을 시작, 옐로모바일, 트렌비 등에서 경험을 쌓았다. 이후 MSS 홀딩스에 합류하여 모나리자 등의 브랜드의 CSO로 회사 경영을 이어가고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m102.png" alt="최미나" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">최미나 <span class="wc-co">(티슈)</span></div>
+            <div class="wc-social"><a href="http://www.linkedin.com/in/mina-choi-22187817" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.thehosu.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://www.facebook.com/mina.choi.nyc" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/miracle_mchoi/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.tishoo.com/kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">네이버 출신 22년차 PO다. B2B IT 프로젝트 컨설팅 'TXGroup'을 운영 중이며, '스타트업 만드는 스타트업' 티슈를 미국 법인에서 운영하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m103.png" alt="최재림" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">최재림 <span class="wc-co">(모아이)</span></div>
+            <div class="wc-social"><a href="https://facebook.com/captain.goos" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://instagram.com/goos.kim" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://goos.kim" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://www.youtube.com/@ceochoi" target="_blank" rel="noopener" aria-label="YouTube"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M23 12s0-3.2-.4-4.7a2.5 2.5 0 0 0-1.8-1.8C19.3 5 12 5 12 5s-7.3 0-8.8.5A2.5 2.5 0 0 0 1.4 7.3C1 8.8 1 12 1 12s0 3.2.4 4.7a2.5 2.5 0 0 0 1.8 1.8C4.7 19 12 19 12 19s7.3 0 8.8-.5a2.5 2.5 0 0 0 1.8-1.8C23 15.2 23 12 23 12zM9.8 15.3V8.7l6 3.3z"/></svg></a><a href="https://www.timefree.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">고등학교 시절부터 앱을 개발했고, 현대자동차 IT 전략 부서에서 RPA, HR, 회계 업무시스템을 총괄했다. 입사 6개월 만에 김캐디를 창업해 스크린골프 예약, 실내체육시설 CRM, 무인매장 운영까지 사업을 확장했다. 현재는 공장 AX를 위한 MoAI를 창업하여 공동대표로 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m105.png" alt="최한철" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">최한철 <span class="wc-co">(뉴로퓨전)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/hanchul" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://litt.ly/jaybebrand" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://neurofusion.ai/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">옵션 트레이더로 커리어를 시작해 여러 헤지펀드를 거쳤다. 켄쇼에서 데이터 과학자로 전직했고 S&amp;P 글로벌에 인수됐다. 이후 '뉴로퓨전'을 창업하여 금융정보 플랫폼 Valley AI와 금융 AI 추론엔진 CereFin AI를 개발하고 있다. 유튜브 '월가아재'로도 잘 알려져 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m106.png" alt="팽동은" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">팽동은 <span class="wc-co">(다빈치)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/dongeun-paeng-b71a5b149" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.bsg.co.kr/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://www.dvn.ci/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">서울대 경영학과를 졸업하고 전경련, 베인앤컴퍼니, IMM PE를 거쳤다. 킥보드 업체 디어를 창업해 200억 원대 매출까지 키운 후 스윙에 매각했다. 이후 남은 팀과 함께 IT 컨설팅 기업 다빈치를 창업했다. 쏘카, 네이버, 고용노동부, 컴포즈커피 등을 고객으로 확보하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m107.png" alt="하용호" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">하용호 <span class="wc-co">(데이터오븐)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/yonghosee/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/yonghosee" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/yonghosee/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.facebook.com/yongho.ha.9" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">SKT에서 국내 1세대 데이터 사이언티스트로 활동했다. 데이터·머신러닝 기업 넘버웍스를 창업해 카카오에 매각했다. 데이블 CDO로 일하며 회사를 야놀자에 매각하는 등 다수의 엑싯을 경험했다. 여러 기업에 엔젤 투자를 하고 인덴트코퍼레이션 CAIO 등으로 다양한 회사를 컨설팅·실행하고 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m108.png" alt="한지훈" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">한지훈 <span class="wc-co">(이쿠얼키)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/maperson?utm_source=share&amp;utm_campaign=share_via&amp;utm_content=profile&amp;utm_medium=android_app" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/share/1A53wGGYuG/" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/dive2y?igsh=MWNjemoybjAwNGpnOA==" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://hanjihoon.framer.website/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a><a href="https://www.lvupacademy.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">암기와 요령이 아닌, 진짜 문제 해결력을 키우는 깨봉수학의 본부장으로 있다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m109.png" alt="홍승일" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">홍승일 <span class="wc-co">(힐링페이퍼)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%ED%99%8D%EC%8A%B9%EC%9D%BC-aiden-2958a6129/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/vanitymind" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.gangnamunni.com/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">본과 시절 의대생용 출판·정보 서비스를 운영했다. 암 환자 건강관리 앱 힐링페이퍼를 창업한 후, 미용의료 정보 플랫폼 강남언니로 전환하며 반전을 이뤘다. 일본 등 해외로 진출했으며, 2025년 428억 원 규모 시리즈C로 누적 투자 661억 원을 유치했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m110.png" alt="홍춘욱" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">홍춘욱 <span class="wc-co">(프리즘투자자문)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/%EC%B6%98%EC%9A%B1-%ED%99%8D-8275588a" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/chunukhong" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/chunukhong/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://www.frism.io/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">32년간 금융계에 몸담으며 국민연금 기금운용본부 팀장, KB국민은행 수석 이코노미스트, 키움증권 이사 등을 지냈고 가장 신뢰받는 애널리스트에 선정됐다. 20여 권의 책을 저술·번역하고 35만 구독자의 유튜브 '홍춘욱의 경제강의노트'를 운영한다. 현재 프리즘투자자문 대표로 연금 솔루션 프리즘을 운영하며 운용자산 1천4백억 원을 돌파했다.</p>
+      </article>
+      <article class="wcard">
+        <div class="wc-head">
+          <div class="wc-av"><img src="assets/faces/m111.png" alt="황성재" loading="lazy" /></div>
+          <div class="wc-id">
+            <div class="wc-name">황성재 <span class="wc-co">(엑스와이지)</span></div>
+            <div class="wc-social"><a href="https://www.linkedin.com/in/romanticjay/" target="_blank" rel="noopener" aria-label="LinkedIn"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M4.98 3.5A2.5 2.5 0 1 0 5 8.5a2.5 2.5 0 0 0-.02-5zM3 9h4v12H3zM9 9h3.8v1.7h.05c.53-.95 1.83-1.95 3.77-1.95C20.4 8.75 21 11 21 14v7h-4v-6.2c0-1.48-.03-3.38-2.06-3.38-2.06 0-2.38 1.6-2.38 3.27V21H9z"/></svg></a><a href="https://www.facebook.com/romanticjay" target="_blank" rel="noopener" aria-label="Facebook"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M22 12a10 10 0 1 0-11.56 9.88v-6.99H7.9V12h2.54V9.8c0-2.5 1.49-3.89 3.78-3.89 1.09 0 2.24.2 2.24.2v2.46h-1.26c-1.24 0-1.63.77-1.63 1.56V12h2.78l-.44 2.89h-2.34v6.99A10 10 0 0 0 22 12z"/></svg></a><a href="https://www.instagram.com/mr.mute.sj/" target="_blank" rel="noopener" aria-label="Instagram"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="2.6" y="2.6" width="18.8" height="18.8" rx="5"/><circle cx="12" cy="12" r="4.4"/><circle cx="17.4" cy="6.6" r="1.2" fill="currentColor" stroke="none"/></svg></a><a href="https://xyzcorp.io/" target="_blank" rel="noopener" aria-label="Website"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9.2"/><path d="M3 12h18M12 2.8c2.5 2.5 2.5 16 0 18.4M12 2.8c-2.5 2.5-2.5 16 0 18.4"/></svg></a></div>
+          </div>
+        </div>
+        <p class="wc-bio">얼굴인식 기술 스타트업 '올라웍스'를 창업해 인텔에 매각했다. 이후 기술 특화 엑설러레이터 '퓨처플레이'를 창업했다. 이어서 로봇 AI 스타트업 '엑스와이지'를 창업했으며, 자회사 '라운지엑스'로 로봇을 활용한 무인 카페를 보급하고 있다.</p>
+      </article>
+  </div>
+</main>
+
+<div class="back-home" style="text-align:center;padding:clamp(36px,6vw,72px) 0 clamp(72px,9vw,104px);">
+  <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);font-weight:500;border:1px solid var(--line);padding:12px 22px;border-radius:999px;">&larr; 메인 페이지로 돌아가기</a>
+</div>
+
+<div class="sticky-cta">
+  <a href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+</div>
+
+<script>
+(function(){
+  var wall=document.querySelector('.wall'); if(!wall) return;
+  var cards=Array.prototype.slice.call(wall.querySelectorAll('.wcard'));
+  for(var i=cards.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=cards[i];cards[i]=cards[j];cards[j]=t;}
+  cards.forEach(function(c){wall.appendChild(c);});
+})();
+</script>
+</body>
+</html>

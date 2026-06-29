@@ -1,0 +1,347 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>매출은 최대로, 비용은 최소로 — 신현욱 · 더휴식 | 필터 없는 멤버십</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  @font-face{
+    font-family:'RIDIBatang';
+    src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');
+    font-weight:100 900;font-style:normal;font-display:swap;
+  }
+
+  :root{
+    --bg:#eeeeee; --bg-2:#E3E3E3; --paper:#F6F6F6;
+    --line:#D8D2C4; --line-2:#C2BBA9;
+    --ink:#16140F; --ink-2:#3A372F; --muted:#6B675C; --muted-2:#9A9587;
+    --accent:#1F4FD9;
+    --maxw:1500px; --readw:720px; --pad-x: clamp(20px, 5vw, 56px);
+    --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif;
+    --mono:ui-monospace, SFMono-Regular, Menlo, monospace;
+  }
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;font-size:16px;letter-spacing:-0.005em;}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+  .read{max-width:var(--readw);margin:0 auto;}
+
+  /* Topbar */
+  .topbar{position:sticky;top:0;z-index:50;background:rgba(242,238,229,0.88);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--line);}
+  .topbar-inner{display:flex;justify-content:space-between;align-items:center;height:64px;gap:24px;}
+  .brand{font-weight:700;letter-spacing:-0.02em;font-size:15px;display:flex;align-items:center;gap:10px;}
+  .brand .dot{width:8px;height:8px;background:var(--accent);border-radius:50%}
+  .topbar .cta{display:inline-flex;align-items:center;gap:8px;font-size:13px;color:var(--ink);font-weight:500;border:1px solid var(--ink);padding:9px 14px;border-radius:999px;background:transparent;}
+  .topbar .cta:hover{background:var(--ink);color:var(--bg)}
+  .topbar .cta .arr{font-family:var(--mono);font-weight:400}
+
+  /* Breadcrumb / back */
+  .crumb{padding:clamp(28px,4vw,48px) 0 0;}
+  .crumb a{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);font-weight:500;}
+  .crumb a:hover{color:var(--ink)}
+  .crumb .arr{font-family:var(--mono)}
+
+  /* Article header */
+  .art-head{padding:clamp(28px,4vw,48px) 0 clamp(28px,3.5vw,40px);}
+  .art-eyebrow{font-family:var(--mono);font-size:13px;letter-spacing:0.16em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:22px;}
+  .art-title{margin:0;font-size:clamp(30px,4.6vw,54px);line-height:1.12;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;}
+  .art-meta{display:flex;flex-wrap:wrap;gap:10px 28px;margin-top:clamp(28px,3.5vw,40px);padding-top:24px;border-top:1px solid var(--line);}
+  .art-meta .mi{display:flex;flex-direction:column;gap:4px;}
+  .art-meta .mk{font-family:var(--mono);font-size:11px;letter-spacing:0.12em;text-transform:uppercase;color:var(--muted);}
+  .art-meta .mv{font-size:16px;font-weight:600;letter-spacing:-0.01em;}
+
+  /* Speaker row */
+  .speaker{display:flex;align-items:center;gap:16px;margin-top:28px;}
+  .speaker .av{width:60px;height:60px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid var(--line-2);}
+  .speaker .av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .speaker .sn{font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .speaker .sr{font-size:14px;color:var(--muted);margin-top:3px;}
+
+  /* Hero image */
+  .hero-img{margin:clamp(8px,2vw,20px) 0 clamp(36px,5vw,64px);}
+  .ph{position:relative;background:var(--bg-2);border:1px solid var(--line-2);overflow:hidden;}
+  .ph::before{content:"";position:absolute;inset:0;background:repeating-linear-gradient(135deg,transparent 0 14px,rgba(22,20,15,0.04) 14px 28px);}
+  .ph .ph-tag{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-family:var(--mono);font-size:12px;letter-spacing:0.16em;color:var(--muted);text-transform:uppercase;text-align:center;padding:20px;}
+  .hero-img .ph{aspect-ratio:16/9;border-radius:14px;}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;display:block;}
+  .ph.filled::before{display:none;}
+
+  /* Full-bleed article hero (Medium 스타일) */
+  .art-hero{position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);
+    min-height:clamp(420px,60vh,620px);display:flex;align-items:flex-end;overflow:hidden;
+    background-color:#16140F;background-size:cover;background-position:center 30%;background-repeat:no-repeat;}
+  .art-hero-scrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,10,7,0.86) 6%,rgba(12,10,7,0.55) 38%,rgba(12,10,7,0.16) 74%);}
+  .art-hero-inner{position:relative;width:100%;padding-top:clamp(72px,11vw,140px);padding-bottom:clamp(36px,5vw,60px);}
+  .art-hero .art-eyebrow{color:#E7E3D8;margin-bottom:18px;}
+  .art-hero .art-title{color:#F7F4EC;}
+  .art-hero .speaker{margin-top:clamp(20px,2.5vw,28px);}
+  .art-hero .speaker .av{border-color:rgba(255,255,255,0.35);}
+  .art-hero .speaker .sn{color:#F7F4EC;}
+  .art-hero .speaker .sr{color:#CFC9BB;}
+
+  /* Video embed (full-bleed) */
+  .video{width:100vw;margin-left:50%;transform:translateX(-50%);margin-top:0;margin-bottom:clamp(40px,5vw,64px);}
+  .video .frame{position:relative;width:100%;aspect-ratio:16/9;overflow:hidden;background:#000;}
+  .video iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .video figcaption{margin-top:12px;padding:0 var(--pad-x);font-size:13px;color:var(--muted);text-align:center;}
+
+  /* Article body */
+  .body{padding-top:clamp(28px,4vw,52px);padding-bottom:clamp(16px,2.5vw,28px);}
+  .body .lead{position:relative;font-size:clamp(17px,1.35vw,20px);line-height:1.72;letter-spacing:-0.01em;color:var(--ink-2);font-weight:400;margin:0 0 clamp(38px,5.5vw,64px);padding:clamp(22px,2.5vw,30px) clamp(24px,2.6vw,34px);background:var(--bg-2);border-radius:14px;word-break:keep-all;}
+  .sec{margin:clamp(40px,5vw,64px) 0;}
+  .body .sec:last-child{margin-bottom:0;}
+  .sec h2{font-size:clamp(24px,2.4vw,34px);line-height:1.2;letter-spacing:-0.025em;font-weight:700;margin:0 0 20px;word-break:keep-all;}
+  .body p{font-size:17px;line-height:1.85;color:var(--ink-2);margin:0 0 1.3em;word-break:keep-all;}
+
+  /* Skeleton placeholders for text */
+  .ph-text{display:flex;flex-direction:column;gap:13px;margin:0 0 1.4em;}
+  .ph-text .ln{height:13px;border-radius:4px;background:linear-gradient(90deg,var(--bg-2),#E2DCCE);}
+  .ph-text .ln:nth-child(4n+1){width:100%}
+  .ph-text .ln:nth-child(4n+2){width:96%}
+  .ph-text .ln:nth-child(4n+3){width:99%}
+  .ph-text .ln:nth-child(4n){width:62%}
+  .ph-note{font-family:var(--mono);font-size:11px;letter-spacing:0.1em;color:var(--muted-2);text-transform:uppercase;display:inline-flex;align-items:center;gap:8px;margin-bottom:14px;}
+  .ph-note::before{content:"";width:18px;height:1px;background:var(--accent);}
+
+  /* Pull quote */
+  .pquote{position:relative;margin:clamp(32px,4vw,48px) 0;padding:2px 0 2px clamp(20px,2vw,28px);}
+  .pquote::before{content:"\201C";position:absolute;top:-2px;left:-2px;font-family:'RIDIBatang','Noto Serif KR',serif;font-size:clamp(34px,3.4vw,44px);line-height:1;color:var(--line-2);}
+  .pquote p{font-family:'RIDIBatang','Noto Serif KR',serif;font-size:17px;line-height:1.7;letter-spacing:-0.01em;font-style:normal;font-weight:700;color:var(--ink);margin:0;word-break:keep-all;}
+  .pquote cite{display:block;margin-top:14px;font-style:normal;font-size:14px;color:var(--muted);font-weight:600;}
+  .pquote.emph p{color:var(--ink);}
+
+  /* Inline image */
+  .fig{margin:clamp(36px,4.5vw,56px) 0;}
+  .fig .ph{aspect-ratio:3/2;border-radius:12px;}
+  .fig figcaption{margin-top:12px;font-size:13px;color:var(--muted);text-align:center;}
+
+  /* Slides / materials block */
+  .slides{margin:clamp(40px,5vw,64px) 0;padding:clamp(24px,3vw,36px);background:var(--paper);border:1px solid var(--line);border-radius:16px;}
+  .slides h3{margin:0 0 6px;font-size:18px;font-weight:700;letter-spacing:-0.02em;}
+  .slides .desc{font-size:14px;color:var(--muted);margin:0 0 22px;}
+  .slide-grid{display:grid;grid-template-columns:repeat(2,1fr);gap:14px;}
+  .slide-grid .ph{aspect-ratio:16/10;border-radius:10px;}
+  @media (max-width:560px){.slide-grid{grid-template-columns:1fr}}
+
+  /* More talks (Homa 피드 스타일) */
+  .more{padding:clamp(28px,4vw,44px) 0 clamp(12px,2vw,20px);}
+  .more-inner{max-width:768px;margin:0 auto;padding-left:clamp(28px,6vw,44px);padding-right:clamp(28px,6vw,44px);}
+  .more-head{display:flex;align-items:baseline;justify-content:space-between;gap:20px;margin-bottom:clamp(6px,1.2vw,12px);flex-wrap:wrap;}
+  .more-head h2{margin:0;font-family:'RIDIBatang','Noto Serif KR',serif;font-size:clamp(24px,3.1vw,44px);line-height:1.15;letter-spacing:-0.025em;font-weight:700;}
+  .more-head h2 em{font-style:normal;color:inherit}
+  .hrule{height:1px;background:var(--line);margin:clamp(14px,2vw,22px) 0 clamp(20px,2.6vw,30px);}
+  .more-foot{margin-top:clamp(2px,0.6vw,8px);text-align:center;}
+  .more-list .mcard:last-child{padding-bottom:clamp(14px,1.8vw,22px);}
+  .vrule{width:1px;height:clamp(40px,6vw,64px);margin:0 auto;background:repeating-linear-gradient(to bottom, var(--line-2) 0 5px, transparent 5px 11px);}
+  .all{font-size:14px;font-weight:600;color:var(--ink);border-bottom:2px solid var(--ink);padding-bottom:4px;display:inline-flex;align-items:center;gap:6px;white-space:nowrap;}
+  .all .arr{font-family:var(--mono);font-weight:400;}
+  .mcard{display:block;padding:clamp(32px,5vw,48px) 0;border-top:1px solid var(--line);}
+  .mcard .mdate{font-size:13px;letter-spacing:0.1em;text-transform:uppercase;font-weight:700;color:var(--ink);margin-bottom:16px;}
+  .mcard .mcat{display:inline-block;font-size:12px;letter-spacing:0.1em;text-transform:uppercase;font-weight:600;color:var(--ink);border:1px solid var(--line-2);border-radius:999px;padding:7px 16px;margin-bottom:22px;}
+  .mcard .mimg{width:100%;aspect-ratio:16/9;overflow:hidden;background:var(--bg-2);margin-bottom:clamp(18px,2.2vw,26px);}
+  .mcard .mimg img{width:100%;height:100%;object-fit:cover;display:block;transition:transform .3s ease;}
+  .mcard:hover .mimg img{transform:scale(1.02);}
+  .mcard .mtitle{font-family:var(--sans);font-weight:700;font-size:clamp(24px,2.6vw,33px);line-height:1.26;letter-spacing:-0.02em;color:var(--ink);word-break:keep-all;margin:0;}
+  .mcard .mexc{font-size:clamp(16px,1.4vw,19px);color:var(--muted);line-height:1.6;word-break:keep-all;margin:clamp(12px,1.5vw,16px) 0 0;}
+  .mcard .mby{font-size:14px;font-weight:600;color:var(--ink-2);margin-top:clamp(14px,1.8vw,20px);letter-spacing:-0.01em;}
+  .mcard .mread{display:inline-flex;align-items:center;gap:8px;margin-top:clamp(14px,1.6vw,18px);font-size:13px;letter-spacing:0.08em;text-transform:uppercase;font-weight:700;color:var(--ink);}
+  .mcard .mread .arr{font-family:var(--mono);font-weight:400;transition:transform .18s ease;}
+  .mcard:hover .mread .arr{transform:translate(3px,-3px);}
+  .fig.slide .ph{border:0;background:#fff;border-radius:0;}
+  .fig.slide img{object-fit:contain;}
+
+  /* Final CTA (필터없는멤버십 v2 다크 블록 이식) */
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:500;font-size:15px;padding:14px 22px;border:1px solid transparent;cursor:pointer;letter-spacing:-0.005em;line-height:1;border-radius:999px;transition:background .15s ease, color .15s ease, border-color .15s ease;}
+  .btn .arr{font-family:var(--mono);font-weight:400}
+  .btn-lg{font-size:16px;padding:18px 28px}
+  .final{width:100vw;margin-left:50%;transform:translateX(-50%);text-align:left;background:var(--ink);color:var(--bg);padding:clamp(24px,3.5vw,40px) 0 clamp(64px,8vw,120px);}
+  .final .fv-label{color:#C2BBA9;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:clamp(32px,4.5vw,52px);}
+  .final .fv-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;}
+  .final .fv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
+  .final .fcta{margin-top:clamp(40px,6vw,72px);}
+  .final h2{margin:0;font-family:'RIDIBatang','Noto Serif KR',serif;font-size:clamp(34px,6.5vw,88px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;max-width:22ch;}
+  .final h2 em{font-style:normal;color:inherit}
+  .final .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);letter-spacing:-0.01em;}
+  .final .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
+  .final .btn-primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
+  .final .btn-outline{background:transparent;color:var(--bg);border-color:var(--bg)}
+  .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
+  .final .fcontact{margin-top:40px;color:#9A9587;font-size:13px;font-family:var(--mono);letter-spacing:0.04em;border-top:1px solid #33312A;padding-top:24px;max-width:680px;}
+  .final .fcontact span{color:#5A5751;padding:0 8px}
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
+  .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
+  @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
+</style>
+  <link href="https://fonts.googleapis.com/css2?family=Nanum+Myeongjo:wght@400;700&display=swap" rel="stylesheet" />
+</head>
+<body>
+
+<main class="wrap" data-screen-label="Talk Recap">
+  <section class="art-hero" data-screen-label="Article hero" style="background-image:url('assets/talks/shin.jpg')">
+    <div class="art-hero-scrim"></div>
+    <div class="wrap art-hero-inner">
+      <div class="read">
+        <h1 class="art-title">매출은 최대로, 비용은 최소로,<br/>경영자의 의무인 영업이익 높이는 법</h1>
+        <div class="speaker">
+          <div class="av"><img src="assets/round2-5b.png" alt="신현욱" /></div>
+          <div>
+            <div class="sn">신현욱 더휴식 대표</div>
+            <div class="sr">창업 6년 만에 연매출 1,800억, 영업이익 200억</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <article class="body read">
+    <p class="lead">신현욱 대표는 마이너스 200만 원에서 출발해, 창업 6년 만에 연매출 1,800억·영업이익 200억 규모의 종합 숙박 솔루션 기업 '더휴식'을 일궜다. '매출은 최대로, 비용은 최소로'라는 원칙으로 회사를 키워 온 그의 경영 철학을 가감 없이 풀어놓았다.</p>
+
+    <figure class="video">
+      <div class="frame">
+        <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="발표 영상" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+      </div>
+    </figure>
+
+    <section class="sec">
+      <h2>창업 6년 만에 연매출 1800억, 영업이익 200억 회사를 이룬 철학</h2>
+    <figure class="pquote emph">
+      <p>매출은 최대로 비용은 최소로 해서, 영업이익을 내야 된다.</p>
+    </figure>
+      <p>저는 언제나 이러한 경영 원칙을 가지고 살아왔습니다. 고3 때 저희 집이 망했는데요. 서울대학교 입학금을 낼 수 없어서 제가 벌어서 마련해야 했어요. 그런 가난이 뼛속까지 새겨져 있었기 때문입니다.</p>
+      <p>군대를 제대하고 맞춤 양복 업체인 '스트라입스' 창업 멤버로 사회 생활을 시작했고요. 이후 프리미엄 독서실 브랜드 '그린램프 라이브러리' 운영사인 아토스터디를 창업했어요. 그 회사를 2017년, 코스피 상장 그룹사인 IS동서그룹에 매각했습니다.</p>
+      <p>현재는 더휴식이라는 종합 숙박 솔루션 기업의 창업자이자 대표이사로서 회사를 경영해 나가고 있습니다. 예전에는 모텔들을 많이 했는데요. 요새는 메리어트, 힐튼 등 글로벌 호텔 그룹들과 일을 많이 하고 있습니다. 내년이 되면 아마 '아늑 시그니처', '아늑 에디션'이라는 브랜드의 3성급·4성급 호텔을 10개 이상 운영하고 있을 겁니다.</p>
+      <p>그 결과 저희는 안정적인 재무적 성과를 만들어서 성장하고 있습니다. 2025년은 매출액 1,800억, 영업이익 200억 정도였고요. 아마 2026년도에는 약 3,500억 정도 매출액에, 영업이익은 450억 정도를 목표로 하고 있습니다.</p>
+    </section>
+
+    <section class="sec">
+      <h2>사업의 6가지 성공 방정식</h2>
+      <p>저는 기본적으로 사업이라는 걸 성공하려면, 6가지 성공 방정식을 반드시 따라야 된다고 생각합니다. 먼저 1) 좋은 시장입니다. 성장하는 시장, 큰 시장에 들어가서, 돈이 되는 여러 가지 수익화를 만들어야 하죠.</p>
+      <p>이런 마켓 속에서 2) 좋은 팀을 구성을 하고요. 그러면서도 3) 캐피탈(자본)이 적어서는 안 된다고 생각합니다. 시대적 흐름이라는 건 언제 어떤 방향으로 올지 모릅니다. 이 플럭추에이션(변동성)을 어떻게 버텨낼 것이냐? 결국엔 현금 밖에 없다고 생각합니다.</p>
+      <p>그러면서도 우리는 4) 밸류 애드, 부가가치를 창출해야 합니다. 이러한 부가가치 창출 지점들의 총집합인 5) '밸류체인'을 전부 다 내재화해서 기반을 마련해 놓는다면, 6) 투자 유치라는 스케일업 활동을 통해서 대단한 회사를 만들 수 있다고 생각합니다.</p>
+    <figure class="pquote emph">
+      <p>시장보다 중요한 건 없습니다.</p>
+    </figure>
+      <p>그 중 가장 중요한 건 1) 좋은 시장입니다. '마켓'이 얼마나 중요한지는 대표님들께서도 잘 알고 있을 거라고 생각합니다. 저는 성장하는 시장, 돈 되는 시장, 큰 시장에 들어가야 된다고 생각하고요. 그게 결국에 좋은 사업을 하기 위한 근간이라고 생각합니다.</p>
+
+    <figure class="fig slide">
+      <div class="ph filled" style="aspect-ratio:4/3;border-radius:0"><img src="assets/talks/shin-market.jpg" alt="" /></div>
+    </figure>
+    </section>
+
+    <section class="sec">
+      <h2>매출은 최대로, 비용은 최소로</h2>
+    <figure class="pquote emph">
+      <p>매출은 최대로, 비용을 최소로 해서 이익을 남기는 것이, 저는 사업의 본질이라고 생각합니다.</p>
+    </figure>
+      <p>시장을 잘 선택했다면 우리가 해야 되는 역할은, 결국 '매출은 최대로, 비용은 최소로' 해야 한다는 경영 원칙을 세워야 하는 것이죠.</p>
+      <p>'기업 가치'라는 것은 현재 우리가 벌어들이는 돈, 그리고 미래에 벌어들일 돈의 총량에 달려 있다고 생각합니다. 미래에 우리가 벌어들일 돈들이 충분하다면, 할인율이 적용돼서 나의 기업 가치로 반영이 되겠죠.</p>
+      <p>'계획된 적자'라 하더라도, 저는 미래에 돈 벌 수 없는 사업을 과연 사업이라고 부를 수 있는지 의문이 좀 있는 편입니다.</p>
+    </section>
+
+    <section class="sec">
+      <h2>명분과 솔선수범: 대표부터 많이 일하고 보상하라</h2>
+      <p>저는 사업이라는 건, 명분이 중요하다고 생각합니다. 조직원들이 우리를 믿고 따라서 열심히 일할 동기가 필요하겠죠. '왜 고생해야 되느냐?'에 대한 답을 줘야한다고 생각합니다.</p>
+      <p>그러기 위해서 우리 경영자들이 가져야 할 자세는요. 아주 올드한 얘기일 수 있지만, 고용에 대한 책임감을 가져야 됩니다. 그러면서도 충분히 벌었다면 성과를 나눠야겠죠. 당장 돈이 없다면 현금 보상이 아닌 주식 보상을 통해서요.</p>
+    <figure class="pquote emph">
+      <p>일을 많이 시키려면 경영자가 제일 일을 많이 해야 된다고 생각합니다.</p>
+    </figure>
+      <p>그럼 명분을 지키려면 어떻게 해야 될까요? 솔선수범해야 된다고 생각합니다. 직원들에게 일을 강요하면서 내가 놀고 있으면 누가 내 말에 따를 수 있을까요?</p>
+    </section>
+
+    <section class="sec">
+      <h2>이래도 되나 싶은 순간에 한 번 더 절약하기</h2>
+      <p>매출을 최대로 일으키기 전에 해야 하는 것은, 시작부터 비용을 최소화하는 것이라고 생각합니다.</p>
+      <p>그러면 어떻게 절약해야 될까요? 솔선수범해야 된다고 생각합니다. 경영진이 솔선수범해서 모든 분야에서 절약해야 합니다. 외제차를 회사 명의로 돌리는 일은, 저희 더휴식에서는 절대 있을 수 없는 일입니다. 우리 경영진이 절약해야지만, 직원들도 절약할 수 있는 문화가 형성됩니다.</p>
+
+    <figure class="fig slide">
+      <div class="ph filled" style="aspect-ratio:4/3;border-radius:0"><img src="assets/talks/shin-office.jpg" alt="" /></div>
+    </figure>
+      <p>어떻게 절약해야 되냐? 이래도 되나 싶은 순간에 한 번 더 절약하는 자세가 필요하다고 생각합니다.</p>
+    <figure class="pquote emph">
+      <p>팁을 드리면요. 과연 투자받지 않았어도, 내가 직접 번 돈을 현재 회사가 투자하려는 쪽에 비용을 쓰겠느냐 자문해 본다면, 아마 답은 분명해질 것 같습니다. 여전히 저희는 엘리베이터도 없는 사무실을 쓰고 있습니다.</p>
+    </figure>
+      <p>저는 사무실, 복지, 처음에는 그 어떤 것도 유의미하게 중요하지 않다고 생각합니다. 사무실, 복지 때문에 여러분들을 떠날 임직원이라면, 얼마나 많은 이유로 우리를 떠나가겠습니까? 그런 임직원들은 처음부터 들어오지 않는 것이 맞다고 생각합니다.</p>
+    </section>
+
+    <section class="sec">
+      <h2>경영자가 반드시 해야 할 일, 돈 버는 일</h2>
+      <p>비용을 줄이는 사전 작업 이후에는, 하고 싶은 일이 있어도 하지 말고요. 우리 경영자가 해야 될 일들은 '경영진이 반드시 해야 되는 일', 바로 '돈 버는 일'을 해야 된다고 생각합니다. '돈 되는 일'을 해야 된다고 생각합니다.</p>
+      <p>돈 버는 일을 선택했다면 경영진이 해야 될 일은 무엇일까요? 영업을 해야 합니다. 남들을 시키는 것이 아니라, 영업 본부장을 시키는 것이 아니라, 팀장을 시키는 것이 아니라, 영업을 직접 해야 한다고 생각합니다. 이를 통해서 매출액을 키워야 하는 거죠. 그리고 매출이 이익으로 연결되려면 어떻게 해야 될까요?</p>
+    <figure class="pquote emph">
+      <p>저는 이익은 원가에, 매입에 달려 있다고 생각합니다. 매입과 원가는 현재의 사실입니다. 내가 프라이싱을 통해, 얼마나 고객들한테 전가할 수 있을지 아무도 모르는 일이죠. 그렇기 때문에 부가가치를 창출하기 전에 얼마나 원가를 통제하느냐, 비용을 최적으로 절감했느냐, 거기에 따라 이익이 결정된다고 생각합니다.</p>
+    </figure>
+      <p>매출은 최대로 비용은 최소로 하는 것은, 극단적으로 비용을 최소화하는 방법을 찾자는 것입니다. 그렇게 해서 우리가 정말 해야 될, 경영자가 반드시 해야 될 일인 '이익'을 따라오게 만들자는 것입니다.</p>
+
+    <figure class="fig slide">
+      <div class="ph filled" style="aspect-ratio:4/3;border-radius:0"><img src="assets/talks/shin-30.jpg" alt="" /></div>
+    </figure>
+    </section>
+
+    <section class="sec">
+      <h2>맺으며</h2>
+      <p>근본적으로 저는, 이 모든 것들은 모두 다 우리의 마음가짐에 달려 있다고 생각합니다. 우리가 얼마나 마음가짐을 잘 먹고, 얼마나 원가를 절감하느냐, 얼마나 매출과 영업에 집중하느냐에 따라서 달라질 얘기들이라는 것이죠.</p>
+      <p>저에 대해 더 궁금하시다면 유튜브 '신현욱의 경영백서'를 구독해 주시고요. 또 호텔을 개인적으로 소유하고 싶으신 분도 연락 주시길 바라겠습니다. 함께 사업하고 싶으신 분도 연락 주시고요. M&amp;A, 채용 다 열려 있습니다.</p>
+      <p>저는 필터 없는 멤버십 다음 기수에도 참여할 예정입니다. 그때 뵐 수 있어도 너무 좋을 것 같습니다. 감사합니다.</p>
+    </section>
+
+  </article>
+</main>
+
+<div class="vrule" aria-hidden="true"></div>
+
+<section class="more" data-screen-label="More talks">
+  <div class="more-inner">
+    <div class="more-head">
+      <h2>다른 <em>발표</em>도 읽어보세요</h2>
+    </div>
+    <div class="more-list">
+      <a class="mcard" href="talk-kim-4people.html">
+        <div class="mimg"><img src="assets/talks/kimyr.jpg" alt="김용래" style="object-position:center 26%" /></div>
+        <h3 class="mtitle">매출보다 사람을 남기는 경영</h3>
+        <p class="mexc">휴대폰 대리점 50개를 굴리며 연매출 500억. 아무 꿈 없이 들어온 직원들에게 비전을 그리게 하고, 개인과 조직의 방향을 포개 온 조직 운영법.</p>
+        <div class="mby">김용래 · 포피플 대표 (연매출 500억, 휴대폰 대리점 50여개 운영)</div>      </a>
+      <a class="mcard" href="talk-seo-koncon.html">
+        <div class="mimg"><img src="assets/talks/seo.jpg" alt="서소영" style="object-position:center 22%" /></div>
+        <h3 class="mtitle">약점을 강점으로 바꾼 5년</h3>
+        <p class="mexc">스물둘에 시작해 5년 만에 연매출 100억. 어디서나 무시당하던 순간들을, 기존 방법론에 얽매이지 않고 오히려 기회로 바꿔 온 솔직한 생존기.</p>
+        <div class="mby">서소영 · 콘콘 대표 (IP 올인원 솔루션으로 20대에 연매출 100억)</div>      </a>
+      <a class="mcard" href="talk-kim-zet5.html">
+        <div class="mimg"><img src="assets/talks/kimks.jpg" alt="김강수" style="object-position:center 24%" /></div>
+        <h3 class="mtitle">AX 시대를 INTJ가 즐기는 법</h3>
+        <p class="mexc">두 번의 창업, 두 번의 엑싯. AI가 모든 걸 뒤집는 시대를, 철저히 데이터와 시스템으로 사고하는 INTJ 창업자가 어떻게 받아들이고 활용하는지.</p>
+        <div class="mby">김강수 · 제트5 대표 (두 차례 게임 회사 창업, 모두 성공적으로 매각)</div>      </a>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true" style="margin-bottom:clamp(28px,5vw,52px)"></div>
+
+<section class="final" id="contact" data-screen-label="Final CTA">
+  <div class="wrap"><div class="fv-label">필터 없는 멤버십 쫑파티 현장</div></div>
+  <div class="fv-frame">
+    <iframe src="https://www.youtube.com/embed/aqz-KE-bpKQ" title="필터 없는 멤버십 쫑파티 현장" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen loading="lazy"></iframe>
+  </div>
+  <div class="wrap fcta">
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="fsub">정원 50명 · 7월 30일 마감</div>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+      <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="fsub" style="margin-top:14px;font-size:13px;color:#9A9587">바로 결제되지 않습니다. 간단한 전화 심사를 거쳐 가입이 확정됩니다.</div>
+    <div class="fcontact">문의: 010-2494-1884 (카톡 가능) <span>·</span> hop2go@gmail.com</div>
+  </div>
+</section>
+
+<div class="sticky-cta">
+  <a href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+</div>
+
+</body>
+</html>

@@ -1,0 +1,132 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>두 번의 매각, 한 번의 합병에서 배운 스타트업 경영의 3가지 깨달음 — 김철우 더벤처스 대표 | 필터 없는 멤버십</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<style>
+  @font-face{font-family:'RIDIBatang';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
+  :root{--bg:#eeeeee; --bg-2:#E3E3E3; --paper:#F6F6F6; --line:#D8D2C4; --line-2:#C2BBA9; --ink:#16140F; --ink-2:#3A372F; --muted:#6B675C; --muted-2:#9A9587; --accent:#1F4FD9; --maxw:1500px; --readw:720px; --pad-x: clamp(20px, 5vw, 56px); --serif:'RIDIBatang','Noto Serif KR',serif; --sans:'Pretendard Variable', Pretendard, -apple-system, BlinkMacSystemFont, 'Noto Sans KR', sans-serif; --mono:ui-monospace, SFMono-Regular, Menlo, monospace;}
+  *{box-sizing:border-box}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden;}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;text-rendering:optimizeLegibility;line-height:1.55;font-size:16px;letter-spacing:-0.005em;}
+  a{color:inherit;text-decoration:none}
+  ::selection{background:var(--accent);color:#fff}
+  .wrap{max-width:var(--maxw);margin:0 auto;padding-left:var(--pad-x);padding-right:var(--pad-x)}
+  .read{max-width:var(--readw);margin:0 auto;}
+  .art-title{margin:0;font-size:clamp(30px,4.6vw,54px);line-height:1.16;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;}
+  .art-hero{position:relative;width:100vw;margin-left:50%;transform:translateX(-50%);min-height:clamp(360px,46vh,520px);display:flex;align-items:flex-end;overflow:hidden;background-color:#16140F;background-size:cover;background-position:center 28%;background-repeat:no-repeat;}
+  .art-hero-scrim{position:absolute;inset:0;background:linear-gradient(0deg,rgba(12,10,7,0.92) 8%,rgba(12,10,7,0.6) 44%,rgba(12,10,7,0.28) 80%);}
+  .art-hero-inner{position:relative;width:100%;padding-top:clamp(72px,11vw,140px);padding-bottom:clamp(36px,5vw,60px);}
+  .art-hero .art-title{color:#F7F4EC;}
+  .speaker{display:flex;align-items:center;gap:16px;margin-top:clamp(20px,2.5vw,28px);}
+  .speaker .av{width:60px;height:60px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid rgba(255,255,255,0.35);}
+  .speaker .av img{width:100%;height:100%;object-fit:cover;object-position:top center;display:block;}
+  .speaker .sn{font-size:18px;font-weight:700;letter-spacing:-0.02em;color:#F7F4EC;}
+  .speaker .sr{font-size:14px;color:#CFC9BB;margin-top:3px;}
+  .body{padding-top:clamp(28px,4vw,52px);padding-bottom:clamp(16px,2.5vw,28px);}
+  .body .lead{position:relative;font-size:clamp(17px,1.35vw,20px);line-height:1.72;letter-spacing:-0.01em;color:var(--ink-2);font-weight:400;margin:0 0 clamp(38px,5.5vw,64px);padding:clamp(22px,2.5vw,30px) clamp(24px,2.6vw,34px);background:var(--bg-2);border-radius:14px;word-break:keep-all;}
+  .sec{margin:clamp(40px,5vw,64px) 0;}
+  .body .sec:last-child{margin-bottom:0;}
+  .sec h2{font-size:clamp(24px,2.4vw,34px);line-height:1.2;letter-spacing:-0.025em;font-weight:700;margin:0 0 20px;word-break:keep-all;}
+  .body p{font-size:17px;line-height:1.85;color:var(--ink-2);margin:0 0 1.3em;word-break:keep-all;}
+  .pquote{position:relative;margin:clamp(32px,4vw,48px) 0;padding:2px 0 2px clamp(20px,2vw,28px);}
+  .pquote::before{content:"\201C";position:absolute;top:-2px;left:-2px;font-family:var(--serif);font-size:clamp(34px,3.4vw,44px);line-height:1;color:var(--line-2);}
+  .pquote p{font-family:var(--serif);font-size:17px;line-height:1.7;letter-spacing:-0.01em;font-style:normal;font-weight:700;color:var(--ink);margin:0;word-break:keep-all;}
+  .fig{margin:clamp(28px,4vw,44px) 0;}
+  .fig img{width:100%;height:auto;display:block;border-radius:12px;border:1px solid var(--line-2);background:var(--bg-2);}
+  .fig figcaption{margin-top:10px;font-size:13px;color:var(--muted);text-align:center;}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:500;font-size:15px;padding:14px 22px;border:1px solid transparent;cursor:pointer;letter-spacing:-0.005em;line-height:1;border-radius:999px;transition:background .15s ease, color .15s ease, border-color .15s ease;}
+  .btn .arr{font-family:var(--mono);font-weight:400}
+  .btn-lg{font-size:16px;padding:18px 28px}
+  .final{width:100vw;margin-left:50%;transform:translateX(-50%);text-align:left;background:var(--ink);color:var(--bg);padding:clamp(40px,6vw,80px) 0 clamp(64px,8vw,120px);margin-top:clamp(48px,7vw,88px);}
+  .final h2{margin:0;font-family:var(--serif);font-size:clamp(34px,6.5vw,88px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;max-width:22ch;}
+  .final h2 em{font-style:normal;color:inherit}
+  .final .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);letter-spacing:-0.01em;}
+  .final .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
+  .final .btn-primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
+  .final .btn-outline{background:transparent;color:var(--bg);border-color:var(--bg)}
+  .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
+  .final .fcontact{margin-top:40px;color:#9A9587;font-size:13px;font-family:var(--mono);letter-spacing:0.04em;border-top:1px solid #33312A;padding-top:24px;max-width:680px;}
+  .final .fcontact span{color:#5A5751;padding:0 8px}
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
+  .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
+  .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
+  @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
+</style>
+</head>
+<body>
+<main class="wrap">
+  <section class="art-hero" style="background-image:url('assets/khw-hero.jpg')">
+    <div class="art-hero-scrim"></div>
+    <div class="wrap art-hero-inner">
+      <div class="read">
+        <h1 class="art-title">두 번의 매각, 한 번의 합병에서 배운<br/>스타트업 경영의 3가지 깨달음</h1>
+        <div class="speaker">
+          <div class="av"><img src="assets/faces/m035.png" alt="김철우 더벤처스 대표" /></div>
+          <div>
+            <div class="sn">김철우 더벤처스 대표</div>
+            <div class="sr">셀잇을 카카오에 매각, 이후 번개장터와 합병 후 PE에 매각</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <article class="body read">
+    <p class="lead">김철우 대표는 사진 3장만 찍어 보내면 되는 중고거래 &#x27;셀잇&#x27;을 시작해 카카오에 매각했으며, 이후 번개장터와 합병해 PE에 1,500억에 매각했다. 지금은 초기 투자 전문 VC &#x27;더벤처스&#x27;의 대표로, AI 등을 활용해 VC 업계의 비효율 문제를 해결해가고 있다.</p>
+    <section class="sec">
+      <h2>사진 두 장이 전부였던 첫 창업, 셀잇</h2>
+      <p>저의 첫 창업은 &#x27;셀잇&#x27;이라는 중고 거래 앱이었습니다. 미국의 &#x27;솔드(Sold)&#x27;라는 앱을 그대로 모방한 거예요. 중고거래를 원하는 제품의 사진을 찍어 올리면 대신 팔아주는 서비스였죠. 그런데 개발자들이 풀타임 직장이 있고 투잡이다 보니 개발 속도가 느렸어요.</p>
+      <p>그래서 필요한 페이지를 딱 2개만 만들었습니다. 1) 사진 찍는 버튼으로 사진 3장을 찍어 올립니다. 2) 연락처를 입력합니다. 그러면 관리자인 제가 &quot;30만 원에 팔아드릴 수 있습니다&quot; 이렇게 카톡으로 연락하고 중고나라에 제품을 올렸어요.</p>
+      <figure class="pquote emph"><p>그 2개 기능만으로 운영이 됐습니다. 실제로 구매자는 돈을 보냈고 판매자는 물건을 보냈어요. 자기 집에 있는 물건을 중고로 파는 게 그만큼 번거로웠던 것을 MVP로 확인할 수 있었던 거죠.</p></figure>
+      <figure class="fig"><img src="assets/sellit-early.jpg" alt="셀잇 초기 화면" loading="lazy" /></figure>
+    </section>
+    <section class="sec">
+      <h2>큰 선택에 앞서 작은 피봇이 중요하다</h2>
+      <p>그런데 아쉬웠던 게요. 물건이 팔리기까지 1~2주가 걸렸는데, 그 사이에 판매자가 마음을 바꾸거나 다른 사람에게 팔아버린 경우가 많았어요. 그래서 모델을 바꿨습니다. &quot;물건을 먼저 우리한테 보내주시면 30만 원에 팔아드릴게요&quot;라는 위탁 모델로요. 자금이 없었기 때문에, 돈도 안 보내고 일단 물건 먼저 보내달라고 했어요.</p>
+      <p>그런데 이게 됐습니다. 고객들은 눈앞에서 물건을 없애고 싶은 욕구가 컸던 거죠. 그 양이 너무 많아서, 처음엔 강북 청년 창업 센터의 작은 테이블에 물건을 쌓았다가, 나중엔 창고를 얻어 보관해야 했어요.</p>
+      <figure class="fig"><img src="assets/sellit-service.png" alt="안전하고 간편한 중고 거래 서비스 &#x27;셀잇&#x27;" loading="lazy" /></figure>
+      <p>또 하나의 피벗은 카테고리였습니다. 초반엔 아무 물건이나 다 받았어요. 여성 구두, 드레스 같은 것들이 들어왔는데, 공대생 둘이서는 어떻게 가격 책정하고 팔아야 할지 몰랐습니다. 그래서 전자제품으로 좁혔어요. 스마트폰, 태블릿 같은 것만 취급하니까 비즈니스가 훨씬 명확해졌고, 그때부터 성장 속도가 빨라졌습니다.</p>
+      <figure class="pquote emph"><p>이처럼 작은 변화들이 모여서 큰 사업 모델의 변화를 만들어 갔습니다. 저는 이 과정을 &#x27;스몰 피벗의 역사&#x27;라고 부릅니다. 한 번에 정답을 찾은 게 아니라, 거래가 깨지는 지점, 우리가 몰랐던 카테고리 등등을 통해, 그 작은 막힘들을 하나씩 풀어나간 거예요.</p></figure>
+    </section>
+    <section class="sec">
+      <h2>큰 시장에서 차별화하되, 기존 고객에 집중하라</h2>
+      <p>이후 셀잇은 카카오에 인수됐습니다. 처음 제의가 왔을 때는 왜 인수하지 싶었는데요. 지금 생각해보면 카카오 입장에서는 매우 가치 있는 서비스였습니다. 당시 네이버 카페 &#x27;중고나라&#x27; 가입자가 1천만 명을 넘었는데, 로컬 서비스에서 하나의 서비스로 1천만 명이 나오는 건 정말 드물거든요. 중고 거래는 한국에서 1천만 명 이상이 쓸 수 있는 몇 안 되는 카테고리였어요.</p>
+      <p>그런데 당시 다른 중고 거래 서비스들은 단순한 C2C 마켓플레이스였습니다. 웹에서 하던 걸 모바일로 옮겼을 뿐, 구조는 중고나라와 똑같았어요. 차별화가 안 됐죠. 셀잇의 차별점은 위탁 매입 모델이었습니다. 판매자의 번거로움과 구매자의 사기 걱정이라는 근본 문제를 동시에 해결했고, 완전한 커머스처럼 작동했어요. 그 하나의 기능 차별화로 시장을 선점한 겁니다.</p>
+      <figure class="fig"><img src="assets/sellit-kakao.png" alt="카카오에 인수된 &#x27;셀잇&#x27;" loading="lazy" /></figure>
+      <p>결국 법인 설립 1년이 조금 넘은 회사가 상당한 조건으로 인수됐습니다. 행복하게 팔렸어요. 하지만 이후 여러 실수를 했는데요. 그 중 가장 큰 오판은 &#x27;유아동 시장으로의 확장&#x27;이었습니다. 유아동 시장은 전략적으로 너무 좋아 보였어요. 아이들은 매년 입는 옷이나 사용하는 제품을 바꿔야 하거든요.</p>
+      <p>그런데 우리의 기존 고객은 30~40대 남성 전자제품 구매자였잖아요? 유아동 제품 고객은 주로 여성 타겟이었고요. 그동안 어렵게 만든 트래픽과 거래액이 아무 의미가 없어지고, 다시 0에서 시작하는 거였어요. 그래서 후배 창업자들에게 늘 말합니다.</p>
+      <figure class="pquote emph"><p>사업을 확장할 때는 핵심 역량도 중요하지만, 지금 누가 우리 고객인지를 먼저 봐야 합니다. 그 고객에게 더 큰 가치를 줄 수 있는 카테고리로 가야, 어렵게 만든 트래픽과 내부 역량이 레버리지가 됩니다.</p></figure>
+    </section>
+    <section class="sec">
+      <h2>고객과 회사의 이익이 일치하는 지점이 진정한 그로스 포인트다</h2>
+      <p>그러다가 셀잇은 번개장터와 합병하게 됐는데요. 여기서 맞부딪힌 첫 번째 미션은 MAU(월간 사용자 수) 100만을 넘어야 한다는 것이었어요. MAU가 100만을 넘으면 페이드(paid) 마케팅만으로는 의미 있는 성장을 만들 수 없습니다. 그러려면 어마어마한 예산이 필요하니까요.</p>
+      <p>이때 저는 그로스 해킹에 집중했습니다. 고객이 올린 중고 물건을 &#x27;콘텐츠&#x27;로 정의하고, 이걸 외부 플랫폼으로 얼마나 많이 바이럴시킬지에 집중했어요. 핵심 깨달음은 &#x27;내가 직접 바이럴시키는 것보다, 유저들이 자발적으로 공유하게 만드는 구조를 짜야 한다&#x27;였습니다.</p>
+      <figure class="pquote emph"><p>결국 찾아낸 건 판매자의 심리였어요. 판매자가 물건을 등록한 바로 그 순간이, 물건을 팔고 싶은 욕망이 가장 큰 때입니다. 이때 &quot;네이버 블로그나 페이스북에 공유하면 더 빨리 팔릴 거예요&quot;라는 메시지를 주니까, 판매자가 자발적으로 공유하더라고요. 판매자의 이해관계와 회사의 목표가 완벽하게 일치하는 순간을 찾은 겁니다. 이걸로 어마어마한 레버리지 효과를 얻었습니다.</p></figure>
+      <figure class="fig"><img src="assets/theventures.jpg" alt="초기 스타트업 투자사 &#x27;더벤처스&#x27;" loading="lazy" /></figure>
+      <p>번개장터를 매각한 후, 지금은 &#x27;더벤처스&#x27;라는 초기 스타트업 투자사의 대표로 있습니다. 재미있는 건, 투자업의 본질이 중고 거래와 다르지 않다는 점입니다. 자본은 좋은 스타트업을 찾기 어렵고, 스타트업은 자본이 어디 있는지 모릅니다. 이 정보 비대칭을 해소하려고 VC가 생겨났고, 양쪽을 연결하면서 수수료를 취하죠. 중고 거래와 구조가 똑같습니다.</p>
+      <p>그런데 셀잇과 번개장터는 중고 시장을 변화시켰지만, VC 업계는 수십 년간 일하는 방식이 거의 안 변했어요. VC는 스타트업에게는 늘 &quot;이렇게 해야 한다&quot;고 말하면서, 정작 자기들은 변화가 느린 것 같아요. 지금은 VC도 스타트업처럼 운영하려는 생각으로, AI 등을 활용해 투자 시장의 비효율을 제거하기 위해 노력 중입니다. 감사합니다.</p>
+    </section>
+
+  </article>
+</main>
+<section class="final" id="contact">
+  <div class="wrap read">
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="fsub">정원 50명 · 7월 30일 마감</div>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+      <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="fsub" style="margin-top:14px;font-size:13px;color:#9A9587">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</div>
+    <div class="fcontact">문의: 010-2494-1884 (카톡 가능) <span>·</span> hop2go@gmail.com</div>
+  </div>
+</section>
+<div class="sticky-cta">
+  <a href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+</div>
+</body>
+</html>
