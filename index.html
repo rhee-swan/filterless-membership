@@ -567,7 +567,7 @@
 </head>
 <body>
 
-<!-- ⚠️ 신청 링크: 아래 모든 __APPLY_URL__ 를 실제 Typeform 신청 폼 주소로 교체하세요. (현재 미연결 placeholder) -->
+<!-- 신청 링크: Tally 폼(https://tally.so/r/1Ax6AL)으로 연결됨. apply.unfiltered.im 검증되면 그걸로 교체 가능(같은 폼). -->
 
 <template id="__bundler_thumbnail">
   <svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg">
@@ -597,11 +597,11 @@
       <p>검증된 100명의 사업가들과 함께 하세요.</p>
     </div>
     <div class="hero-actions">
-      <a class="btn btn-primary btn-lg" href="__APPLY_URL__" id="apply">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+      <a class="btn btn-primary btn-lg" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer" id="apply">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
       <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
     </div>
     <div class="apply-note">
-      <p class="urgency">정원 50명 한정 · 마감 7월 30일 <span class="dday"></span></p>
+      <p class="urgency">정원 50명 한정 · 마감 7월 24일 <span class="dday"></span></p>
       <p class="reassure">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</p>
     </div>
   </div>
@@ -638,7 +638,7 @@
       </div>
       <div>
         <div class="k">마감일</div>
-        <div class="v">2026.07.30 (목)<br><span>정원 마감시 조기 종료</span> <span class="dday" style="color:var(--accent-2)"></span></div>
+        <div class="v">2026.07.24 (목)<br><span>정원 마감시 조기 종료</span> <span class="dday" style="color:var(--accent-2)"></span></div>
       </div>
     </div>
   </div>
@@ -861,6 +861,79 @@
 
 <div class="vrule" aria-hidden="true"></div>
 
+<!-- ========= 5b 하반기 일정 ========= -->
+<style>
+  .sched{margin-top:clamp(8px,1.6vw,16px)}
+  .sched-tl{position:relative;padding-left:30px;max-width:660px}
+  .sched-tl::before{content:"";position:absolute;left:7px;top:8px;bottom:8px;width:1.5px;background:var(--line-2)}
+  .sched-node{position:relative;margin-bottom:clamp(26px,3vw,34px)}
+  .sched-node:last-child{margin-bottom:0}
+  .sched-dot{position:absolute;left:-30px;top:3px;width:15px;height:15px;border-radius:50%}
+  .sched-dot.fill{background:var(--ink)}
+  .sched-dot.hollow{background:var(--bg);border:1.5px solid var(--muted-2)}
+  .sched-hd{font-size:clamp(16px,1.4vw,19px);line-height:1.35;margin-bottom:7px;word-break:keep-all}
+  .sched-hd .mo{font-family:var(--serif);font-weight:700;color:var(--ink)}
+  .sched-hd .ti{font-weight:600;color:var(--ink)}
+  .sched-meta{font-size:13px;font-weight:600;color:var(--ink);margin-bottom:5px}
+  .sched-desc{font-size:14px;color:var(--ink-2);line-height:1.7;word-break:keep-all}
+  .sched-lineup{margin-top:16px;padding-top:14px;border-top:1px solid var(--line)}
+  .sched-row{font-size:14px;line-height:1.6;margin-bottom:7px;color:var(--ink-2);word-break:keep-all}
+  .sched-row:last-child{margin-bottom:0}
+  .sched-row .cat{font-weight:600;color:var(--ink)}
+  .sched-pend{color:var(--muted-2)}
+</style>
+<section class="section section--flow" data-screen-label="05b Schedule" id="schedule">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>필터 없는 멤버십,<br/><em>하반기 일정</em></h2>
+      <p class="sub">1년 8회 공식 모임의 시작입니다. 상반기 일정은 추후 공지됩니다.</p>
+    </div>
+    <div class="sched">
+      <div class="sched-tl">
+        <div class="sched-node">
+          <div class="sched-dot fill"></div>
+          <div class="sched-hd"><span class="mo">8월:</span> <span class="ti">첫 모임 · 전체 OT</span></div>
+          <div class="sched-meta">1·2·3기 전체 알럼나이 합동</div>
+          <div class="sched-desc">참석자 모두가 자신을 가볍게 소개합니다. 이를 통해 서로가 어떤 일을 하는지 알고, 좀 더 편하게 상대방에게 연락할 수 있는 기회를 만듭니다.</div>
+        </div>
+        <div class="sched-node">
+          <div class="sched-dot hollow"></div>
+          <div class="sched-hd"><span class="mo">8월 중:</span> <span class="ti">사업군 카테고리별 모임</span></div>
+          <div class="sched-meta">2·3기 합동</div>
+          <div class="sched-desc">내가 속한 사업군 멤버들과 모임을 가집니다. 서로의 사업을 더 잘되게끔 업계 정보를 교환하고, 협업 등 서로의 사업을 도울 기회를 마련합니다.</div>
+        </div>
+        <div class="sched-node">
+          <div class="sched-dot hollow"></div>
+          <div class="sched-hd"><span class="mo">9 – 10월:</span> <span class="ti">관심 있는 카테고리 깊이 파기 2회</span></div>
+          <div class="sched-meta">2·3기 합동</div>
+          <div class="sched-desc">내가 관심을 가지고 공부하고자 하는 카테고리 2개를 골라 참여합니다. 실제 그 분야에서 성과를 이루고 있는 멤버 3명이 발표하고, 깊이 있는 질의 응답과 토론을 이어갑니다.</div>
+          <div class="sched-lineup">
+            <div class="sched-row"><span class="cat">투자:</span> 박영호 · 김철우 · 김인기</div>
+            <div class="sched-row"><span class="cat">AI:</span> 김강수 · 곽근봉 · 박우범</div>
+            <div class="sched-row"><span class="cat">리더십:</span> 박찬구 · 이채린 · 조승빈</div>
+            <div class="sched-row"><span class="cat">뷰티:</span> 천정욱 · 이화랑 · 최가희</div>
+            <div class="sched-row"><span class="cat">개발:</span> 김경태 · 남상협 · 팽동은 · 구동언</div>
+            <div class="sched-row"><span class="cat">오프라인·프랜차이즈:</span> 박준길 · 김용래 · 권신구</div>
+            <div class="sched-row"><span class="cat">IP·콘텐츠:</span> 서소영 · 전명진 · 정우초</div>
+            <div class="sched-row"><span class="cat">디지털 마케팅:</span> 조경상 · 김선영 · 박기덕</div>
+            <div class="sched-row"><span class="cat">인플루언서:</span> 이지유 · 김지민 · <span class="sched-pend">+1 예정</span></div>
+            <div class="sched-row"><span class="cat">제조·하드웨어:</span> 황성재 · 국봉환 · <span class="sched-pend">+1 예정</span></div>
+            <div class="sched-row"><span class="cat">식품:</span> 이형진 · 김희주 · <span class="sched-pend">+1 예정</span></div>
+          </div>
+        </div>
+        <div class="sched-node">
+          <div class="sched-dot fill"></div>
+          <div class="sched-hd"><span class="mo">12월:</span> <span class="ti">2기 수료 연말 쫑파티</span></div>
+          <div class="sched-meta">1·2·3기 전체 알럼나이 합동</div>
+          <div class="sched-desc">멤버십 2기가 1년 과정 전체를 마치는 자리입니다. 2기가 활동하는 동안 가장 반응이 좋았던 발표와 시상식 등 다양한 프로그램이 준비돼 있습니다.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
+
 <!-- ========= 6. 발표·토론 보러 가기 ========= -->
 <style>
   .talkpick{margin-top:clamp(28px,3.5vw,44px)}
@@ -902,14 +975,6 @@
           <div class="b-by">조종암  엑셈 회장</div>
         </div>
         <div class="b-img"><img src="assets/jja-34.png" alt="조종암" /></div>
-      </a>
-      <a class="brief" href="talk-jo-agile.html">
-        <div class="b-body">
-          <h3 class="b-title">'애자일'과 '스쿼드'의 진실</h3>
-          <p class="b-dek">유연한 조직과 TF에 대한 오해. 군대의 임무형 지휘로 풀어낸 두 단어의 본질.</p>
-          <div class="b-by">조승빈  컨그루언트애자일 대표</div>
-        </div>
-        <div class="b-img"><img src="assets/jsb-34.png" alt="조승빈" /></div>
       </a>
       <a class="brief" href="talk-kim-bunjang.html">
         <div class="b-body">
@@ -956,9 +1021,9 @@
   </div>
   <div class="wrap fcta">
     <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
-    <div class="sub">정원 50명 · 7월 30일 마감 <span class="dday"></span></div>
+    <div class="sub">정원 50명 · 7월 24일 마감 <span class="dday"></span></div>
     <div class="actions">
-      <a class="btn btn-primary btn-lg" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+      <a class="btn btn-primary btn-lg" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
       <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
     </div>
     <div class="sub" style="margin-top:14px;font-size:clamp(15px,1.3vw,20px);line-height:1.5;letter-spacing:0;color:#C9C3B4">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</div>
@@ -970,12 +1035,12 @@
 
 <!-- 모바일 고정 지원 버튼 -->
 <div class="sticky-cta">
-  <a class="btn btn-primary" href="__APPLY_URL__">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+  <a class="btn btn-primary" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
 </div>
 
 <script>
   (function(){
-    var deadline = new Date('2026-07-30T23:59:59+09:00');
+    var deadline = new Date('2026-07-24T23:59:59+09:00');
     var days = Math.ceil((deadline - new Date()) / 86400000);
     var label = days > 0 ? '(D-' + days + ')' : (days === 0 ? '(D-DAY)' : '(마감)');
     document.querySelectorAll('.dday').forEach(function(el){ el.textContent = label; });
