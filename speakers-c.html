@@ -126,7 +126,8 @@ document.getElementById('groups').innerHTML=groups.map(function(g,i){
   return '<section class="grp" id="cat-'+i+'"><div class="glabel"><h2>'+g.cat+'</h2></div>'+
     '<div class="gcards">'+g.items.map(card).join('')+'</div></section>';
 }).join('');
-document.getElementById('catnav').innerHTML=groups.map(function(g,i){return '<a href="#cat-'+i+'">'+g.cat+'</a>';}).join('');
+document.getElementById('catnav').innerHTML=groups.map(function(g,i){return '<a href="javascript:void(0)" data-t="cat-'+i+'">'+g.cat+'</a>';}).join('');
+document.querySelectorAll('.catbar a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.getElementById(a.getAttribute('data-t'));if(t)t.scrollIntoView({behavior:'smooth'});});});
 })();
 </script>
 </body>
