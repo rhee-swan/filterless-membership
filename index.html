@@ -170,6 +170,8 @@
     transition:background .15s ease, color .15s ease, border-color .15s ease;
   }
   .btn .arr{font-family:var(--mono);font-weight:400}
+  .btn .dday{font-family:var(--mono);font-weight:600;font-size:0.92em;color:inherit;letter-spacing:0}
+  .btn .dday:empty{display:none}
   .btn-primary{background:var(--ink);color:var(--bg);border-color:var(--ink)}
   .btn-primary:hover{background:var(--accent);border-color:var(--accent);color:#fff}
   .btn-outline{background:transparent;color:var(--ink);border-color:var(--ink)}
@@ -526,8 +528,11 @@
                linear-gradient(0deg,rgba(10,9,7,0.72) 0%,rgba(10,9,7,0) 55%);}
   .hero-photo .hp-inner{position:relative;width:100%;max-width:var(--maxw);margin:0 auto;
     padding:clamp(40px,6vw,84px) var(--pad-x) clamp(40px,6vw,72px);}
+  .hero-photo .hp-eyebrow{margin:0 0 clamp(10px,1.4vw,16px);font-family:var(--sans);font-weight:700;
+    font-size:clamp(14px,1.4vw,22px);letter-spacing:-0.01em;color:#fff;}
   .hero-photo h1{margin:0;font-family:var(--serif);font-size:clamp(20px,5.2vw,60px);
     line-height:1.24;letter-spacing:-0.03em;font-weight:700;color:#F7F4EC;}
+  @media (max-width:420px){ .hero-photo h1 .line{white-space:normal} }
   .hero-photo h1 .line{display:block;white-space:nowrap}
   .hero-photo h1 .em{font-style:normal;color:#fff}
   .hero-photo .hp-sub{margin-top:clamp(16px,2vw,26px);color:#E7E3D8;
@@ -586,19 +591,22 @@
     <div class="slide" style="background-image:url('assets/hero-2.jpg')"></div>
     <div class="slide" style="background-image:url('assets/hero-3.jpg')"></div>
     <div class="slide" style="background-image:url('assets/hero-4.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-5.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-6.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-7.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-8.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-9.jpg')"></div>
+    <div class="slide" style="background-image:url('assets/hero-10.jpg')"></div>
   </div>
   <div class="scrim"></div>
   <div class="hp-inner">
+    <p class="hp-eyebrow">창업자·C레벨을 위한 멤버십</p>
     <h1>
-      <span class="line">창업자, C레벨이 혼자서 내린</span>
-      <span class="line">의사결정의 <em class="em">대가는 비쌉니다</em></span>
+      <span class="line">혼자 내린 의사결정의 대가는 비쌉니다</span>
+      <span class="line">검증된 100명의 사업가와 함께 하세요</span>
     </h1>
-    <div class="hp-sub">
-      <p>비싼 결정을 혼자 하지 마세요,</p>
-      <p>검증된 100명의 사업가들과 함께 하세요.</p>
-    </div>
     <div class="hero-actions">
-      <a class="btn btn-primary btn-lg" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer" id="apply">필터 없는 멤버십 3기 지원하기 <span class="arr">→</span></a>
+      <a class="btn btn-primary btn-lg" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer" id="apply">필터 없는 멤버십 3기 지원하기 <span class="dday"></span> <span class="arr">→</span></a>
       <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
     </div>
     <div class="apply-note">
@@ -609,6 +617,89 @@
 </section>
 
 <div class="vrule" aria-hidden="true" style="margin-top:var(--flow-y)"></div>
+
+<!-- ========= 멤버 스토리 (추천사) — 모집개요 위로 이동 ========= -->
+<section class="section section--flow" data-screen-label="03 Member Stories">
+  <div class="wrap">
+    <div class="sec-head">
+      <h2>멤버들이 말하는<br/><em>'필터 없는 멤버십'</em></h2>
+    </div>
+
+    <div class="stories">
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-1.png" alt="조종암" /></div>
+          <div class="story-meta">
+            <div class="story-name">엑셈 조종암 회장</div>
+            <div class="story-eyebrow">2015년 엑셈 코스닥 상장<br/>2023년 신시웨이 코스닥 상장</div>
+          </div>
+        </div>
+        <p class="story-quote">"두 번의 상장을 겪으며 제 나름대로 경영의 답을 안다고 생각했습니다. 그런데 이 모임에서 젊은 창업자들을 만나, 오히려 제가 더 많은 것을 배웁니다. 경험을 전수하러 왔다가 오히려 한 수 배워 돌아가는 자리. C레벨과 창업자라면 누구나 얻을 것이 많은 모임입니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-4.png" alt="홍승일" /></div>
+          <div class="story-meta">
+            <div class="story-name" style="font-size:15px">힐링페이퍼(강남언니) 홍승일 대표</div>
+            <div class="story-eyebrow">6천억 기업가치, 누적 투자액 741억<br/>일본, 중국 등 글로벌 진출 중</div>
+          </div>
+        </div>
+        <p class="story-quote">"진심으로 감사한 시간이었습니다. 정답을 주입받는 자리가 아니라, 서로의 시행착오와 고민을 가감 없이 꺼내놓으며 함께 답을 찾아가는, 밀도가 굉장히 높은 모임이었습니다. 같은 길을 걷는 동료가 필요한 대표님들에게 강력히 추천드립니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-2.png" alt="박수만" /></div>
+          <div class="story-meta">
+            <div class="story-name">벗뷰리풀(추룹) 박수만 대표</div>
+            <div class="story-eyebrow">미투데이를 네이버에 매각<br/>밴드 앱 총괄, 네이버 CIC 대표 역임</div>
+          </div>
+        </div>
+        <p class="story-quote">"미투데이 매각, 네이버 CIC 대표 등을 거쳐, 8년 만에 다시 스타트업을 시작했습니다. 성공도 실패도, 진행 중인 과정의 고민도 너무나 귀한 여정입니다. 한두달에 한 번, 몇 시간을 투자할만한 이유를 찾을 수 있으실 거라 확신합니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-3.png" alt="천정욱" /></div>
+          <div class="story-meta">
+            <div class="story-name">VTPL(씨스터앤) 천정욱 대표</div>
+            <div class="story-eyebrow">올리브영 아이라인 카테고리 1위<br/>전세계 22개국에 수출</div>
+          </div>
+        </div>
+        <p class="story-quote">"필터 없는 멤버십의 가치는 단순합니다. 내 업종 바깥의 대표들이 어떻게 일하고, 어디에 돈을 거는지 엿볼 수 있다는 것. 다음 파도가 어디서 오는지는 항상 업계 밖에서 보이고, 내 비즈니스의 힌트가 됩니다. 시야를 넓히고 싶은 대표라면 후회 없을 모임입니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/t-hyungjin-v.jpg" alt="이형진" /></div>
+          <div class="story-meta">
+            <div class="story-name">마이노멀 이형진 대표</div>
+            <div class="story-eyebrow">식품·소비재 브랜드 '마이노멀' 운영</div>
+          </div>
+        </div>
+        <p class="story-quote">"대표의 무게를 온전히 나눌 자리는 드뭅니다. '나만 이렇게 고민하는 게 아니구나'를 실감했고, 또한 내 위치를 객관적으로 잡을 수 있었습니다. 화려한 성공담이 아니라, 풀리지 않은 고민과 솔직한 내면을 꺼내놓을 자리가 필요한 모든 창업자에게 추천합니다."</p>
+      </div>
+
+      <div class="story longform">
+        <div class="story-head">
+          <div class="story-photo"><img src="assets/round2-5b.png" alt="신현욱" /></div>
+          <div class="story-meta">
+            <div class="story-name">더휴식 신현욱 대표</div>
+            <div class="story-eyebrow">창업 6년만에 매출액 1800억<br/>영업이익 200억원</div>
+          </div>
+        </div>
+        <p class="story-quote">"멤버십을 통해 상장사 회장님부터 유망 스타트업 대표, 기업 임원, 이제 막 시작한 사업가까지도 만날 수 있었습니다. 평소엔 듣기 어려운 살아 있는 인사이트가 오갔고, 모임에서 얻은 관점이 실제 제 의사결정을 바꾸기도 했습니다. 살아 있는 인사이트를 갈망하는 분들에게 권합니다."</p>
+      </div>
+    </div>
+
+    <div class="stories-foot">
+      <a class="link-cta" href="testimonials.html">멤버들의 추천사 전문 보기 <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="vrule" aria-hidden="true"></div>
 
 <!-- 활동 메타 -->
 <section class="section section--flow" data-screen-label="01b Meta">
@@ -700,89 +791,6 @@
 
 <div class="vrule" aria-hidden="true"></div>
 
-<!-- ========= 3. 멤버 스토리 (추천사) ========= -->
-<section class="section section--flow" data-screen-label="03 Member Stories">
-  <div class="wrap">
-    <div class="sec-head">
-      <h2>멤버들이 말하는<br/><em>'필터 없는 멤버십'</em></h2>
-    </div>
-
-    <div class="stories">
-      <div class="story longform">
-        <div class="story-head">
-          <div class="story-photo"><img src="assets/round2-1.png" alt="조종암" /></div>
-          <div class="story-meta">
-            <div class="story-name">엑셈 조종암 회장</div>
-            <div class="story-eyebrow">2015년 엑셈 코스닥 상장<br/>2023년 신시웨이 코스닥 상장</div>
-          </div>
-        </div>
-        <p class="story-quote">"두 번의 상장을 겪으며 제 나름대로 경영의 답을 안다고 생각했습니다. 그런데 이 모임에서 젊은 창업자들을 만나 제 경험을 나누다 보니, 오히려 제가 더 많은 것을 배움니다. 그동안 전혀 몰랐던 산업과 비즈니스 이야기를 듣고 있으면, 제 시야가 얼마나 좁았는지를 새삼 깨닫게 됩니다. 경험을 전수하러 왔다가 오히려 한 수 배워 돌아가는 자리. C레벨과 창업자라면 누구나 얻을 것이 많은 모임입니다."</p>
-      </div>
-
-      <div class="story longform">
-        <div class="story-head">
-          <div class="story-photo"><img src="assets/round2-2.png" alt="박수만" /></div>
-          <div class="story-meta">
-            <div class="story-name">벗뷰리풀(추룹) 박수만 대표</div>
-            <div class="story-eyebrow">미투데이를 네이버에 매각<br/>밴드 앱 총괄, 네이버 CIC 대표 역임</div>
-          </div>
-        </div>
-        <p class="story-quote">"미투데이 매각, 네이버 CIC 대표 등을 거쳐, 8년 만에 다시 스타트업을 시작했습니다. 그래서인지 멤버십에서 필터 없는 대표님들의 스토리를 듣는 시간이 너무나도 값지게 다가왔습니다. 성공도 실패도, 진행 중인 과정의 고민도 너무나 귀한 여정입니다. 그게 모든 대표가 걷고 있는 길이며, 제 스토리도 누군가에게 배움과 위로가 될 수 있는지 스스로 생각해보게 됐습니다. 한두달에 한 번, 몇 시간을 투자할만한 이유를 찾을 수 있으실 거라 확신합니다."</p>
-      </div>
-
-      <div class="story longform">
-        <div class="story-head">
-          <div class="story-photo"><img src="assets/round2-3.png" alt="천정욱" /></div>
-          <div class="story-meta">
-            <div class="story-name">VTPL(씨스터앤) 천정욱 대표</div>
-            <div class="story-eyebrow">올리브영 아이라인 카테고리 1위<br/>전세계 22개국에 수출</div>
-          </div>
-        </div>
-        <p class="story-quote">"필터 없는 멤버십의 가치는 단순합니다. 내 업종 바깥의 대표들이 어떻게 일하고, 어디에 돈을 거는지 엿볼 수 있다는 것. 주식·투자, AI, 그리고 패션·식품·숙박까지. 당장 내 매출과는 상관없어 보이는 이야기들이, 묘하게 내 비즈니스의 힌트가 됩니다. 다음 파도가 어디서 오는지는 항상 내 업계 밖에서 먼저 보이더군요. 즉각적인 돈벌이를 기대하고 오는 자리는 아닙니다. 하지만 시야를 넓히고 싶은 대표라면 후회 없을 모임입니다."</p>
-      </div>
-
-      <div class="story longform">
-        <div class="story-head">
-          <div class="story-photo"><img src="assets/round2-4.png" alt="홍승일" /></div>
-          <div class="story-meta">
-            <div class="story-name" style="font-size:15px">힐링페이퍼(강남언니) 홍승일 대표</div>
-            <div class="story-eyebrow">6천억 기업가치, 누적 투자액 741억<br/>일본, 중국 등 글로벌 진출 중</div>
-          </div>
-        </div>
-        <p class="story-quote">"이승환 대표님의 멤버십 1기로 함께할 수 있어 진심으로 감사한 시간이었습니다. 비슷한 고민을 안고 각자의 사업을 일구어 가는 대표님들을 만나, 저마다의 고유한 관점과 솔직한 이야기를 나누면서 정말 많은 자극과 배움을 얻었습니다. 정답을 주입받는 자리가 아니라, 서로의 시행착오와 고민을 가감 없이 꺼내놓으며 함께 답을 찾아가는, 밀도가 굉장히 높은 모임이었습니다. 같은 길을 걷는 동료가 필요한 대표님들에게 강력히 추천드립니다."</p>
-      </div>
-
-      <div class="story longform">
-        <div class="story-head">
-          <div class="story-photo"><img src="assets/t-hyungjin-v.jpg" alt="이형진" /></div>
-          <div class="story-meta">
-            <div class="story-name">마이노멀 이형진 대표</div>
-            <div class="story-eyebrow">식품·소비재 브랜드 '마이노멀' 운영</div>
-          </div>
-        </div>
-        <p class="story-quote">"식품 브랜드를 만들며 제품도, 문구도, 방향도 늘 혼자 결정해 왔습니다. 그 무게를 온전히 나눌 자리는 드물죠. 필터 없는 멤버십에서 식품·유통·소비재 대표들의 이야기를 들으며 '나만 이렇게 고민하는 게 아니구나'를 실감했습니다. 동시에 전혀 다른 산업을 이끄는 대표들의 이야기는 더 날카로운 거울이 됐습니다. 이종 산업의 언어로 내 업을 다시 바라볼 때, 비로소 내 위치가 객관적으로 잡혔습니다. 화려한 성공담이 아니라 아직 풀리지 않은 고민을 꺼낼 수 있는 자리. 솔직한 내면을 꺼내놓을 자리가 필요한 모든 외로운 창업자에게 추천합니다."</p>
-      </div>
-
-      <div class="story longform">
-        <div class="story-head">
-          <div class="story-photo"><img src="assets/round2-5b.png" alt="신현욱" /></div>
-          <div class="story-meta">
-            <div class="story-name">더휴식 신현욱 대표</div>
-            <div class="story-eyebrow">창업 6년만에 매출액 1800억<br/>영업이익 200억원</div>
-          </div>
-        </div>
-        <p class="story-quote">"회사를 만들고, 팔고, 인수하는 과정에서 깨달은 게 있습니다. 경영자에게 부족한 건 정보가 아니라, 같은 무게의 결정을 내려본 사람과 '필터 없이' 나눌 시간이라는 겁니다. 멤버십을 통해 상장사 회장님부터 유망 스타트업 대표, 기업 임원, 이제 막 시작한 사업가까지도 만날 수 있었습니다. 평소엔 듣기 어려운 살아 있는 인사이트가 오갔고, 모임에서 얻은 관점이 실제 제 의사결정을 바꾸기도 했습니다. 그렇게 맺은 인연이 비즈니스 협업으로 이어져 본업에도 도움이 되고 있습니다. 만족도가 높아 다음 기수에도 참석합니다. 살아 있는 인사이트를 갈망하는 분들에게 권합니다."</p>
-      </div>
-    </div>
-
-    <div class="stories-foot">
-      <a class="link-cta" href="testimonials.html">멤버들의 추천사 전문 보기 <span class="arr">→</span></a>
-    </div>
-  </div>
-</section>
-
-<div class="vrule" aria-hidden="true"></div>
-
 <!-- ========= 4. 발표 사례 ========= -->
 <section class="section section--flow" data-screen-label="04 Talks" id="talks">
   <div class="wrap">
@@ -842,12 +850,12 @@
     <div class="op-photo"><img src="assets/founder-wide.jpg" alt="필터 없는 멤버십 모임" /></div>
 
     <div class="letter-body how-box">
-      <p>저는 ㅍㅍㅅㅅ를 운영하며, 300명 이상의 C레벨을 인터뷰했습니다.</p>
+      <p>13년 간 ㅍㅍㅅㅅ를 운영하며, 300명 이상의 C레벨을 인터뷰했습니다.</p>
       <p>창업자, C레벨은 어렵습니다. 항상 무거운 의사결정을 내려야 하죠. 그래서 외롭습니다. 가족도 이해하기 힘든 상황에 혼자 놓여있지요.</p>
-      <p>필터 없는 멤버십은 검증된 C레벨들이 모여 ‘필터 없이’ 털어놓고 이야기하며 서로의 비즈니스를 돕는 모임입니다.</p>
-      <p>단순히 모여서 강의 듣고 친목질하는 모임이 아닙니다. 매번 8명 내외의 멤버들이 함께 모여서, 쉽게 이야기하지 못했던 우리 회사의 이야기를 합니다.</p>
-      <p>이를 통해 서로가 지혜를 모아 더 나은 결정을 만들어 나갑니다. 동시에 다른 산업과 시장을 서로의 인사이트를 통해 깊이 있게 학습합니다.</p>
-      <p>이번 기수부터는 스터디를 넘어 서로 더 끈끈하게 친해지는 네트워킹도 강화할 계획입니다. 스터디 모임 외에도 더 편하게 이야기할 저녁 자리도 자주 열립니다.</p>
+      <p>아마 이들을 가장 잘 이해할 수 있는 사람은, 결국 같은 창업자와 C레벨입니다. 이들을 모아 서로의 경험을 나눈다면, 더 올바른 의사결정과 더 큰 사업적 성과로 돌아올 거라 생각했습니다.</p>
+      <p>그래서 ‘필터 없는 멤버십’을 만들었습니다. 검증된 C레벨들이 ‘필터 없이’ 속내를 털어놓고 서로의 비즈니스를 돕는 모임입니다. 쉽게 꺼내지 못했던 회사의 내밀한 이야기를 나누고, 지혜를 모아 더 나은 결정을 만들어 나갑니다. 동시에 서로의 인사이트를 통해 다른 산업과 시장을 깊이 있게 학습합니다.</p>
+      <p>다행히도 많은 대표님들이 이 뜻에 함께해 주셨습니다. 그렇게 1기와 2기, 총 110명 정도의 대표님이 함께 하고 있습니다.</p>
+      <p>이번에 모집하는 3기는 2기와 활동 기간이 겹칩니다. 또한 1기 알럼나이들도 다양한 방식으로 만날 수 있고, 스터디 외에 편하게 이야기할 수 있는 저녁 자리, 쫑파티 등 대형 행사도 제공됩니다.</p>
       <p>필터 없는 멤버십을 통해 당신의 비즈니스가 더 건강하게 성장하길 바랍니다. 멤버들의 사업에 좋은 영향을 줄 수 있는 분이라면 누구든 환영합니다.</p>
       <div class="op-sign">
         <img class="op-sign-photo" src="assets/swan-portrait.jpg" alt="이승환" />
