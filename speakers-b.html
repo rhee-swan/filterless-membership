@@ -29,11 +29,7 @@
   .right{display:flex;align-items:center;gap:16px}
   .ln{font-size:14px;color:var(--muted)}
   .apply{font-size:14px;font-weight:600;color:#eee;background:var(--ink);padding:10px 18px;border-radius:8px}
-  .catbar{position:sticky;top:63px;z-index:40;background:rgba(238,238,238,.95);backdrop-filter:saturate(140%) blur(8px);border-top:1px solid var(--tl);border-bottom:1px solid var(--tl);margin-bottom:clamp(22px,2.6vw,34px)}
-  .catbar-in{display:flex;gap:8px;padding:12px 0;overflow-x:auto}
-  .catbar a{flex:0 0 auto;font-size:13px;color:#33302a;border:1px solid var(--tl);border-radius:20px;padding:6px 13px;white-space:nowrap}
-  .catbar a:hover{border-color:var(--ink);background:#fff}
-  .head{padding:clamp(36px,5vw,60px) 0 clamp(18px,2vw,24px)}
+  .head{padding:clamp(40px,6vw,72px) 0 clamp(24px,3vw,36px)}
   .head h1{font-size:clamp(34px,5vw,56px);font-weight:500;letter-spacing:-.035em;margin:0;line-height:1}
   .head .sub{margin-top:14px;font-size:15px;color:var(--muted);max-width:56ch;line-height:1.6}
   .grp{margin-bottom:clamp(30px,4vw,56px);scroll-margin-top:120px}
@@ -80,7 +76,6 @@
       <p class="sub">각 분야에서 실제 성과를 내고 있는 대표·C레벨이 직접 발표합니다. 9·10월 카테고리 세션에서 그들의 이야기를 깊이 들어보세요.</p>
     </div>
   </div>
-  <div class="catbar"><div class="catbar-in" id="catnav"></div></div>
   <div id="groups"></div>
 </main>
 
@@ -125,8 +120,6 @@ document.getElementById('groups').innerHTML=groups.map(function(g,i){
   return '<section class="grp" id="cat-'+i+'"><div class="ghd"><h2>'+g.cat+'</h2></div>'+
     '<div class="grid">'+g.items.map(card).join('')+'</div></section>';
 }).join('');
-document.getElementById('catnav').innerHTML=groups.map(function(g,i){return '<a href="javascript:void(0)" data-t="cat-'+i+'">'+g.cat+'</a>';}).join('');
-document.querySelectorAll('.catbar a').forEach(function(a){a.addEventListener('click',function(e){e.preventDefault();var t=document.getElementById(a.getAttribute('data-t'));if(t)t.scrollIntoView({behavior:'smooth'});});});
 })();
 </script>
 </body>
