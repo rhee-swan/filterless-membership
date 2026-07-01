@@ -112,7 +112,7 @@ document.getElementById('grid').innerHTML=D.map(function(p){
   var role=co?(co+' 대표'):'IP·콘텐츠';
   return '<div class="card">'+
     '<div class="ph"><span class="ini">'+name.charAt(0)+'</span>'+
-    '<img src="assets/speakers/'+slug+'.png" alt="'+name+'" loading="lazy" onerror="this.remove()"></div>'+
+    '<img src="assets/speakers/'+slug+'.png" alt="'+name+'" onerror="this.remove()"></div>'+
     '<div class="nm">'+name+'</div><div class="rl">'+role+'</div>'+
     '<div class="tags"><span class="tag">'+cat+'</span></div>'+
     '<div class="nxt">'+cal+'<span><b>다음 발표</b>9–10월 '+cat+' 세션</span></div>'+
