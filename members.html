@@ -77,6 +77,17 @@
   .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
   .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
   @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
+  .final-cta{width:100vw;margin-left:50%;transform:translateX(-50%);background:#16140F;color:#D8D2C2;padding:clamp(24px,3.5vw,40px) 0 clamp(64px,9vw,120px);}
+  .final-cta .fc-wrap{max-width:var(--maxw,1440px);margin:0 auto;padding-left:var(--pad-x,clamp(20px,5vw,56px));padding-right:var(--pad-x,clamp(20px,5vw,56px));}
+  .final-cta h2{margin:0;font-family:var(--serif,'RIDIBatang',serif);font-size:clamp(32px,6vw,76px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;color:#F3EEE0;word-break:keep-all;max-width:22ch;}
+  .final-cta h2 em{font-style:normal;color:inherit}
+  .final-cta .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);}
+  .final-cta .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
+  .final-cta .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-weight:500;font-size:16px;padding:18px 28px;border:1px solid #F3EEE0;cursor:pointer;line-height:1;border-radius:999px;text-decoration:none;background:#F3EEE0;color:#16140F;transition:background .15s,color .15s,border-color .15s;}
+  .final-cta .btn:hover{background:#9DB5FF;border-color:#9DB5FF;color:#16140F}
+  .final-cta .btn .arr{font-family:var(--mono,monospace);font-weight:400}
+  .final-cta .fcontact{margin-top:40px;color:#9A9587;font-size:13px;font-family:var(--mono,monospace);letter-spacing:0.04em;border-top:1px solid #33312A;padding-top:24px;max-width:680px;margin-left:auto;text-align:right;}
+  .final-cta .fc-vrule{width:1px;height:clamp(40px,6vw,64px);margin:0 auto clamp(20px,3vw,32px);background:repeating-linear-gradient(to bottom,var(--line-2,#C2BBA9) 0 5px,transparent 5px 11px);}
 </style>
 </head>
 <body>
@@ -1180,10 +1191,17 @@
   </div>
 </main>
 
-<div class="back-home" style="text-align:center;padding:clamp(36px,6vw,72px) 0 clamp(72px,9vw,104px);">
-  <a href="index.html" style="display:inline-flex;align-items:center;gap:8px;font-size:14px;color:var(--muted);font-weight:500;border:1px solid var(--line);padding:12px 22px;border-radius:999px;">&larr; 메인 페이지로 돌아가기</a>
-</div>
-
+<section class="final-cta" id="contact">
+  <div class="fc-wrap">
+    <div class="fc-vrule" aria-hidden="true"></div>
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="fsub">정원 50명 · 7월 24일 마감</div>
+    <div class="actions">
+      <a class="btn" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+    </div>
+    <div class="fcontact">문의: 010-2494-1884<br/>swan@unfiltered.im</div>
+  </div>
+</section>
 <div class="sticky-cta">
   <a href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
 </div>
