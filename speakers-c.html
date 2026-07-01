@@ -34,16 +34,14 @@
   .head .sub{margin-top:14px;font-size:15px;color:var(--muted);max-width:56ch;line-height:1.6}
   .grp{display:grid;grid-template-columns:clamp(150px,16vw,220px) 1fr;gap:clamp(20px,3vw,48px);border-top:1.5px solid var(--ink);padding:clamp(24px,3vw,40px) 0}
   .glabel{align-self:start;position:sticky;top:84px}
-  .glabel h2{font-size:clamp(22px,2.3vw,32px);font-weight:600;letter-spacing:-.025em;margin:0 0 6px;line-height:1.1;word-break:keep-all}
-  .glabel .gc{font-size:12.5px;color:var(--muted);font-family:var(--mono);display:block}
-  .glabel .gs{font-size:12.5px;color:var(--muted2);margin-top:2px;display:block}
+  .glabel h2{font-size:clamp(22px,2.3vw,32px);font-weight:600;letter-spacing:-.025em;margin:0;line-height:1.1;word-break:keep-all}
   .gcards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,1.8vw,28px)}
   .card{display:flex;flex-direction:column}
   .ph{position:relative;aspect-ratio:1;background:var(--bg);border:1.5px solid var(--ink);overflow:hidden;margin-bottom:12px}
   .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .ph .ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(30px,3vw,44px);color:#bcb6a5;font-weight:500}
-  .nm{font-size:clamp(16px,1.4vw,20px);font-weight:600;letter-spacing:-.02em;line-height:1.32;word-break:keep-all}
-  .co{font-weight:400;color:var(--muted);font-size:.85em}
+  .nm,.co{font-size:clamp(15px,1.35vw,18px);font-weight:600;letter-spacing:-.02em;line-height:1.34;color:var(--ink);word-break:keep-all}
+  .intro{margin-top:7px;font-size:13px;line-height:1.55;color:var(--muted);word-break:keep-all}
   .final-cta{margin-top:0;width:100vw;margin-left:50%;transform:translateX(-50%);background:var(--ink);color:#D8D2C2;padding:clamp(48px,7vw,96px) 0 clamp(64px,9vw,120px);border-top:1.5px solid var(--gl)}
   .final-cta h2{margin:0;font-size:clamp(30px,4.5vw,56px);font-weight:500;letter-spacing:-.03em;color:#F3EEE0;line-height:1.15;word-break:keep-all}
   .final-cta .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px)}
@@ -106,18 +104,21 @@ var D=[
 ["spk-29","황성재","엑스와이지","제조·하드웨어"],["spk-30","국봉환","슈피겐코리아","제조·하드웨어"],["spk-31","강신경","베이직스","제조·하드웨어"],
 ["spk-32","이형진","마이노멀","식품"],["spk-33","김희주","솜인터내셔널","식품"],["spk-34","장형윤","매홍엘앤에프","식품"]
 ];
+var INTRO='한 줄 소개가 여기에 들어갑니다.';
 function card(p){
   var slug=p[0],name=p[1],co=p[2];
   var role=co?(co+' 대표'):'IP·콘텐츠';
   return '<div class="card">'+
     '<div class="ph"><span class="ini">'+name.charAt(0)+'</span>'+
     '<img src="assets/speakers/'+slug+'.png" alt="'+name+'" onerror="this.remove()"></div>'+
-    '<div class="nm">'+name+'<span class="co"> · '+role+'</span></div>'+
+    '<div class="nm">'+name+'</div>'+
+    '<div class="co">'+role+'</div>'+
+    '<div class="intro">'+INTRO+'</div>'+
   '</div>';
 }
 var groups=[];D.forEach(function(p){var g=groups[groups.length-1];if(!g||g.cat!==p[3]){g={cat:p[3],items:[]};groups.push(g);}g.items.push(p);});
 document.getElementById('groups').innerHTML=groups.map(function(g){
-  return '<section class="grp"><div class="glabel"><h2>'+g.cat+'</h2><span class="gc">'+g.items.length+'명</span><span class="gs">9–10월 세션</span></div>'+
+  return '<section class="grp"><div class="glabel"><h2>'+g.cat+'</h2></div>'+
     '<div class="gcards">'+g.items.map(card).join('')+'</div></section>';
 }).join('');
 })();
