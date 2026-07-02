@@ -1250,12 +1250,10 @@ document.addEventListener('click',function(){if(current)hide();});
   var b=document.querySelector('[data-screen-label="06 Talks"]');
   if(!cta||!a||!b)return;
   function mid(el){var r=el.getBoundingClientRect();return r.top+window.scrollY+r.height/2;}
-  function upd(){var ref=window.scrollY+window.innerHeight/2;cta.classList.toggle('cta-show',ref>=mid(a)&&ref<mid(b));}
-  window.addEventListener('scroll',upd,{passive:true});
-  window.addEventListener('resize',upd);
-  window.addEventListener('load',upd); upd();
+  function upd(){var ref=window.scrollY+window.innerHeight/2;cta.classList.toggle('cta-show',ref>=mid(a)&&ref<mid(b));requestAnimationFrame(upd);}
+  requestAnimationFrame(upd);
 })();
 </script>
 </body>
-<!-- redeploy 20260702-nudge1 -->
+<!-- redeploy 20260702-nudge2 raf -->
 </html>
