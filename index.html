@@ -2,6 +2,10 @@
 <html lang="ko">
 <head>
 <meta charset="utf-8" />
+<!-- Google tag (gtag.js) -->
+<script async src="https://www.googletagmanager.com/gtag/js?id=G-TYK39J7KX1"></script>
+<script>window.dataLayer=window.dataLayer||[];function gtag(){dataLayer.push(arguments);}gtag('js',new Date());gtag('config','G-TYK39J7KX1');</script>
+
 <base href="/membership/" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>필터 없는 멤버십 3기 — 창업자·C레벨을 위한 멤버십</title>
@@ -584,6 +588,12 @@
   @media (max-width:560px){
     .facewall{grid-template-columns:repeat(auto-fill,minmax(48px,1fr));gap:8px}
   }
+  .facewall .f{cursor:pointer;transition:filter .15s}
+  .facewall .f:hover{filter:none}
+  #facePop{position:fixed;z-index:75;width:206px;max-width:72vw;background:var(--paper,#F7F4EC);border:1px solid var(--line,#D8D2C4);border-radius:12px;box-shadow:0 14px 34px rgba(0,0,0,.16);padding:13px 15px;opacity:0;pointer-events:none;transition:opacity .12s ease;font-family:var(--sans)}
+  #facePop.on{opacity:1}
+  #facePop .fp-nm{font-size:15px;font-weight:700;color:var(--ink,#16140F);letter-spacing:-.02em;line-height:1.25}
+  #facePop .fp-co{font-size:13px;color:var(--muted,#6B675C);margin-top:3px}
 </style>
 </head>
 <body>
@@ -1123,6 +1133,27 @@ body{padding-bottom:82px!important}
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>(function(){if(!window.Lenis)return;var l=new Lenis();function raf(t){l.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);})();</script>
 <script>(function(){var b=document.querySelector(".mast-burger"),m=document.querySelector(".mast-menu");if(!b||!m)return;b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});document.addEventListener("click",function(e){if(!m.contains(e.target)&&!b.contains(e.target)){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});document.addEventListener("keydown",function(e){if(e.key==="Escape"){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});})();</script>
+<script>
+(function(){
+var MAP={1:["강동주","아이유노"],2:["강신경","베이직스"],3:["고봉수","님버스테크"],4:["곽근봉","원지랩스"],5:["구동언","로그프레소"],6:["국봉환","슈피겐코리아"],7:["권기범","자성팩"],8:["권신구","21그램"],9:["김가현","메이저스"],10:["김강수","제트5"],11:["김경태","트레져러"],12:["김경훈","프록시랩스"],13:["김도균","베뉴에이"],14:["김도형","스타트업북스"],15:["김동하","트윈플러스파트너스"],16:["김범준","피플에듀"],17:["김상혁","인테그로"],18:["김선영","마켓핏랩"],19:["김수민","잼플"],20:["김승일","모두의연구소"],21:["김영훈","메이사"],22:["김용래","포피플"],23:["김원균","로랩스"],24:["김윤수","빌사남"],25:["김인기","내러티브"],26:["김재용","플레이스파이브"],27:["김정현","쉐어하우스우주"],28:["김정훈","콘텐츠베이커리"],29:["김종규","식스티헤르츠"],30:["김준우","워크스페이스그룹"],31:["김지민","티켓투더문"],32:["김지현","동일프라텍"],33:["김지훈","스탠잇"],34:["김찬현","웰리"],35:["김철우","더벤처스"],36:["김충희","워커스하이"]};
+var wall=document.querySelector('.facewall'); if(!wall) return;
+var pop=document.createElement('div'); pop.id='facePop';
+pop.innerHTML='<div class="fp-nm"></div><div class="fp-co"></div>';
+document.body.appendChild(pop);
+var elNm=pop.querySelector('.fp-nm'), elCo=pop.querySelector('.fp-co'), current=null;
+function idx(f){var img=f.querySelector('img');var mm=img&&(img.getAttribute('src')||'').match(/m0*(\d+)\.png/);return mm?parseInt(mm[1],10):null;}
+function show(f){var d=MAP[idx(f)];if(!d)return;current=f;elNm.textContent=d[0];elCo.textContent=d[1];pop.classList.add('on');var r=f.getBoundingClientRect(),pw=pop.offsetWidth||206,cx=r.left+r.width/2;pop.style.left=Math.min(Math.max(cx,pw/2+8),window.innerWidth-pw/2-8)+'px';pop.style.top=(r.top-10)+'px';pop.style.transform='translate(-50%,-100%)';}
+function hide(){current=null;pop.classList.remove('on');}
+var canHover=window.matchMedia&&window.matchMedia('(hover:hover)').matches;
+wall.querySelectorAll('.f').forEach(function(f){
+  var img=f.querySelector('img'),d=MAP[idx(f)];if(d&&img)img.alt=d[0]+' '+d[1];
+  if(canHover){f.addEventListener('mouseenter',function(){show(f);});f.addEventListener('mouseleave',hide);}
+  f.addEventListener('click',function(e){e.stopPropagation();current===f?hide():show(f);});
+});
+window.addEventListener('scroll',function(){if(current)hide();},{passive:true});
+document.addEventListener('click',function(){if(current)hide();});
+})();
+</script>
 </body>
 <!-- redeploy 20260702-nudge1 -->
 </html>
