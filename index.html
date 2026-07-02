@@ -471,7 +471,7 @@
   /* ---------- Final ---------- */
   .final{
     text-align:left;
-    padding-top:clamp(48px,7vw,84px);
+    padding-top:clamp(40px,5.5vw,64px);
     padding-bottom:clamp(64px,8vw,120px);
     background:var(--ink);color:var(--bg);
     margin-top:0;
@@ -479,7 +479,7 @@
   .final .fv-label{color:#C2BBA9;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:clamp(32px,4.5vw,52px);font-family:var(--sans);}
   .final .fv-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;}
   .final .fv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
-  .final .fcta{margin-top:clamp(40px,6vw,72px);}
+  .final .fcta{margin-top:0;}
   .final h2{
     margin:0;
     font-family:var(--serif);
@@ -501,7 +501,7 @@
   .final .btn-outline{color:var(--bg);border-color:var(--bg)}
   .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
   .final .contact{
-    margin-top:40px;color:#C9C3B4;
+    margin-top:clamp(56px,9vw,88px);color:#C9C3B4;
     font-size:clamp(15px,1.3vw,20px);line-height:1.6;
     font-family:var(--sans);letter-spacing:0;
     border-top:1px solid #33312A;padding-top:24px;
@@ -568,7 +568,7 @@
   .hero-photo .apply-note{margin-top:16px}
   .hero-photo .apply-note .urgency{color:#fff}
   .hero-photo .apply-note .reassure{color:#C9C3B4}
-  .hero-photo .btn-primary{background:#F7F4EC;color:var(--ink);border-color:#F7F4EC}
+  .hero-photo .btn-primary{background:#eeeeee;color:var(--ink);border-color:#eeeeee}
   .hero-photo .btn-primary:hover{background:#fff;border-color:#fff}
   .hero-photo .btn-outline{background:transparent;color:#F7F4EC;border-color:#F7F4EC}
   .hero-photo .btn-outline:hover{background:#F7F4EC;color:var(--ink);border-color:#F7F4EC}
@@ -1088,9 +1088,9 @@ body{padding-bottom:94px!important}
 @font-face{font-family:'NEXON Lv2 Gothic';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/NEXONLv2Gothic/NEXONLv2Gothic-Bold.woff2') format('woff2');font-weight:700;font-style:normal;font-display:swap}
 .site-mast{position:sticky;top:0;z-index:70;background:rgba(238,238,238,0.92);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #D8D2C4}
 .site-mast .mast-in{position:relative;max-width:1440px;margin:0 auto;padding:9px clamp(20px,5vw,56px);display:flex;align-items:center;justify-content:space-between}
-.site-mast .mast-brand{display:flex;align-items:center;gap:12px;font-family:'NEXON Lv2 Gothic','Pretendard Variable',Pretendard,sans-serif;font-weight:700;font-size:clamp(24px,2.9vw,33px);letter-spacing:-.02em;color:#16140F;text-decoration:none;line-height:1.1}
+.site-mast .mast-brand{display:flex;align-items:center;gap:12px;font-family:'NEXON Lv2 Gothic','Pretendard Variable',Pretendard,sans-serif;font-weight:700;font-size:clamp(28px,3.4vw,39px);letter-spacing:-.02em;color:#16140F;text-decoration:none;line-height:1.1}
 .site-mast .mast-brand:hover{opacity:.68}
-.site-mast .mast-logo{width:clamp(34px,3.8vw,46px);height:clamp(34px,3.8vw,46px);border-radius:8px;display:block;flex:none}
+.site-mast .mast-logo{width:clamp(40px,4.5vw,54px);height:clamp(40px,4.5vw,54px);border-radius:8px;display:block;flex:none}
 .site-mast .mast-burger{display:flex;flex-direction:column;justify-content:center;gap:6px;width:40px;height:38px;padding:0 6px;background:none;border:0;border-radius:0;cursor:pointer;flex:none}
 .site-mast .mast-burger span{display:block;height:2px;background:#16140F;border-radius:2px;transition:.2s}
 .site-mast .mast-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
@@ -1250,6 +1250,8 @@ document.addEventListener('click',function(){if(current)hide();});
   requestAnimationFrame(upd);
 })();
 </script>
+<style>.sticky-cta.on-dark>a,.sticky-cta.on-dark .btn{background:#eeeeee!important;color:#16140F!important}</style>
+<script>(function(){var c=document.querySelector('.sticky-cta');var d=document.querySelector('.final,section.cta,.final-cta');if(!c||!d)return;function u(){var r=d.getBoundingClientRect();var y=window.innerHeight-52;c.classList.toggle('on-dark',r.top<y&&r.bottom>y);requestAnimationFrame(u);}requestAnimationFrame(u);})();</script>
 </body>
 <!-- redeploy 20260702-nudge2 raf -->
 </html>
