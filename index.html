@@ -1163,8 +1163,6 @@ body{padding-bottom:94px!important}
   </div>
 </section>
 
-<div class="vrule" aria-hidden="true" style="margin-bottom:clamp(28px,4vw,52px)"></div>
-
 <!-- ========= 7. 최종 CTA ========= -->
 <section class="final" data-screen-label="07 Final" id="contact">
 <!-- [임시 제거 · 유튜브 영역, 나중에 복구 예정]
@@ -1246,10 +1244,9 @@ document.addEventListener('click',function(){if(current)hide();});
 (function(){
   var cta=document.querySelector('.sticky-cta');
   var a=document.querySelector('[data-screen-label="01b Meta"]');
-  var b=document.querySelector('[data-screen-label="06 Talks"]');
-  if(!cta||!a||!b)return;
+  if(!cta||!a)return;
   function mid(el){var r=el.getBoundingClientRect();return r.top+window.scrollY+r.height/2;}
-  function upd(){var ref=window.scrollY+window.innerHeight/2;cta.classList.toggle('cta-show',ref>=mid(a)&&ref<mid(b));requestAnimationFrame(upd);}
+  function upd(){var ref=window.scrollY+window.innerHeight/2;cta.classList.toggle('cta-show',ref>=mid(a));requestAnimationFrame(upd);}
   requestAnimationFrame(upd);
 })();
 </script>
