@@ -5,6 +5,21 @@
 <base href="/membership/" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>필터 없는 멤버십 — Wall of Fame</title>
+<link rel="icon" type="image/png" href="assets/favicon.png" />
+<link rel="apple-touch-icon" href="assets/favicon.png" />
+
+<meta property="og:type" content="website" />
+<meta property="og:url" content="https://unfiltered.im/membership/members.html" />
+<meta property="og:title" content="필터 없는 멤버십 — Wall of Fame" />
+<meta property="og:description" content="필터 없는 멤버십 — 창업자·C레벨을 위한 초대제 커뮤니티." />
+<meta property="og:image" content="https://unfiltered.im/membership/assets/og-share.jpg" />
+<meta property="og:image:width" content="1200" />
+<meta property="og:image:height" content="630" />
+<meta property="og:locale" content="ko_KR" />
+<meta name="twitter:card" content="summary_large_image" />
+<meta name="twitter:title" content="필터 없는 멤버십 — Wall of Fame" />
+<meta name="twitter:image" content="https://unfiltered.im/membership/assets/og-share.jpg" />
+
 <link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
 <link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
 <style>
@@ -44,6 +59,15 @@
   @media (max-width:1100px){ .wall{columns:2} }
   @media (max-width:680px){ .wall{columns:1} }
 
+  .wall-tools{display:flex;justify-content:flex-end;align-items:center;margin:clamp(20px,2.4vw,30px) 0 clamp(12px,1.4vw,18px);}
+  .sortbox{display:inline-flex;align-items:center;gap:9px;font-size:14px;color:var(--ink);cursor:pointer;user-select:none;border:1px solid var(--line);border-radius:999px;padding:9px 16px;background:var(--paper);transition:border-color .15s;}
+  .sortbox:hover{border-color:var(--ink);}
+  .sortbox input{width:16px;height:16px;accent-color:var(--ink);cursor:pointer;margin:0;}
+  .wall.az{columns:auto;display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,1.5vw,22px);align-items:start;}
+  .wall.az .wcard{margin:0;}
+  @media (max-width:1100px){ .wall.az{grid-template-columns:repeat(2,1fr)} }
+  @media (max-width:680px){ .wall.az{grid-template-columns:1fr} }
+
   .wcard{break-inside:avoid;margin:0 0 clamp(16px,1.5vw,22px);background:var(--paper);border:1px solid var(--line);border-radius:16px;padding:20px;}
   .wc-head{display:flex;align-items:center;gap:13px;}
   .wc-av{width:52px;height:52px;flex:0 0 auto;border-radius:50%;overflow:hidden;background:var(--bg-2);border:1px solid var(--line-2);}
@@ -73,7 +97,7 @@
   .foot-note{text-align:center;padding:clamp(24px,3vw,40px) 0 clamp(56px,7vw,96px);color:var(--muted);font-size:13px;border-top:1px solid var(--line);word-break:keep-all;}
   .foot-note .back{display:inline-flex;align-items:center;gap:8px;margin-bottom:18px;font-size:14px;color:var(--accent);font-weight:500;border-bottom:1px solid currentColor;padding-bottom:2px;}
   .foot-note .back .arr{font-family:var(--mono)}
-  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
+  .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#eeeeee;backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
   .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
   .sticky-cta a .arr{font-family:var(--mono);font-weight:400}
   @media (max-width:780px){.sticky-cta{display:block}body{padding-bottom:76px}}
@@ -90,16 +114,24 @@
   .final-cta .fc-vrule{width:1px;height:clamp(40px,6vw,64px);margin:0 auto clamp(20px,3vw,32px);background:repeating-linear-gradient(to bottom,var(--line-2,#C2BBA9) 0 5px,transparent 5px 11px);}
 
 /* --- batch: 통일 플로팅 CTA + 버튼/영상 수정 --- */
-.sticky-cta{display:block!important;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:rgba(242,238,229,0.94);backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line,#D8D2C4)}
+.sticky-cta{display:block!important;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#eeeeee;backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line,#D8D2C4)}
 .sticky-cta>a,.sticky-cta .btn{display:flex!important;align-items:center;justify-content:center;gap:8px;width:100%;max-width:480px;margin:0 auto;background:#16140F;color:#eeeeee;font-weight:600;font-size:clamp(13px,3.6vw,15px);line-height:1.2;padding:15px 16px;border-radius:999px;text-decoration:none;border:0;white-space:nowrap}
 .sticky-cta>a:hover,.sticky-cta .btn:hover{background:#16140F;color:#eeeeee}
 .sticky-cta .arr{font-family:var(--mono,monospace);font-weight:400}
 .btn{line-height:1.25;white-space:normal}
 @media(min-width:781px){.video{width:100%!important;max-width:820px;margin-left:auto!important;margin-right:auto!important;transform:none!important}}
 body{padding-bottom:82px!important}
+
+/* batch2: 상단 마스트헤드(홈 링크) */
+@font-face{font-family:'RIDIBatang';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
+.site-mast{position:sticky;top:0;z-index:70;background:rgba(238,238,238,0.92);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #D8D2C4}
+.site-mast a{display:block;max-width:1440px;margin:0 auto;padding:14px clamp(20px,5vw,56px);font-family:'RIDIBatang','Noto Serif KR',serif;font-size:clamp(19px,2vw,24px);letter-spacing:-.01em;color:#16140F;text-decoration:none;line-height:1.1}
+.site-mast a:hover{opacity:.68}
 </style>
 </head>
 <body>
+<div class="site-mast"><a href="index.html">필터 없는 멤버십</a></div>
+
 
 
 <main class="wrap" data-screen-label="Wall of Fame">
@@ -108,6 +140,8 @@ body{padding-bottom:82px!important}
     <p class="sub">1기·2기, 검증된 대표님들이 먼저 함께했습니다. 다양한 산업의 창업자와 C레벨이 한자리에 모였습니다.</p>
     <div class="count-pill">참여 멤버 <b>111</b>명</div>
   </div>
+
+  <div class="wall-tools"><label class="sortbox"><input type="checkbox" id="sortAz"> 가나다순 정렬</label></div>
 
   <div class="wall">
       <article class="wcard">
@@ -1219,9 +1253,20 @@ body{padding-bottom:82px!important}
 (function(){
   var wall=document.querySelector('.wall'); if(!wall) return;
   var cards=Array.prototype.slice.call(wall.querySelectorAll('.wcard'));
-  for(var i=cards.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=cards[i];cards[i]=cards[j];cards[j]=t;}
-  cards.forEach(function(c){wall.appendChild(c);});
+  function nameOf(c){var n=c.querySelector('.wc-name');if(!n)return '';var t=n.firstChild;return (t&&t.textContent?t.textContent:n.textContent).trim();}
+  var shuffled=cards.slice();
+  for(var i=shuffled.length-1;i>0;i--){var j=Math.floor(Math.random()*(i+1));var t=shuffled[i];shuffled[i]=shuffled[j];shuffled[j]=t;}
+  var sorted=cards.slice().sort(function(a,b){return nameOf(a).localeCompare(nameOf(b),'ko');});
+  function render(list){list.forEach(function(c){wall.appendChild(c);});}
+  render(shuffled);
+  var box=document.getElementById('sortAz');
+  if(box){box.addEventListener('change',function(){
+    wall.classList.toggle('az',box.checked);
+    render(box.checked?sorted:shuffled);
+  });}
 })();
 </script>
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
+<script>(function(){if(!window.Lenis)return;var l=new Lenis();function raf(t){l.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);})();</script>
 </body>
 </html>
