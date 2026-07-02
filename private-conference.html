@@ -1,0 +1,149 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8" />
+<base href="/membership/" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>프라이빗 컨퍼런스 발표자 — 필터 없는 멤버십</title>
+<link rel="preconnect" href="https://cdn.jsdelivr.net" crossorigin />
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard@v1.3.9/dist/web/static/pretendard.min.css" />
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@500;600;700&display=swap" />
+<style>
+  @font-face{font-family:'RIDIBatang';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap;}
+  :root{--ink:#16140F;--muted:#6B675C;--muted2:#8f8a7d;--gl:#16140F;--tl:#c7c1b2;--bg:#eeeeee;--line:#D8D2C4;--line-2:#C2BBA9;--accent:#1F4FD9;--serif:'RIDIBatang','Noto Serif KR',serif;--sans:'Pretendard Variable',Pretendard,-apple-system,'Noto Sans KR',sans-serif;--mono:ui-monospace,SFMono-Regular,Menlo,monospace}
+  *{box-sizing:border-box}
+  html{scroll-behavior:smooth}
+  html,body{margin:0;padding:0;background:var(--bg);color:var(--ink);overflow-x:hidden}
+  body{font-family:var(--sans);-webkit-font-smoothing:antialiased;line-height:1.55}
+  a{color:inherit;text-decoration:none}
+  .wrap{max-width:1440px;margin:0 auto;padding:0 clamp(20px,5vw,56px)}
+  .vbar{background:#16140F;color:#eee}
+  .vbar-in{display:flex;align-items:center;gap:16px;height:44px;font-size:13px;flex-wrap:wrap}
+  .vbar .vlab{color:#9A9587;font-family:var(--mono);font-size:12px}
+  .vbar a{color:#C2BBA9;padding:4px 0}
+  .vbar a.von{color:#fff;font-weight:700;border-bottom:2px solid #fff}
+  .nav{position:sticky;top:0;z-index:50;background:rgba(238,238,238,.9);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid var(--gl)}
+  .nav-in{display:flex;align-items:center;justify-content:space-between;height:64px}
+  .brand{font-weight:700;font-size:16px;letter-spacing:-.02em}
+  .menu{display:flex;gap:24px}
+  .menu a{font-size:14px;color:#33302a}
+  .menu a.on{font-weight:600}
+  .right{display:flex;align-items:center;gap:16px}
+  .ln{font-size:14px;color:var(--muted)}
+  .apply{font-size:14px;font-weight:600;color:#eee;background:var(--ink);padding:10px 18px;border-radius:8px}
+  .head{padding:clamp(40px,6vw,72px) 0 clamp(20px,2.5vw,28px)}
+  .head h1{font-size:clamp(40px,5.6vw,66px);font-family:var(--serif);font-weight:500;letter-spacing:-.035em;margin:0;line-height:1.05;word-break:keep-all}
+  .head .sub{margin-top:14px;font-size:15px;color:var(--muted);max-width:56ch;line-height:1.6}
+  .grp{display:grid;grid-template-columns:clamp(150px,16vw,220px) 1fr;gap:clamp(20px,3vw,48px);border-top:1px solid var(--line);padding:clamp(24px,3vw,40px) 0;scroll-margin-top:112px}
+  .glabel{align-self:start;position:sticky;top:84px}
+  .glabel h2{font-size:clamp(30px,3.4vw,48px);font-family:var(--serif);font-weight:500;letter-spacing:-.02em;margin:0;line-height:1.1;word-break:keep-all}
+  .gcards{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(16px,1.8vw,28px)}
+  .card{display:flex;flex-direction:column}
+  .ph{position:relative;aspect-ratio:1;background:var(--bg);border:1px solid var(--line);overflow:hidden;margin-bottom:12px}
+  .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
+  .ph .ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(30px,3vw,44px);color:#bcb6a5;font-weight:500}
+  .who{font-size:clamp(18px,1.8vw,24px);font-weight:600;letter-spacing:-.02em;line-height:1.34;color:var(--ink);word-break:keep-all}
+  .intro{margin-top:5px;font-size:clamp(15px,1.35vw,17px);line-height:1.55;color:var(--muted);word-break:keep-all}
+  .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:500;font-size:15px;padding:14px 22px;border:1px solid transparent;cursor:pointer;letter-spacing:-0.005em;line-height:1;border-radius:999px;transition:background .15s ease,color .15s ease,border-color .15s ease}
+  .btn .arr{font-family:var(--mono);font-weight:400}
+  .btn .dday{font-family:var(--mono);font-weight:600;font-size:0.92em;color:inherit;letter-spacing:0}
+  .btn .dday:empty{display:none}
+  .btn-lg{font-size:16px;padding:18px 28px}
+  .final{text-align:left;padding-top:clamp(48px,7vw,84px);padding-bottom:clamp(64px,8vw,120px);background:var(--ink);color:var(--bg);margin-top:clamp(32px,4.5vw,64px)}
+  .final h2{margin:0;font-family:var(--serif);font-size:clamp(36px,7vw,104px);line-height:1.18;letter-spacing:-0.03em;font-weight:500;word-break:keep-all;max-width:22ch}
+  .final h2 em{font-style:normal;color:inherit}
+  .final .sub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);font-family:var(--sans);letter-spacing:-0.01em}
+  .final .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px}
+  .final .btn-primary{background:var(--bg);color:var(--ink);border-color:var(--bg)}
+  .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
+  .final .btn-outline{background:transparent;color:var(--bg);border-color:var(--bg)}
+  .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
+  .final .contact{margin-top:40px;color:#C9C3B4;font-size:clamp(15px,1.3vw,20px);line-height:1.6;font-family:var(--sans);letter-spacing:0;border-top:1px solid #33312A;padding-top:24px;text-align:right}
+  .final .contact span{color:#5A5751;padding:0 8px}
+  @media(max-width:820px){.grp{grid-template-columns:1fr;gap:14px}.glabel{position:static}.gcards{grid-template-columns:repeat(2,1fr)}.menu{display:none}}
+  @media(max-width:560px){.gcards{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+
+<main class="wrap" id="page">
+  <div class="head">
+    <div>
+      <h1>프라이빗 컨퍼런스 발표자</h1>
+      <p class="sub">각 분야에서 실제 성과를 내고 있는 멤버들이 직접 발표하고 토론합니다. 관심 있는 세션을 신청하여 전문성과 네트워킹을 함께 얻어가세요.</p>
+    </div>
+  </div>
+  <div id="groups"></div>
+</main>
+
+<section class="final" id="contact">
+  <div class="wrap fcta">
+    <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
+    <div class="sub">정원 50명 · 7월 24일 마감 <span class="dday"></span></div>
+    <div class="actions">
+      <a class="btn btn-primary btn-lg" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="dday"></span> <span class="arr">&rarr;</span></a>
+      <a class="btn btn-outline btn-lg" href="members.html">멤버십 전체 명단 보기</a>
+    </div>
+    <div class="sub" style="margin-top:14px;font-size:clamp(15px,1.3vw,20px);line-height:1.5;letter-spacing:0;color:#C9C3B4">바로 결제되지 않습니다,<br/>간단한 전화 심사를 거쳐 가입이 확정됩니다.</div>
+    <div class="contact">문의: 010-2494-1884<br/>swan@unfiltered.im</div>
+  </div>
+</section>
+
+<script>
+(function(){
+var D=[
+["spk-01","박영호","라구나인베스트먼트 대표","투자","네시삼십삼분, 조이시티 CEO 역임","일찍부터 IP 투자의 기틀을 닦음"],
+["spk-02","김철우","더벤처스 대표","투자","셀잇 매각, 번개장터와 합병 후 매각","현재 초기기업 투자, 해외 투자에 매진"],
+["spk-03","김인기","내러티브 대표","투자","부트캠프 코드스테이츠 CEO 출신","다양한 SW 인수 후 성장 전략"],
+["spk-04","김강수","제트5 대표","AI","드래곤빌리지 프로듀서 출신","두 차례 게임회사 창업, 모두 매각"],
+["spk-05","곽근봉","원지랩스 대표","AI","NBT(캐시슬라이드) 창업자 출신","창업한 원지랩스를 최근 컬리에 매각"],
+["spk-06","박우범","위시켓 대표","AI","국내 IT 아웃소싱 플랫폼 1위","AX 전문 서비스 AIDP 운영"],
+["spk-07","박찬구","박자문사무소 대표","리더십","전 세방전지, 도레이케미칼 CEO","현재 경영자 전문 코치로 활동"],
+["spk-08","이채린","클라썸 대표","리더십","글로벌 스킬 기반 HR 도입 서비스 제공","누적 투자액 225억"],
+["spk-09","조승빈","컨그루언트애자일 대표","리더십","삼성전자, NBT 등 다양한 기업 경험","‘일하는 방식’ 코칭을 전파 중"],
+["spk-10","천정욱","VTPL 대표","뷰티","K뷰티 브랜드 씨스터앤 운영","연매출 300억 이상, 20개국 이상 수출"],
+["spk-11","이화랑","미소 메드스파 대표","뷰티","SI, 플랫폼 등 3차례 매각 경험","미국에서 피부과 직영 6개 지점 운영"],
+["spk-12","최가희","발렌라이프 대표","뷰티","뷰티 전문 종합 마케팅 대행","창업 2년만에 연매출 100억 돌파"],
+["spk-13","김경태","트레져러 대표","개발","포인트 기반 투자 중개 플랫폼","AI 금융 분석 플랫폼 알파렌즈 운영"],
+["spk-14","남상협","버즈니 대표","개발","메타 홈쇼핑 커머스 홈쇼핑모아 운영","다양한 커머스 AI 솔루션 제공"],
+["spk-15","팽동은","다빈치 대표","개발","킥보드 서비스 디어 창업 후 매각","현재 컨설팅과 SI를 융합하여 제공"],
+["spk-17","박준길","로카101 대표","프랜차이즈","1위 고시원 프랜차이즈 픽셀하우스 운영","호스텔 등 건물 공실 솔루션 제공"],
+["spk-18","김용래","포피플 대표","프랜차이즈","휴대폰 판매점 50개 운영, 연매출 500억","중고폰 수출, 플랫폼 사업 확장 중"],
+["spk-19","권신구","21그램 대표","프랜차이즈","1위 반려동물 장례식장 21그램 운영","사모펀드 프랙시스캐피탈파트너스에 인수"],
+["spk-20","서소영","콘콘 대표","IP·콘텐츠","굿즈 올인원 서비스 오즈의 제작소 운영","직접 IP를 성장하는 사업도 병행"],
+["spk-21","전명진","열혈강호 대표","IP·콘텐츠","열혈강호 IP 활용 및 육성","글로벌에서 게임 위주로 장기 흥행 중"],
+["spk-22","정우초","세이브유어뮤직 대표","IP·콘텐츠","음원 등 다양한 K팝 음악 지표 분석","대형 기획사에 모니터링, 인사이트 제공"],
+["spk-23","조경상","메트릭스튜디오 대표","디지털 마케팅","종합 디지털 광고 대행사","GEO 등 새로운 디지털 분야 개척 중"],
+["spk-24","김선영","마켓핏랩 고문","디지털 마케팅","전 데이터리셔스 대표, 영국 기업에 매각","현 마켓핏랩 솔루션사업부 고문"],
+["spk-25","박기덕","밴스드 대표","디지털 마케팅","전 에코마케팅, 메타 싱가폴 근무","퍼포먼스 마케팅 에이전시 운영"],
+["spk-26","이지유","서프제이 대표","인플루언서","인플루언서 전문 에이전시","시딩, 기획 등 다양한 분야 대행"],
+["spk-27","김지민","티켓투더문 대표","인플루언서","2030 여성 타겟 MCN 운영","연프 유명 여성 인플루언서 대거 포진"],
+["spk-28","박현주","아틀리에컴퍼니 대표","인플루언서","여성 가방 브랜드 3개 운영","유튜버와 협업하여 브랜드 런칭"],
+["spk-29","황성재","엑스와이지 대표","제조·하드웨어","인텔에 매각한 올라웍스 공동창업자","현재 AI 기반 로봇 기업 운영"],
+["spk-30","국봉환","슈피겐코리아 대표","제조·하드웨어","글로벌 휴대폰 악세사리 1위 상장사","팬덤 플랫폼 페스티버, 슈피겐홀 운영"],
+["spk-31","강신경","베이직스 대표","제조·하드웨어","국내 3위 노트북 브랜드 운영","잘생겼는데 사진이 이거밖에 없음"],
+["spk-32","이형진","마이노멀 대표","식품","국내 1위 저당 전문 브랜드","다이어트 식단 앱 인앤아웃 운영"],
+["spk-33","김희주","솜인터내셔널 대표","식품","식품 수출입으로 연매출 1천억","자회사 5개로 종합 식품기업 성장 중"],
+["spk-34","장형윤","매홍엘앤에프 대표","식품","전국 각지에 10개 이상 공장 운영","고구마말랭이 등으로 연매출 300억 이상"]
+];
+function card(p){
+  var slug=p[0],name=p[1],role=p[2];
+  return '<div class="card">'+
+    '<div class="ph"><span class="ini">'+name.charAt(0)+'</span>'+
+    '<img src="assets/speakers/'+slug+'.png" alt="'+name+'" onerror="this.remove()"></div>'+
+    '<div class="who">'+name+' '+role+'</div>'+
+    '<div class="intro">'+p[4]+'<br/>'+p[5]+'</div>'+
+  '</div>';
+}
+var groups=[];D.forEach(function(p){var g=groups[groups.length-1];if(!g||g.cat!==p[3]){g={cat:p[3],items:[]};groups.push(g);}g.items.push(p);});
+document.getElementById('groups').innerHTML=groups.map(function(g,i){
+  return '<section class="grp" id="cat-'+i+'"><div class="glabel"><h2>'+g.cat+'</h2></div>'+
+    '<div class="gcards">'+g.items.map(card).join('')+'</div></section>';
+}).join('');
+})();
+</script>
+<script>
+(function(){var deadline=new Date('2026-07-24T23:59:59+09:00');var days=Math.ceil((deadline-new Date())/86400000);var label=days>0?'(D-'+days+')':(days===0?'(D-DAY)':'(마감)');document.querySelectorAll('.dday').forEach(function(el){el.textContent=label;});})();
+</script>
+</body>
+</html>
