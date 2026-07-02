@@ -602,6 +602,8 @@
   #facePop .fp-nm{font-size:18px;font-weight:700;color:var(--ink,#16140F);letter-spacing:-.02em;line-height:1.25}
   #facePop .fp-co{font-size:14.5px;color:var(--muted,#6B675C);margin-top:4px}
   #facePop .fp-bio{font-size:14px;color:var(--muted,#6B675C);margin-top:8px;line-height:1.5;border-top:1px solid var(--line,#D8D2C4);padding-top:8px;word-break:keep-all}
+  .sticky-cta{opacity:0;transform:translateY(135%);pointer-events:none;transition:opacity .45s ease,transform .5s cubic-bezier(.22,.61,.36,1)}
+  .sticky-cta.cta-show{opacity:1;transform:translateY(0);pointer-events:auto}
 </style>
 </head>
 <body>
@@ -1239,6 +1241,19 @@ wall.querySelectorAll('.f').forEach(function(f){
 });
 window.addEventListener('scroll',function(){if(current)hide();},{passive:true});
 document.addEventListener('click',function(){if(current)hide();});
+})();
+</script>
+<script>
+(function(){
+  var cta=document.querySelector('.sticky-cta');
+  var a=document.querySelector('[data-screen-label="01b Meta"]');
+  var b=document.querySelector('[data-screen-label="06 Talks"]');
+  if(!cta||!a||!b)return;
+  function mid(el){var r=el.getBoundingClientRect();return r.top+window.scrollY+r.height/2;}
+  function upd(){var ref=window.scrollY+window.innerHeight/2;cta.classList.toggle('cta-show',ref>=mid(a)&&ref<mid(b));}
+  window.addEventListener('scroll',upd,{passive:true});
+  window.addEventListener('resize',upd);
+  window.addEventListener('load',upd); upd();
 })();
 </script>
 </body>
