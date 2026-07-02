@@ -126,12 +126,25 @@ body{padding-bottom:82px!important}
 /* batch2: 상단 마스트헤드(홈 링크) */
 @font-face{font-family:'RIDIBatang';src:url('https://cdn.jsdelivr.net/gh/fonts-archive/RIDIBatang/RIDIBatang.woff2') format('woff2');font-weight:100 900;font-style:normal;font-display:swap}
 .site-mast{position:sticky;top:0;z-index:70;background:rgba(238,238,238,0.92);backdrop-filter:saturate(140%) blur(10px);border-bottom:1px solid #D8D2C4}
-.site-mast a{display:block;max-width:1440px;margin:0 auto;padding:14px clamp(20px,5vw,56px);font-family:'RIDIBatang','Noto Serif KR',serif;font-size:clamp(19px,2vw,24px);letter-spacing:-.01em;color:#16140F;text-decoration:none;line-height:1.1}
-.site-mast a:hover{opacity:.68}
+.site-mast .mast-in{position:relative;max-width:1440px;margin:0 auto;padding:9px clamp(20px,5vw,56px);display:flex;align-items:center;justify-content:space-between}
+.site-mast .mast-brand{display:flex;align-items:center;gap:10px;font-family:'RIDIBatang','Noto Serif KR',serif;font-size:clamp(19px,2vw,24px);letter-spacing:-.01em;color:#16140F;text-decoration:none;line-height:1.1}
+.site-mast .mast-brand:hover{opacity:.68}
+.site-mast .mast-logo{width:clamp(24px,2.4vw,30px);height:clamp(24px,2.4vw,30px);border-radius:6px;display:block;flex:none}
+.site-mast .mast-burger{display:flex;flex-direction:column;justify-content:center;gap:5px;width:44px;height:38px;padding:0 10px;background:none;border:1px solid #D8D2C4;border-radius:9px;cursor:pointer;flex:none}
+.site-mast .mast-burger span{display:block;height:2px;background:#16140F;border-radius:2px;transition:.2s}
+.site-mast .mast-burger[aria-expanded="true"] span:nth-child(1){transform:translateY(7px) rotate(45deg)}
+.site-mast .mast-burger[aria-expanded="true"] span:nth-child(2){opacity:0}
+.site-mast .mast-burger[aria-expanded="true"] span:nth-child(3){transform:translateY(-7px) rotate(-45deg)}
+.site-mast .mast-menu{position:absolute;top:calc(100% + 8px);right:clamp(20px,5vw,56px);display:none;flex-direction:column;min-width:184px;background:#F7F4EC;border:1px solid #D8D2C4;border-radius:12px;padding:8px;box-shadow:0 12px 30px rgba(0,0,0,.12);z-index:80}
+.site-mast .mast-menu.open{display:flex}
+.site-mast .mast-menu a{padding:11px 14px;border-radius:8px;font-family:'Pretendard Variable',Pretendard,-apple-system,sans-serif;font-size:15px;color:#16140F;text-decoration:none}
+.site-mast .mast-menu a:hover{background:#eee6d4}
+.site-mast .mast-menu .mast-apply{background:#16140F;color:#eeeeee;text-align:center;font-weight:600;margin-top:4px}
+.site-mast .mast-menu .mast-apply:hover{background:#2a2620}
 </style>
 </head>
 <body>
-<div class="site-mast"><a href="index.html">필터 없는 멤버십</a></div>
+<div class="site-mast"><div class="mast-in"><a class="mast-brand" href="index.html"><img class="mast-logo" src="assets/favicon.png" alt=""/><span>필터 없는 멤버십</span></a><button class="mast-burger" type="button" aria-label="메뉴 열기" aria-expanded="false"><span></span><span></span><span></span></button><nav class="mast-menu"><a href="members.html">멤버 명단</a><a href="testimonials.html">추천사</a><a href="talks.html">발표</a><a class="mast-apply" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">지원하기</a></nav></div></div>
 
 
 <!-- '더 많은 발표 보러 가기' 연결용 블로그형 목록. 신청 링크는 Tally 폼(https://tally.so/r/1Ax6AL)으로 연결됨. -->
@@ -180,41 +193,59 @@ body{padding-bottom:82px!important}
       </div>
     </a>
 
-    <div class="post is-soon">
-      <div class="post-thumb empty"></div>
+    <a class="post" href="talk-hong-gangnamunni.html">
+      <div class="post-thumb"><img src="assets/hsi-hero.jpg" alt="홍승일" /></div>
       <div class="post-body">
-        <div class="post-title">여러 차례 엑싯한 제품 개발론</div>
-        <p class="post-slug">여러 번의 엑싯을 거치며 다듬어 온, 팔리는 제품을 만드는 원칙에 대하여.</p>
-        <div class="post-author">부스트리 이화랑 대표 · 준비 중</div>
+        <div class="post-title">강남언니가 시장을 찾아가는 법</div>
+        <p class="post-slug">끝없이 문제를 좁히며 PMF를 찾아간 과정. 버티컬 플랫폼이 시장을 여는 판단들을 되짚는다.</p>
+        <div class="post-author">힐링페이퍼(강남언니) 홍승일 대표 · 기업가치 6,000억</div>
       </div>
-    </div>
+    </a>
 
-    <div class="post is-soon">
-      <div class="post-thumb empty"></div>
+    <a class="post" href="talk-jo-exem.html">
+      <div class="post-thumb"><img src="assets/jja-hero.jpg" alt="조종암" /></div>
       <div class="post-body">
-        <div class="post-title">두 번 상장시킨 회장의 사람 쓰는 법</div>
-        <p class="post-slug">코스닥에 두 번 회사를 올린 회장이 말하는, 조직을 키우는 채용과 HR의 원칙.</p>
-        <div class="post-author">엑셈 조종암 회장 · 준비 중</div>
+        <div class="post-title">2개 상장사를 이끈 '팀장 중심' HR</div>
+        <p class="post-slug">팀장을 스타트업 대표처럼 세우는 인사 원칙. 두 번의 코스닥 상장을 만든 조직론.</p>
+        <div class="post-author">엑셈 조종암 회장 · 2개사 코스닥 상장</div>
       </div>
-    </div>
+    </a>
 
-    <div class="post is-soon">
-      <div class="post-thumb empty"></div>
+    <a class="post" href="talk-kim-bunjang.html">
+      <div class="post-thumb"><img src="assets/khw-hero.jpg" alt="김철우" /></div>
       <div class="post-body">
-        <div class="post-title">버티컬 플랫폼이 시장에 진입하는 법</div>
-        <p class="post-slug">기업가치 6,000억으로 성장하기까지, 버티컬 플랫폼이 시장을 여는 과정의 판단들.</p>
-        <div class="post-author">강남언니 홍승일 대표 · 준비 중</div>
+        <div class="post-title">스타트업 2번 매각, 3가지 깨달음</div>
+        <p class="post-slug">연속된 작은 피벗과 기존 고객에 집중하기. 두 번의 엑싯에서 얻은 원칙.</p>
+        <div class="post-author">더벤처스 김철우 대표 · 스타트업 2회 매각</div>
       </div>
-    </div>
+    </a>
 
-    <div class="post is-soon">
-      <div class="post-thumb empty"></div>
+    <a class="post" href="talk-kwon-21gram.html">
+      <div class="post-thumb"><img src="assets/ksg-hero.jpg" alt="권신구" /></div>
       <div class="post-body">
-        <div class="post-title">미투데이부터 밴드까지, 서비스를 키운 경험</div>
-        <p class="post-slug">네이버 밴드를 총괄하며 배운, 사람을 모으는 서비스를 만들고 키우는 일에 대하여.</p>
-        <div class="post-author">벗뷰리풀 박수만 대표 · 준비 중</div>
+        <div class="post-title">돈 되는 시장에만 집중하라</div>
+        <p class="post-slug">밸류체인 확장보다 잘 되는 일을 복제하라. 선택과 집중으로 성장한 이야기.</p>
+        <div class="post-author">21그램 권신구 대표</div>
       </div>
-    </div>
+    </a>
+
+    <a class="post" href="talk-lee-medspa.html">
+      <div class="post-thumb"><img src="assets/lhr-hero.jpg" alt="이화랑" /></div>
+      <div class="post-body">
+        <div class="post-title">4번의 엑싯을 만든 제품 개발법</div>
+        <p class="post-slug">MVP부터 비전을 담은 실험을 반복하라. 여러 번의 엑싯으로 다듬은 제품 원칙.</p>
+        <div class="post-author">미소 메드스파 이화랑 대표 · 4회 엑싯</div>
+      </div>
+    </a>
+
+    <a class="post" href="talk-kang-iuno.html">
+      <div class="post-thumb"><img src="assets/hero-4.jpg" alt="강동주" /></div>
+      <div class="post-body">
+        <div class="post-title">실리콘밸리 기업에 취업하고 느낀 것</div>
+        <p class="post-slug">연쇄 창업가가 노션에서 일하며 배운 문화. 밖에서 본 일하는 방식의 차이.</p>
+        <div class="post-author">아이유노 강동주 VP · 연쇄 창업가</div>
+      </div>
+    </a>
 
   </div>
 </main>
@@ -246,5 +277,6 @@ body{padding-bottom:82px!important}
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>(function(){if(!window.Lenis)return;var l=new Lenis();function raf(t){l.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);})();</script>
+<script>(function(){var b=document.querySelector(".mast-burger"),m=document.querySelector(".mast-menu");if(!b||!m)return;b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});document.addEventListener("click",function(e){if(!m.contains(e.target)&&!b.contains(e.target)){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});document.addEventListener("keydown",function(e){if(e.key==="Escape"){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});})();</script>
 </body>
 </html>
