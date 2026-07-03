@@ -100,14 +100,14 @@
   }
 
   /* ---- Closing CTA (다른 페이지와 동일 / 쫑파티 라벨 여백 조정 반영) ---- */
-  .final{width:100vw;margin-left:50%;transform:translateX(-50%);text-align:left;background:var(--ink);color:var(--bg);padding:clamp(40px,5.5vw,64px) 0 clamp(64px,8vw,120px);}
+  .final{width:100vw;margin-left:50%;transform:translateX(-50%);text-align:left;background:var(--ink);color:var(--bg);padding:clamp(40px,5.5vw,64px) 0 clamp(40px,5.5vw,64px);}
   .final .fv-label{color:#C2BBA9;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:clamp(32px,4.5vw,52px);}
   .final .fv-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;}
   .final .fv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
   .final .fcta{margin-top:0;}
   .final h2{margin:0;font-family:var(--serif);font-size:clamp(34px,6.5vw,88px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;word-break:keep-all;max-width:22ch;}
   .final h2 em{font-style:normal;color:inherit}
-  .final .fsub{margin-top:12px;color:#C2BBA9;font-size:clamp(15px,1.2vw,18px);letter-spacing:-0.01em;}
+  .final .fsub{margin-top:12px;color:#eeeeee;font-size:clamp(15px,1.2vw,18px);letter-spacing:-0.01em;}
   .final .actions{margin-top:20px;display:flex;flex-wrap:wrap;gap:10px;}
   .btn{display:inline-flex;align-items:center;gap:9px;border-radius:999px;font-weight:600;border:1px solid transparent;padding:15px 26px;font-size:15px;transition:background .15s ease,color .15s ease,border-color .15s ease;}
   .btn .arr{font-family:var(--mono);font-weight:400}
@@ -115,7 +115,7 @@
   .final .btn-primary:hover{background:#9DB5FF;border-color:#9DB5FF;color:var(--ink)}
   .final .btn-outline{background:transparent;color:var(--bg);border-color:var(--bg)}
   .final .btn-outline:hover{background:var(--bg);color:var(--ink)}
-  .final .fcontact{margin-top:clamp(56px,9vw,88px);color:#C9C3B4;font-size:clamp(15px,1.3vw,20px);font-family:var(--sans);letter-spacing:0;border-top:1px solid #33312A;padding-top:24px;max-width:680px;text-align:right;margin-left:auto;}
+  .final .fcontact{margin-top:clamp(44px,7vw,64px);color:#eeeeee;font-size:clamp(15px,1.3vw,20px);font-family:var(--sans);letter-spacing:0;border-top:1px solid #33312A;padding-top:24px;max-width:680px;text-align:right;margin-left:auto;}
   .final .fcontact span{color:#5A5751;padding:0 8px}
   .sticky-cta{display:none;position:fixed;left:0;right:0;bottom:0;z-index:60;padding:10px 16px calc(10px + env(safe-area-inset-bottom));background:#eeeeee;backdrop-filter:saturate(140%) blur(10px);border-top:1px solid var(--line);}
   .sticky-cta a{display:flex;align-items:center;justify-content:center;gap:8px;width:100%;background:var(--ink);color:var(--bg);font-weight:600;font-size:15px;padding:15px 20px;border-radius:999px;text-decoration:none;}
@@ -289,7 +289,7 @@ body{padding-bottom:94px!important}
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
 <script>(function(){if(!window.Lenis)return;var l=new Lenis();function raf(t){l.raf(t);requestAnimationFrame(raf);}requestAnimationFrame(raf);})();</script>
 <script>(function(){var b=document.querySelector(".mast-burger"),m=document.querySelector(".mast-menu");if(!b||!m)return;b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});document.addEventListener("click",function(e){if(!m.contains(e.target)&&!b.contains(e.target)){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});document.addEventListener("keydown",function(e){if(e.key==="Escape"){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});})();</script>
-<style>.sticky-cta.on-dark>a,.sticky-cta.on-dark .btn{background:#eeeeee!important;color:#16140F!important}</style>
-<script>(function(){var c=document.querySelector('.sticky-cta');var d=document.querySelector('.final,section.cta,.final-cta');if(!c||!d)return;function u(){var r=d.getBoundingClientRect();var y=window.innerHeight-52;c.classList.toggle('on-dark',r.top<y&&r.bottom>y);requestAnimationFrame(u);}requestAnimationFrame(u);})();</script>
+<style>.sticky-cta.cta-hidden{opacity:0!important;transform:translateY(130%)!important;pointer-events:none!important;transition:opacity .3s ease,transform .3s ease}</style>
+<script>(function(){var c=document.querySelector('.sticky-cta');var d=document.querySelector('.final,section.cta,.final-cta');if(!c||!d)return;function u(){var r=d.getBoundingClientRect();c.classList.toggle('cta-hidden',r.top<window.innerHeight-52);requestAnimationFrame(u);}requestAnimationFrame(u);})();</script>
 </body>
 </html>
