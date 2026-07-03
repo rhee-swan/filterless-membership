@@ -86,7 +86,7 @@
   .cta .fv-label{color:#C2BBA9;font-size:13px;letter-spacing:0.12em;text-transform:uppercase;font-weight:600;margin-bottom:clamp(32px,4.5vw,52px);}
   .cta .fv-frame{position:relative;width:100%;aspect-ratio:16/9;background:#000;overflow:hidden;margin-bottom:clamp(40px,6vw,72px);}
   .cta .fv-frame iframe{position:absolute;inset:0;width:100%;height:100%;border:0;}
-  .cta h2{margin:0;font-family:var(--serif);font-size:clamp(32px,6vw,76px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;color:#eeeeee;word-break:keep-all;max-width:22ch;}
+  .cta h2{margin:0;font-family:var(--serif);font-size:clamp(30px,5vw,68px);line-height:1.18;letter-spacing:-0.03em;font-weight:700;color:#eeeeee;word-break:keep-all;max-width:22ch;}
   .cta h2 em{font-style:normal;color:inherit}
   .cta .fsub{margin-top:12px;color:#eeeeee;font-size:clamp(15px,1.2vw,18px);}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:500;font-size:16px;padding:18px 28px;border:1px solid transparent;cursor:pointer;letter-spacing:-0.005em;line-height:1;border-radius:999px;transition:background .15s,color .15s,border-color .15s;}
@@ -232,9 +232,9 @@ body{padding-bottom:0!important}
 -->
   <div class="wrap">
     <h2>필터 없는 멤버십에<br/><em>함께하시겠습니까?</em></h2>
-    <div class="fsub">정원 50명 · 7월 24일 (금) 마감</div>
+    <div class="fsub">정원 50명 · 7월 24일 (금) 마감 <span class="dday"></span></div>
     <div class="actions">
-      <a class="btn btn-primary" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+      <a class="btn btn-primary" href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="dday"></span> <span class="arr">&rarr;</span></a>
       <a class="btn btn-outline" href="members.html">멤버십 전체 명단 보기</a>
     </div>
     <div class="fcontact">문의: 010-2494-1884<br/>swan@unfiltered.im</div>
@@ -242,7 +242,7 @@ body{padding-bottom:0!important}
 </section>
 
 <div class="sticky-cta">
-  <a href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="arr">&rarr;</span></a>
+  <a href="https://tally.so/r/1Ax6AL" target="_blank" rel="noopener noreferrer">필터 없는 멤버십 3기 지원하기 <span class="dday"></span> <span class="arr">&rarr;</span></a>
 </div>
 
 <script src="https://cdn.jsdelivr.net/npm/lenis@1.1.14/dist/lenis.min.js"></script>
@@ -250,5 +250,6 @@ body{padding-bottom:0!important}
 <script>(function(){var b=document.querySelector(".mast-burger"),m=document.querySelector(".mast-menu");if(!b||!m)return;b.addEventListener("click",function(e){e.stopPropagation();var o=m.classList.toggle("open");b.setAttribute("aria-expanded",o?"true":"false");});document.addEventListener("click",function(e){if(!m.contains(e.target)&&!b.contains(e.target)){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});document.addEventListener("keydown",function(e){if(e.key==="Escape"){m.classList.remove("open");b.setAttribute("aria-expanded","false");}});})();</script>
 <style>.sticky-cta.cta-hidden{opacity:0!important;transform:translateY(130%)!important;pointer-events:none!important;transition:opacity .3s ease,transform .3s ease}</style>
 <script>(function(){var c=document.querySelector('.sticky-cta');var d=document.querySelector('.final,section.cta,.final-cta');if(!c||!d)return;function u(){var r=d.getBoundingClientRect();c.classList.toggle('cta-hidden',r.top<window.innerHeight-52);requestAnimationFrame(u);}requestAnimationFrame(u);})();</script>
+<script>(function(){var dl=new Date('2026-07-24T23:59:59+09:00');var d=Math.floor((dl-new Date())/86400000);var l=d>7?'(D-'+d+')':(d>0?'(D-'+d+' · 마감 임박)':(d===0?'(오늘 마감)':'(마감)'));document.querySelectorAll('.dday').forEach(function(e){e.textContent=l;});})();</script>
 </body>
 </html>
