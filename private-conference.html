@@ -65,6 +65,7 @@
   .ph img{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;display:block}
   .ph .ini{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;font-size:clamp(30px,3vw,44px);color:#bcb6a5;font-weight:500}
   .who{font-size:clamp(18px,1.8vw,24px);font-weight:600;letter-spacing:-.02em;line-height:1.34;color:var(--ink);word-break:keep-all}
+.who.who-sm{font-size:clamp(15px,1.45vw,20px);white-space:nowrap}
   .intro{margin-top:5px;font-size:clamp(15px,1.35vw,17px);line-height:1.55;color:var(--muted);word-break:keep-all}
   .btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;font-family:inherit;font-weight:500;font-size:15px;padding:14px 22px;border:1px solid transparent;cursor:pointer;letter-spacing:-0.005em;line-height:1;border-radius:999px;transition:background .15s ease,color .15s ease,border-color .15s ease}
   .btn .arr{font-family:var(--mono);font-weight:400}
@@ -174,7 +175,7 @@ var D=[
 ["spk-27","김지민","티켓투더문 대표","인플루언서","2030 여성 타겟 MCN 운영","연프 유명 여성 인플루언서 대거 포진"],
 ["spk-28","박현주","아틀리에컴퍼니 대표","인플루언서","여성 가방 브랜드 3개 운영","유튜버와 협업하여 브랜드 런칭"],
 ["spk-29","황성재","엑스와이지 대표","제조·하드웨어","인텔에 매각한 올라웍스 공동창업자","현재 AI 기반 로봇 기업 운영"],
-["spk-30","국봉환","슈피겐코리아 대표","제조·하드웨어","글로벌 휴대폰 악세사리 1위 상장사","팬덤 플랫폼 페스티버, 슈피겐홀 운영"],
+["spk-30","국봉환","슈피겐 국내총괄 부문장","제조·하드웨어","글로벌 휴대폰 악세사리 1위 상장사","팬덤 플랫폼 페스티버, 슈피겐홀 운영"],
 ["spk-31","강신경","베이직스 대표","제조·하드웨어","국내 3위 노트북 브랜드 운영","잘생겼는데 사진이 이거밖에 없음"],
 ["spk-32","이형진","마이노멀 대표","식품","국내 1위 저당 전문 브랜드","다이어트 식단 앱 인앤아웃 운영"],
 ["spk-33","김희주","솜인터내셔널 대표","식품","식품 수출입으로 연매출 1천억","자회사 5개로 종합 식품기업 성장 중"],
@@ -185,7 +186,7 @@ function card(p){
   return '<div class="card">'+
     '<div class="ph"><span class="ini">'+name.charAt(0)+'</span>'+
     '<img src="assets/speakers/'+slug+'.png" alt="'+name+'" onerror="this.remove()"></div>'+
-    '<div class="who">'+name+' '+role+'</div>'+
+    '<div class="who'+(name==='국봉환'?' who-sm':'')+'">'+name+' '+role+'</div>'+
     '<div class="intro">'+p[4]+'<br/>'+p[5]+'</div>'+
   '</div>';
 }
