@@ -1,0 +1,10 @@
+{
+  "redirects": [
+    { "source": "/", "destination": "/membership/", "permanent": false }
+  ],
+  "rewrites": [
+    { "source": "/membership", "destination": "/index.html" },
+    { "source": "/membership/", "destination": "/index.html" },
+    { "source": "/membership/:path*", "destination": "/:path*" }
+  ]
+}
