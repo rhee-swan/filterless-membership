@@ -508,6 +508,14 @@
     text-align:right;
   }
   .final .contact span{color:#5A5751;padding:0 8px}
+  /* ---------- 사업자 정보 (카카오 비즈니스 채널 심사 · 전자상거래 표시) ---------- */
+  .bizfoot{background:var(--ink);color:#9A9587;font-family:var(--sans);font-size:12.5px;line-height:1.8;letter-spacing:0;
+    border-top:1px solid #33312A;padding:22px 0 calc(28px + env(safe-area-inset-bottom));}
+  .bizfoot .biz{display:flex;flex-wrap:wrap;row-gap:2px}
+  .bizfoot .biz span{white-space:nowrap}
+  .bizfoot .biz span + span::before{content:"|";color:#5A5751;padding:0 8px}
+  .bizfoot .copy{margin-top:6px;color:#6B675C}
+  @media (max-width:640px){ .bizfoot .biz{display:block} .bizfoot .biz span{display:block;white-space:normal} .bizfoot .biz span + span::before{content:none} }
 
   footer{
     padding:32px 0 56px;color:var(--muted);font-size:13px;
@@ -1181,6 +1189,16 @@ body{padding-bottom:0!important}
     </div>
   </div>
 </section>
+
+<!-- ========= 사업자 정보 ========= -->
+<footer class="bizfoot">
+  <div class="wrap">
+    <div class="biz">
+      <span>주식회사 대기업</span><span>대표 이승환</span><span>서울특별시 서초구 강남대로53길 8, 6-268호</span><span>사업자등록번호 812-87-00646</span><span>swan@unfiltered.im</span><span>010-2494-1884</span>
+    </div>
+    <div class="copy">© 2026 주식회사 대기업. All rights reserved.</div>
+  </div>
+</footer>
 
 <!-- 모바일 고정 지원 버튼 -->
 <div class="sticky-cta">
