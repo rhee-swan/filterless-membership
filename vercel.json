@@ -1,10 +1,31 @@
 {
   "redirects": [
-    { "source": "/", "destination": "/membership/", "permanent": false }
+    {
+      "source": "/",
+      "destination": "/membership/",
+      "permanent": false
+    }
   ],
   "rewrites": [
-    { "source": "/membership", "destination": "/index.html" },
-    { "source": "/membership/", "destination": "/index.html" },
-    { "source": "/membership/:path*", "destination": "/:path*" }
+    {
+      "source": "/blog",
+      "destination": "https://unfiltered-theta.vercel.app/blog"
+    },
+    {
+      "source": "/blog/:path*",
+      "destination": "https://unfiltered-theta.vercel.app/blog/:path*"
+    },
+    {
+      "source": "/membership",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/membership/",
+      "destination": "/index.html"
+    },
+    {
+      "source": "/membership/:path*",
+      "destination": "/:path*"
+    }
   ]
 }
